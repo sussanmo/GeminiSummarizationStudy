@@ -1,0 +1,227 @@
+[
+    {
+        "method": "def is_error(node): \n    for child_node in node.get_children(): \n      if isinstance(child_node, astroid.Raise): \n         return True \n      return False",
+        "line_count": 4,
+        "cyclomatic_complexity": 3
+    },
+    {
+        "method": "def upgrade(migrate_engine): \n    if (migrate_engine.name != 'mysql'): \n      if (not utils.index_exists(migrate_engine, SYS_META_TABLE_NAME, INDEX_NAME)): \n         utils.add_index(migrate_engine, SYS_META_TABLE_NAME, INDEX_NAME, INDEX_COLUMNS)",
+        "line_count": 3,
+        "cyclomatic_complexity": 3
+    },
+    {
+        "method": "def get_global_notification_type(global_subscription, user): \n    for notification_type in constants.NOTIFICATION_TYPES: \n      if getattr(global_subscription, notification_type).filter(id=user.id).exists(): \n         return notification_type",
+        "line_count": 3,
+        "cyclomatic_complexity": 3
+    },
+    {
+        "method": "def _filter_apis(name, apis): \n    return [api for api in apis if (api['name'] == name)]",
+        "line_count": 1,
+        "cyclomatic_complexity": 3
+    },
+    {
+        "method": "def delete(args): \n    for arg in args: \n      try: \n         wincerapi.CeDeleteFile(arg) \n         print ('Deleted:   %s' % arg) \n      except win32api.error as details: \n         print_error(details, (\"Error   deleting   '%s'\" % arg))",
+        "line_count": 6,
+        "cyclomatic_complexity": 3
+    },
+    {
+        "method": "def overwriteDictionary(fromDictionary, keys, toDictionary): \n    for key in keys: \n      if (key in fromDictionary): \n         toDictionary[key] = fromDictionary[key]",
+        "line_count": 3,
+        "cyclomatic_complexity": 3
+    },
+    {
+        "method": "def rendering_info(obj): \n    return ('<ul>%s</ul>' % ''.join((('<li>%s</li>' % (x % y)) for (x, y) in (('<img   src=\"%s/admin/img/admin/icon-yes.gif\"   alt=\"%s\">   Deferred   rendering', (settings.STATIC_URL, obj.defer_rendering)), ('%s   (last)', obj.last_rendered_at), ('%s   (started)', obj.render_started_at), ('%s   (scheduled)', obj.render_scheduled_at)) if y)))",
+        "line_count": 1,
+        "cyclomatic_complexity": 3
+    },
+    {
+        "method": "def detect(code): \n    return (('   ' not in code) and (('%20' in code) or (code.count('%') > 3)))",
+        "line_count": 1,
+        "cyclomatic_complexity": 3
+    },
+    {
+        "method": "def vm_state(vm_=None): \n    with _get_xapi_session() as xapi: \n      info = {} \n      if vm_: \n         info[vm_] = _get_record_by_label(xapi, 'VM', vm_)['power_state'] \n         return info \n      for vm_ in list_domains(): \n         info[vm_] = _get_record_by_label(xapi, 'VM', vm_)['power_state'] \n      return info",
+        "line_count": 8,
+        "cyclomatic_complexity": 3
+    },
+    {
+        "method": "def validate_maximum(value, maximum): \n    if ((maximum is not None) and (value > maximum)): \n      raise ValueError((u'%r   must   be   smaller   than   %r.' % (value, maximum)))",
+        "line_count": 2,
+        "cyclomatic_complexity": 3
+    },
+    {
+        "method": "def get_eol_chars_from_os_name(os_name): \n    for (eol_chars, name) in EOL_CHARS: \n      if (name == os_name): \n         return eol_chars",
+        "line_count": 3,
+        "cyclomatic_complexity": 3
+    },
+    {
+        "method": "def do_exit(actions): \n    for action_group in actions: \n      if (len(action_group.destroy) > 0): \n         raise SystemExit(1)",
+        "line_count": 3,
+        "cyclomatic_complexity": 3
+    },
+    {
+        "method": "def latest_version(*names, **kwargs): \n    return ('' if (len(names) == 1) else dict(((x, '') for x in names)))",
+        "line_count": 1,
+        "cyclomatic_complexity": 3
+    },
+    {
+        "method": "def entry_choices(user, page): \n    for entry in wizard_pool.get_entries(): \n      if entry.user_has_add_permission(user, page=page): \n         (yield (entry.id, entry.title))",
+        "line_count": 3,
+        "cyclomatic_complexity": 3
+    },
+    {
+        "method": "def _is_mobile(ntype): \n    return ((ntype == PhoneNumberType.MOBILE) or (ntype == PhoneNumberType.FIXED_LINE_OR_MOBILE) or (ntype == PhoneNumberType.PAGER))",
+        "line_count": 1,
+        "cyclomatic_complexity": 3
+    },
+    {
+        "method": "def check_fields(context, fields): \n    for field in fields: \n      if (field.get('type') and (not _is_valid_pg_type(context, field['type']))): \n         raise ValidationError({'fields': [u'\"{0}\"   is   not   a   valid   field   type'.format(field['type'])]}) \n      elif (not _is_valid_field_name(field['id'])): \n         raise ValidationError({'fields': [u'\"{0}\"   is   not   a   valid   field   name'.format(field['id'])]})",
+        "line_count": 5,
+        "cyclomatic_complexity": 5
+    },
+    {
+        "method": "def run(self, request, queryset): \n    if request.POST.get('_selected_action'): \n      id = request.POST.get('_selected_action') \n      siteObj = self.model.objects.get(pk=id) \n      if request.POST.get('post'): \n         for siteObj in queryset: \n            self.message_user(request, ('Executed   Backup:   ' + siteObj.name)) \n            out = StringIO.StringIO() \n            call_command('backup', force_exec=True, backup_dir=siteObj.base_folder, stdout=out) \n            value = out.getvalue() \n            if value: \n               siteObj.location = value \n               siteObj.save() \n            else: \n               self.message_user(request, (siteObj.name + '   backup   failed!')) \n      else: \n         context = {'objects_name': 'Backups', 'title': 'Confirm   run   of   Backups:', 'action_exec': 'run', 'cancellable_backups': [siteObj], 'action_checkbox_name': helpers.ACTION_CHECKBOX_NAME} \n         return TemplateResponse(request, 'admin/backups/confirm_cancel.html', context, current_app=self.admin_site.name)",
+        "line_count": 17,
+        "cyclomatic_complexity": 5
+    },
+    {
+        "method": "def _configs_from_dir(conf_dir): \n    for filename in sorted(os.listdir(conf_dir)): \n      if (filename.startswith('.') or (not filename.endswith('.ini'))): \n         continue \n      LOG.debug(('Loading   configuration   from:   %s' % filename)) \n      try: \n         conf = configobj.ConfigObj(os.path.join(conf_dir, filename)) \n      except configobj.ConfigObjError as ex: \n         LOG.error((\"Error   in   configuration   file   '%s':   %s\" % (os.path.join(conf_dir, filename), ex))) \n         raise \n      conf['DEFAULT'] = dict(desktop_root=get_desktop_root(), build_dir=get_build_dir()) \n      (yield conf)",
+        "line_count": 11,
+        "cyclomatic_complexity": 5
+    },
+    {
+        "method": "def vm_info(vm_=None): \n    with _get_xapi_session() as xapi: \n      def _info(vm_): \n         vm_rec = _get_record_by_label(xapi, 'VM', vm_) \n         if (vm_rec is False): \n            return False \n         vm_metrics_rec = _get_metrics_record(xapi, 'VM', vm_rec) \n         return {'cpu': vm_metrics_rec['VCPUs_number'], 'maxCPU': _get_val(vm_rec, ['VCPUs_max']), 'cputime': vm_metrics_rec['VCPUs_utilisation'], 'disks': get_disks(vm_), 'nics': get_nics(vm_), 'maxMem': int(_get_val(vm_rec, ['memory_dynamic_max'])), 'mem': int(vm_metrics_rec['memory_actual']), 'state': _get_val(vm_rec, ['power_state'])} \n      info = {} \n      if vm_: \n         ret = _info(vm_) \n         if (ret is not None): \n            info[vm_] = ret \n      else: \n         for vm_ in list_domains(): \n            ret = _info(vm_) \n            if (ret is not None): \n               info[vm_] = _info(vm_) \n      return info",
+        "line_count": 18,
+        "cyclomatic_complexity": 5
+    },
+    {
+        "method": "def _validate_mutable_mappings(a, b): \n    if (not (isinstance(a, MutableMapping) and isinstance(b, MutableMapping))): \n      myvars = [] \n      for x in [a, b]: \n         try: \n            myvars.append(dumps(x)) \n         except: \n            myvars.append(to_native(x)) \n      raise AnsibleError(\"failed   to   combine   variables,   expected   dicts   but   got   a   '{0}'   and   a   '{1}':   \\n{2}\\n{3}\".format(a.__class__.__name__, b.__class__.__name__, myvars[0], myvars[1]))",
+        "line_count": 8,
+        "cyclomatic_complexity": 5
+    },
+    {
+        "method": "def add_monitor(): \n    for (name, function) in globals().items(): \n      if (not inspect.isfunction(function)): \n         continue \n      args = inspect.getargspec(function)[0] \n      if (args and name.startswith('monitor')): \n         exec ('pep8.%s   =   %s' % (name, name))",
+        "line_count": 6,
+        "cyclomatic_complexity": 5
+    },
+    {
+        "method": "def unlink_older_than(path, mtime): \n    if os.path.exists(path): \n      for fname in listdir(path): \n         fpath = os.path.join(path, fname) \n         try: \n            if (os.path.getmtime(fpath) < mtime): \n               os.unlink(fpath) \n         except OSError: \n            pass",
+        "line_count": 8,
+        "cyclomatic_complexity": 5
+    },
+    {
+        "method": "def test_predefined_string_roundtrip(): \n    with u.magnitude_zero_points.enable(): \n      assert (u.Unit(u.STmag.to_string()) == u.STmag) \n      assert (u.Unit(u.ABmag.to_string()) == u.ABmag) \n      assert (u.Unit(u.M_bol.to_string()) == u.M_bol) \n      assert (u.Unit(u.m_bol.to_string()) == u.m_bol)",
+        "line_count": 5,
+        "cyclomatic_complexity": 5
+    },
+    {
+        "method": "def check_all_files(dir_path=theano.__path__[0], pattern='*.py'): \n    with open('theano_filelist.txt', 'a') as f_txt: \n      for (dir, _, files) in os.walk(dir_path): \n         for f in files: \n            if fnmatch(f, pattern): \n               error_num = flake8.main.check_file(os.path.join(dir, f), ignore=ignore) \n               if (error_num > 0): \n                  path = os.path.relpath(os.path.join(dir, f), theano.__path__[0]) \n                  f_txt.write((('\"' + path) + '\",\\n'))",
+        "line_count": 8,
+        "cyclomatic_complexity": 5
+    },
+    {
+        "method": "def document_generator(dir_path_pattern, count=None): \n    for (running_count, item) in enumerate(glob.iglob(dir_path_pattern)): \n      if (count and (running_count >= count)): \n         raise StopIteration() \n      doc_id = os.path.basename(item) \n      with codecs.open(item, encoding='utf-8') as f: \n         try: \n            text = f.read() \n         except UnicodeDecodeError: \n            continue \n         (yield Document(text, doc_id, item))",
+        "line_count": 10,
+        "cyclomatic_complexity": 5
+    },
+    {
+        "method": "def query_package(module, xbps_path, name, state='present'): \n    if (state == 'present'): \n      lcmd = ('%s   %s' % (xbps_path['query'], name)) \n      (lrc, lstdout, lstderr) = module.run_command(lcmd, check_rc=False) \n      if (not is_installed(lstdout)): \n         return (False, False) \n      rcmd = ('%s   -Sun' % xbps_path['install']) \n      (rrc, rstdout, rstderr) = module.run_command(rcmd, check_rc=False) \n      if ((rrc == 0) or (rrc == 17)): \n         'Return   True   to   indicate   that   the   package   is   installed   locally,\\n                                    and   the   result   of   the   version   number   comparison   to   determine   if   the\\n                                    package   is   up-to-date' \n         return (True, (name not in rstdout)) \n      return (False, False)",
+        "line_count": 11,
+        "cyclomatic_complexity": 5
+    },
+    {
+        "method": "def _record_from_json(value, field): \n    if _not_null(value, field): \n      record = {} \n      record_iter = zip(field.fields, value['f']) \n      for (subfield, cell) in record_iter: \n         converter = _CELLDATA_FROM_JSON[subfield.field_type] \n         if (subfield.mode == 'REPEATED'): \n            value = [converter(item['v'], subfield) for item in cell['v']] \n         else: \n            value = converter(cell['v'], subfield) \n         record[subfield.name] = value \n      return record",
+        "line_count": 11,
+        "cyclomatic_complexity": 5
+    },
+    {
+        "method": "def get_class(class_string, exception=FilterError): \n    if (not hasattr(class_string, u'__bases__')): \n      try: \n         class_string = str(class_string) \n         (mod_name, class_name) = get_mod_func(class_string) \n         if class_name: \n            return getattr(__import__(mod_name, {}, {}, [str(u'')]), class_name) \n      except AttributeError as e: \n         raise exception((u'Failed   to   import   %s.   AttributeError   is:   %s' % (class_string, e))) \n      except ImportError as e: \n         raise exception((u'Failed   to   import   %s.   ImportError   is:   %s' % (class_string, e))) \n      raise exception((u\"Invalid   class   path   '%s'\" % class_string))",
+        "line_count": 11,
+        "cyclomatic_complexity": 5
+    },
+    {
+        "method": "def create_tables(db, prefix, tmp_prefix): \n    for table in ('point', 'line', 'roads', 'polygon'): \n      db.execute('BEGIN') \n      try: \n         db.execute(('CREATE   TABLE   %(prefix)s_%(table)s   (   LIKE   %(tmp_prefix)s_%(table)s   )' % locals())) \n      except ProgrammingError as e: \n         db.execute('ROLLBACK') \n         if (e.pgcode != '42P07'): \n            raise \n      else: \n         db.execute((\"INSERT   INTO   geometry_columns\\n                                                                              (f_table_catalog,   f_table_schema,   f_table_name,   f_geometry_column,   coord_dimension,   srid,   type)\\n                                                                              SELECT   f_table_catalog,   f_table_schema,   '%(prefix)s_%(table)s',   f_geometry_column,   coord_dimension,   srid,   type\\n                                                                              FROM   geometry_columns   WHERE   f_table_name   =   '%(tmp_prefix)s_%(table)s'\" % locals())) \n         db.execute('COMMIT')",
+        "line_count": 11,
+        "cyclomatic_complexity": 5
+    },
+    {
+        "method": "def cron_task_host(): \n    while True: \n      if (not enable_cron_tasks): \n         if (threading.current_thread() != threading.main_thread()): \n            exit() \n         else: \n            return \n      sleep(60) \n      try: \n         task_scheduler.run() \n      except: \n         errprint('ErrorDuringExecutingCronTasks') \n         traceback.print_exc()",
+        "line_count": 12,
+        "cyclomatic_complexity": 5
+    },
+    {
+        "method": "def _InitNinjaFlavor(params, target_list, target_dicts): \n    for qualified_target in target_list: \n      spec = target_dicts[qualified_target] \n      if spec.get('msvs_external_builder'): \n         continue \n      path_to_ninja = spec.get('msvs_path_to_ninja', 'ninja.exe') \n      spec['msvs_external_builder'] = 'ninja' \n      if (not spec.get('msvs_external_builder_out_dir')): \n         (gyp_file, _, _) = gyp.common.ParseQualifiedTarget(qualified_target) \n         gyp_dir = os.path.dirname(gyp_file) \n         configuration = '$(Configuration)' \n         if (params.get('target_arch') == 'x64'): \n            configuration += '_x64' \n         spec['msvs_external_builder_out_dir'] = os.path.join(gyp.common.RelativePath(params['options'].toplevel_dir, gyp_dir), ninja_generator.ComputeOutputDir(params), configuration) \n      if (not spec.get('msvs_external_builder_build_cmd')): \n         spec['msvs_external_builder_build_cmd'] = [path_to_ninja, '-C', '$(OutDir)', '$(ProjectName)'] \n      if (not spec.get('msvs_external_builder_clean_cmd')): \n         spec['msvs_external_builder_clean_cmd'] = [path_to_ninja, '-C', '$(OutDir)', '-tclean', '$(ProjectName)']",
+        "line_count": 17,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def distort_color(image, color_ordering=0, fast_mode=True, scope=None): \n    with tf.name_scope(scope, 'distort_color', [image]): \n      if fast_mode: \n         if (color_ordering == 0): \n            image = tf.image.random_brightness(image, max_delta=(32.0 / 255.0)) \n            image = tf.image.random_saturation(image, lower=0.5, upper=1.5) \n         else: \n            image = tf.image.random_saturation(image, lower=0.5, upper=1.5) \n            image = tf.image.random_brightness(image, max_delta=(32.0 / 255.0)) \n      elif (color_ordering == 0): \n         image = tf.image.random_brightness(image, max_delta=(32.0 / 255.0)) \n         image = tf.image.random_saturation(image, lower=0.5, upper=1.5) \n         image = tf.image.random_hue(image, max_delta=0.2) \n         image = tf.image.random_contrast(image, lower=0.5, upper=1.5) \n      elif (color_ordering == 1): \n         image = tf.image.random_saturation(image, lower=0.5, upper=1.5) \n         image = tf.image.random_brightness(image, max_delta=(32.0 / 255.0)) \n         image = tf.image.random_contrast(image, lower=0.5, upper=1.5) \n         image = tf.image.random_hue(image, max_delta=0.2) \n      elif (color_ordering == 2): \n         image = tf.image.random_contrast(image, lower=0.5, upper=1.5) \n         image = tf.image.random_hue(image, max_delta=0.2) \n         image = tf.image.random_brightness(image, max_delta=(32.0 / 255.0)) \n         image = tf.image.random_saturation(image, lower=0.5, upper=1.5) \n      elif (color_ordering == 3): \n         image = tf.image.random_hue(image, max_delta=0.2) \n         image = tf.image.random_saturation(image, lower=0.5, upper=1.5) \n         image = tf.image.random_contrast(image, lower=0.5, upper=1.5) \n         image = tf.image.random_brightness(image, max_delta=(32.0 / 255.0)) \n      else: \n         raise ValueError('color_ordering   must   be   in   [0,   3]') \n      return tf.clip_by_value(image, 0.0, 1.0)",
+        "line_count": 31,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def _prep_input(kwargs): \n    for kwarg in ('environment', 'lxc_conf'): \n      kwarg_value = kwargs.get(kwarg) \n      if ((kwarg_value is not None) and (not isinstance(kwarg_value, six.string_types))): \n         err = 'Invalid   {0}   configuration.   See   the   documentation   for   proper   usage.'.format(kwarg) \n         if salt.utils.is_dictlist(kwarg_value): \n            new_kwarg_value = salt.utils.repack_dictlist(kwarg_value) \n            if (not kwarg_value): \n               raise SaltInvocationError(err) \n            kwargs[kwarg] = new_kwarg_value \n         if (not isinstance(kwargs[kwarg], dict)): \n            raise SaltInvocationError(err)",
+        "line_count": 11,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def t_KEGG_Enzyme(testfiles): \n    for file in testfiles: \n      fh = open(os.path.join('KEGG', file)) \n      print((('Testing   Bio.KEGG.Enzyme   on   ' + file) + '\\n\\n')) \n      records = Enzyme.parse(fh) \n      for (i, record) in enumerate(records): \n         print(record) \n      fh.seek(0) \n      if (i == 0): \n         print(Enzyme.read(fh)) \n      else: \n         try: \n            print(Enzyme.read(fh)) \n            assert False \n         except ValueError as e: \n            assert (str(e) == 'More   than   one   record   found   in   handle') \n      print('\\n') \n      fh.close()",
+        "line_count": 17,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def _process_worker(call_queue, result_queue, shutdown): \n    while True: \n      try: \n         call_item = call_queue.get(block=True, timeout=0.1) \n      except queue.Empty: \n         if shutdown.is_set(): \n            return \n      else: \n         try: \n            r = call_item.fn(*call_item.args, **call_item.kwargs) \n         except BaseException: \n            e = sys.exc_info()[1] \n            result_queue.put(_ResultItem(call_item.work_id, exception=e)) \n         else: \n            result_queue.put(_ResultItem(call_item.work_id, result=r))",
+        "line_count": 14,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def add_settings(mod, settings): \n    for setting in dir(mod): \n      if (not setting.isupper()): \n         continue \n      setting_value = getattr(mod, setting) \n      if ((setting in ('INSTALLED_APPS', 'TEMPLATE_DIRS')) and isinstance(setting_value, six.string_types)): \n         setting_value = (setting_value,) \n      if (setting[:6] == 'EXTRA_'): \n         base_setting = setting[6:] \n         if isinstance(getattr(settings, base_setting), (list, tuple)): \n            curval = getattr(settings, base_setting) \n            setattr(settings, base_setting, (curval + type(curval)(setting_value))) \n            continue \n      setattr(settings, setting, setting_value)",
+        "line_count": 13,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def tokenize_asdl(buf): \n    for (lineno, line) in enumerate(buf.splitlines(), 1): \n      for m in re.finditer('\\\\s*(\\\\w+|--.*|.)', line.strip()): \n         c = m.group(1) \n         if c[0].isalpha(): \n            if c[0].isupper(): \n               (yield Token(TokenKind.ConstructorId, c, lineno)) \n            else: \n               (yield Token(TokenKind.TypeId, c, lineno)) \n         elif (c[:2] == '--'): \n            break \n         else: \n            try: \n               op_kind = TokenKind.operator_table[c] \n            except KeyError: \n               raise ASDLSyntaxError(('Invalid   operator   %s' % c), lineno) \n            (yield Token(op_kind, c, lineno))",
+        "line_count": 16,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def _package_conf_file_to_dir(file_name): \n    if (file_name in SUPPORTED_CONFS): \n      path = BASE_PATH.format(file_name) \n      if os.path.exists(path): \n         if os.path.isdir(path): \n            return False \n         else: \n            os.rename(path, (path + '.tmpbak')) \n            os.mkdir(path, 493) \n            with salt.utils.fopen((path + '.tmpbak')) as fh_: \n               for line in fh_: \n                  line = line.strip() \n                  if (line and (not line.startswith('#'))): \n                     append_to_package_conf(file_name, string=line) \n            os.remove((path + '.tmpbak')) \n            return True \n      else: \n         os.mkdir(path, 493) \n         return True",
+        "line_count": 18,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def merge(dict1, dict2): \n    for (key, val2) in dict2.items(): \n      if (val2 is not None): \n         val1 = dict1.get(key) \n         if isinstance(val2, dict): \n            if (val1 is None): \n               val1 = {} \n            if isinstance(val1, Alias): \n               val1 = (val1, val2) \n            elif isinstance(val1, tuple): \n               (alias, others) = val1 \n               others = others.copy() \n               merge(others, val2) \n               val1 = (alias, others) \n            else: \n               val1 = val1.copy() \n               merge(val1, val2) \n         else: \n            val1 = val2 \n         dict1[key] = val1",
+        "line_count": 19,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def _traverse_results(value, fields, row, path): \n    for (f, v) in value.iteritems(): \n      field_name = ('{path}.{name}'.format(path=path, name=f) if path else f) \n      if (not isinstance(v, (dict, list, tuple))): \n         if (field_name in fields): \n            row[fields.index(field_name)] = ensure_utf(v) \n      elif (isinstance(v, dict) and (f != 'attributes')): \n         _traverse_results(v, fields, row, field_name)",
+        "line_count": 7,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def coerce_dtypes(df, dtypes): \n    for c in df.columns: \n      if ((c in dtypes) and (df.dtypes[c] != dtypes[c])): \n         if (np.issubdtype(df.dtypes[c], np.floating) and np.issubdtype(dtypes[c], np.integer)): \n            if (df[c] % 1).any(): \n               msg = \"Runtime   type   mismatch.   Add   {'%s':   float}   to   dtype=   keyword   in   read_csv/read_table\" \n               raise TypeError((msg % c)) \n         df[c] = df[c].astype(dtypes[c])",
+        "line_count": 7,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def traverse(roots, parent='', verbose=False): \n    for root in roots: \n      if root.method_map: \n         print('->', ((parent + '/') + root.raw_segment)) \n         if verbose: \n            for (method, func) in root.method_map.items(): \n               if (func.__name__ != 'method_not_allowed'): \n                  print('-->{0}   {1}:{2}'.format(method, inspect.getsourcefile(func), inspect.getsourcelines(func)[1])) \n      if root.children: \n         traverse(root.children, ((parent + '/') + root.raw_segment), verbose)",
+        "line_count": 9,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def user_details(strategy, details, user=None, *args, **kwargs): \n    if user: \n      changed = False \n      protected = (('username', 'id', 'pk', 'email') + tuple(strategy.setting('PROTECTED_USER_FIELDS', []))) \n      for (name, value) in details.items(): \n         if (not hasattr(user, name)): \n            continue \n         current_value = getattr(user, name, None) \n         if ((not current_value) or (name not in protected)): \n            changed |= (current_value != value) \n            setattr(user, name, value) \n      if changed: \n         strategy.storage.user.changed(user)",
+        "line_count": 12,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def _check_children(node): \n    for child in node.get_children(): \n      ok = False \n      if (child is None): \n         print(('Hm,   child   of   %s   is   None' % node)) \n         continue \n      if (not hasattr(child, 'parent')): \n         print(('   ERROR:   %s   has   child   %s   %x   with   no   parent' % (node, child, id(child)))) \n      elif (not child.parent): \n         print(('   ERROR:   %s   has   child   %s   %x   with   parent   %r' % (node, child, id(child), child.parent))) \n      elif (child.parent is not node): \n         print(('   ERROR:   %s   %x   has   child   %s   %x   with   wrong   parent   %s' % (node, id(node), child, id(child), child.parent))) \n      else: \n         ok = True \n      if (not ok): \n         print('lines;', node.lineno, child.lineno) \n         print('of   module', node.root(), node.root().name) \n         raise AstroidBuildingException \n      _check_children(child)",
+        "line_count": 18,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def consume_queue(queue, cascade_stop): \n    while True: \n      try: \n         item = queue.get(timeout=0.1) \n      except Empty: \n         (yield None) \n         continue \n      except thread.error: \n         raise ShutdownException() \n      if item.exc: \n         raise item.exc \n      if item.is_stop: \n         if cascade_stop: \n            raise StopIteration \n         else: \n            continue \n      (yield item.item)",
+        "line_count": 16,
+        "cyclomatic_complexity": 7
+    }
+]
