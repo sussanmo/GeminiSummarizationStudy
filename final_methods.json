@@ -31,8 +31,8 @@
         "cyclomatic_complexity": 3
     },
     {
-        "method": "def _is_mobile(ntype): \n    return ((ntype == PhoneNumberType.MOBILE) or (ntype == PhoneNumberType.FIXED_LINE_OR_MOBILE) or (ntype == PhoneNumberType.PAGER))",
-        "line_count": 1,
+        "method": "def dict_delall(d, keys): \n    for key in keys: \n      try: \n         del d[key] \n      except KeyError: \n         pass",
+        "line_count": 5,
         "cyclomatic_complexity": 3
     },
     {
@@ -56,38 +56,8 @@
         "cyclomatic_complexity": 3
     },
     {
-        "method": "def dict_delall(d, keys): \n    for key in keys: \n      try: \n         del d[key] \n      except KeyError: \n         pass",
-        "line_count": 5,
-        "cyclomatic_complexity": 3
-    },
-    {
-        "method": "def make_matrix(num_rows, num_cols, entry_fn): \n    return [[entry_fn(i, j) for j in range(num_cols)] for i in range(num_rows)]",
-        "line_count": 1,
-        "cyclomatic_complexity": 3
-    },
-    {
-        "method": "def check_params(module): \n    if ((module.params.get('name') is None) and (module.params.get('id') is None)): \n      module.fail_json(msg='\"name\"   or   \"id\"   is   required')",
-        "line_count": 2,
-        "cyclomatic_complexity": 3
-    },
-    {
-        "method": "def pretty_filesize(file_bytes): \n    for mod in [u'B', u'KB', u'MB', u'GB', u'TB', u'PB']: \n      if (file_bytes < 1024.0): \n         return (u'%3.2f   %s' % (file_bytes, mod)) \n      file_bytes /= 1024.0",
-        "line_count": 4,
-        "cyclomatic_complexity": 3
-    },
-    {
-        "method": "def public_methods(obj): \n    return [name for name in all_methods(obj) if (name[0] != '_')]",
-        "line_count": 1,
-        "cyclomatic_complexity": 3
-    },
-    {
         "method": "def unlink_older_than(path, mtime): \n    if os.path.exists(path): \n      for fname in listdir(path): \n         fpath = os.path.join(path, fname) \n         try: \n            if (os.path.getmtime(fpath) < mtime): \n               os.unlink(fpath) \n         except OSError: \n            pass",
         "line_count": 8,
-        "cyclomatic_complexity": 5
-    },
-    {
-        "method": "def document_generator(dir_path_pattern, count=None): \n    for (running_count, item) in enumerate(glob.iglob(dir_path_pattern)): \n      if (count and (running_count >= count)): \n         raise StopIteration() \n      doc_id = os.path.basename(item) \n      with codecs.open(item, encoding='utf-8') as f: \n         try: \n            text = f.read() \n         except UnicodeDecodeError: \n            continue \n         (yield Document(text, doc_id, item))",
-        "line_count": 10,
         "cyclomatic_complexity": 5
     },
     {
@@ -116,11 +86,6 @@
         "cyclomatic_complexity": 5
     },
     {
-        "method": "def strings(filename, min=4): \n    with io.open(filename, mode='rb') as f: \n      result = '' \n      for c in f.read(): \n         if (c in '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&\\'()*+,-./:;<=>?@[\\\\]^_`{|}~   '): \n            result += c \n            continue \n         if ((len(result) >= min) and result[0].isalnum()): \n            (yield ((\"'\" + result) + \"'\")) \n         result = ''",
-        "line_count": 9,
-        "cyclomatic_complexity": 5
-    },
-    {
         "method": "def print_results(distributions, list_all_files): \n    for dist in distributions: \n      logger.notify('---') \n      logger.notify(('Name:   %s' % dist['name'])) \n      logger.notify(('Version:   %s' % dist['version'])) \n      logger.notify(('Location:   %s' % dist['location'])) \n      logger.notify(('Requires:   %s' % ',   '.join(dist['requires']))) \n      if list_all_files: \n         logger.notify('Files:') \n         if ('files' in dist): \n            for line in open(dist['files']): \n               logger.notify(('      %s' % line.strip())) \n         else: \n            logger.notify('Cannot   locate   installed-files.txt')",
         "line_count": 13,
         "cyclomatic_complexity": 5
@@ -128,16 +93,6 @@
     {
         "method": "def _keysFromFilepaths(filepaths, parseKey): \n    for fp in filepaths: \n      if fp.exists(): \n         try: \n            with fp.open() as f: \n               for key in readAuthorizedKeyFile(f, parseKey): \n                  (yield key) \n         except (IOError, OSError) as e: \n            log.msg('Unable   to   read   {0}:   {1!s}'.format(fp.path, e))",
         "line_count": 8,
-        "cyclomatic_complexity": 5
-    },
-    {
-        "method": "def build_from_c_and_cpp_files(extensions): \n    for extension in extensions: \n      sources = [] \n      for sfile in extension.sources: \n         (path, ext) = os.path.splitext(sfile) \n         if (ext in ('.pyx', '.py')): \n            if (extension.language == 'c++'): \n               ext = '.cpp' \n            else: \n               ext = '.c' \n            sfile = (path + ext) \n         sources.append(sfile) \n      extension.sources = sources",
-        "line_count": 12,
-        "cyclomatic_complexity": 5
-    },
-    {
-        "method": "def ensure_sys_path_contains(paths): \n    for entry in paths: \n      if isinstance(entry, (list, tuple)): \n         ensure_sys_path_contains(entry) \n      elif ((entry is not None) and (entry not in sys.path)): \n         sys.path.append(entry)",
-        "line_count": 5,
         "cyclomatic_complexity": 5
     },
     {

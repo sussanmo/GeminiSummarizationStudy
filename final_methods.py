@@ -1,4 +1,5 @@
 #Number of random runs: 11
+##Easy
 def is_error(node): 
     for child_node in node.get_children(): 
       if isinstance(child_node, astroid.Raise): 
@@ -25,8 +26,12 @@ def do_exit(actions):
       if (len(action_group.destroy) > 0): 
          raise SystemExit(1) 
       
-def _is_mobile(ntype): 
-    return ((ntype == PhoneNumberType.MOBILE) or (ntype == PhoneNumberType.FIXED_LINE_OR_MOBILE) or (ntype == PhoneNumberType.PAGER)) ###
+def dict_delall(d, keys): 
+    for key in keys: 
+      try: 
+         del d[key] 
+      except KeyError: 
+         pass      
 
 def GetChild(node, tag): 
     for child in node.getchildren(): 
@@ -44,28 +49,7 @@ def removeCSVFile(csvFilePath):
       os.remove(csvFilePath) 
       print ('removeGeneratedFiles   deleted   ' + csvFilePath) ###
 
-def dict_delall(d, keys): 
-    for key in keys: 
-      try: 
-         del d[key] 
-      except KeyError: 
-         pass
-      
-def make_matrix(num_rows, num_cols, entry_fn): 
-    return [[entry_fn(i, j) for j in range(num_cols)] for i in range(num_rows)] ##
-
-def check_params(module): 
-    if ((module.params.get('name') is None) and (module.params.get('id') is None)): 
-      module.fail_json(msg='"name"   or   "id"   is   required')
-
-def pretty_filesize(file_bytes): 
-    for mod in [u'B', u'KB', u'MB', u'GB', u'TB', u'PB']: 
-      if (file_bytes < 1024.0): 
-         return (u'%3.2f   %s' % (file_bytes, mod)) 
-      file_bytes /= 1024.0
-
-def public_methods(obj): 
-    return [name for name in all_methods(obj) if (name[0] != '_')]
+####### Medium  
 
 def unlink_older_than(path, mtime): 
     if os.path.exists(path): 
@@ -76,18 +60,6 @@ def unlink_older_than(path, mtime):
                os.unlink(fpath) 
          except OSError: 
             pass 
-         
-def document_generator(dir_path_pattern, count=None): 
-    for (running_count, item) in enumerate(glob.iglob(dir_path_pattern)): 
-      if (count and (running_count >= count)): 
-         raise StopIteration() 
-      doc_id = os.path.basename(item) 
-      with codecs.open(item, encoding='utf-8') as f: 
-         try: 
-            text = f.read() 
-         except UnicodeDecodeError: 
-            continue 
-         (yield Document(text, doc_id, item)) ##...
 
 def _normalize_configuration_objs(configurations): 
     for c in configurations: 
@@ -135,17 +107,6 @@ def check_abstract_methods(base, subclass):
          oattr = getattr(subclass, attrname) 
          if is_abstract_method(oattr): 
             raise Exception(('%s.%s   not   overridden' % (subclass.__name__, attrname)))
-
-def strings(filename, min=4): 
-    with io.open(filename, mode='rb') as f: 
-      result = '' 
-      for c in f.read(): 
-         if (c in '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~   '): 
-            result += c 
-            continue 
-         if ((len(result) >= min) and result[0].isalnum()): 
-            (yield (("'" + result) + "'")) 
-         result = ''
          
 def print_results(distributions, list_all_files): 
     for dist in distributions: 
@@ -171,27 +132,6 @@ def _keysFromFilepaths(filepaths, parseKey):
                   (yield key) 
          except (IOError, OSError) as e: 
             log.msg('Unable   to   read   {0}:   {1!s}'.format(fp.path, e))
-
-def build_from_c_and_cpp_files(extensions): 
-    for extension in extensions: 
-      sources = [] 
-      for sfile in extension.sources: 
-         (path, ext) = os.path.splitext(sfile) 
-         if (ext in ('.pyx', '.py')): 
-            if (extension.language == 'c++'): 
-               ext = '.cpp' 
-            else: 
-               ext = '.c' 
-            sfile = (path + ext) 
-         sources.append(sfile) 
-      extension.sources = sources
-
-def ensure_sys_path_contains(paths): 
-    for entry in paths: 
-      if isinstance(entry, (list, tuple)): 
-         ensure_sys_path_contains(entry) 
-      elif ((entry is not None) and (entry not in sys.path)): 
-         sys.path.append(entry)
 
 def add(repo='.', paths=None): 
     with open_repo_closing(repo) as r: 
@@ -219,6 +159,7 @@ def ensure_sys_path_contains(paths):
       elif ((entry is not None) and (entry not in sys.path)): 
          sys.path.append(entry)
 
+### Hard 
 def merge(dict1, dict2): 
     for (key, val2) in dict2.items(): 
       if (val2 is not None): 
