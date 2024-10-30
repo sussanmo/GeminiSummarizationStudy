@@ -1,0 +1,317 @@
+[
+    {
+        "method": "def problem_rheader(r, tabs=[]): \n    if (r.representation == 'html'): \n      if (r.record is None): \n         return None \n      problem = r.record \n      tabs = [(T('Problems'), 'problems'), (T('Solutions'), 'solution'), (T('Discuss'), 'discuss'), (T('Vote'), 'vote'), (T('Scale   of   Results'), 'results')] \n      duser = s3db.delphi_DelphiUser(problem.group_id) \n      if duser.authorised: \n         tabs.append((T('Edit'), None)) \n      rheader_tabs = s3_rheader_tabs(r, tabs) \n      rtable = TABLE(TR(TH(('%s:   ' % T('Problem'))), problem.name, TH(('%s:   ' % T('Active'))), problem.active), TR(TH(('%s:   ' % T('Description'))), problem.description), TR(TH(('%s:   ' % T('Criteria'))), problem.criteria)) \n      if (r.component and (r.component_name == 'solution') and r.component_id): \n         stable = s3db.delphi_solution \n         query = (stable.id == r.component_id) \n         solution = db(query).select(stable.name, stable.description, limitby=(0, 1)).first() \n         rtable.append(DIV(TR(TH(('%s:   ' % T('Solution'))), solution.name), TR(TH(('%s:   ' % T('Description'))), solution.description))) \n      rheader = DIV(rtable, rheader_tabs) \n      return rheader",
+        "line_count": 17,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def get_collectors_from_module(mod): \n    for attrname in dir(mod): \n      attr = getattr(mod, attrname) \n      if (inspect.isclass(attr) and issubclass(attr, Collector) and (attr != Collector)): \n         if attrname.startswith('parent_'): \n            continue \n         fqcn = '.'.join([mod.__name__, attrname]) \n         try: \n            cls = load_dynamic_class(fqcn, Collector) \n            (yield (cls.__name__, cls)) \n         except Exception: \n            logger.error('Failed   to   load   Collector:   %s.   %s', fqcn, traceback.format_exc()) \n            continue",
+        "line_count": 12,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def get_class_alias(klass): \n    for (k, v) in pyamf.ALIAS_TYPES.iteritems(): \n      for kl in v: \n         try: \n            if issubclass(klass, kl): \n               return k \n         except TypeError: \n            if hasattr(kl, '__call__'): \n               if (kl(klass) is True): \n                  return k",
+        "line_count": 9,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def _traverse_results(value, fields, row, path): \n    for (f, v) in value.iteritems(): \n      field_name = ('{path}.{name}'.format(path=path, name=f) if path else f) \n      if (not isinstance(v, (dict, list, tuple))): \n         if (field_name in fields): \n            row[fields.index(field_name)] = ensure_utf(v) \n      elif (isinstance(v, dict) and (f != 'attributes')): \n         _traverse_results(v, fields, row, field_name)",
+        "line_count": 7,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def dead_code_elimination(graph, du, ud): \n    for node in graph.rpo: \n      for (i, ins) in node.get_loc_with_ins()[:]: \n         reg = ins.get_lhs() \n         if (reg is not None): \n            if ((reg, i) not in du): \n               if ins.is_call(): \n                  ins.remove_defined_var() \n               elif ins.has_side_effect(): \n                  continue \n               else: \n                  update_chain(graph, i, du, ud) \n                  graph.remove_ins(i)",
+        "line_count": 12,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def params_to_incoming(incoming, inputs, input_values, app, name_prefix=''): \n    for input in inputs.values(): \n      if (isinstance(input, Repeat) or isinstance(input, UploadDataset)): \n         for d in input_values[input.name]: \n            index = d['__index__'] \n            new_name_prefix = (name_prefix + ('%s_%d|' % (input.name, index))) \n            params_to_incoming(incoming, input.inputs, d, app, new_name_prefix) \n      elif isinstance(input, Conditional): \n         values = input_values[input.name] \n         current = values['__current_case__'] \n         new_name_prefix = ((name_prefix + input.name) + '|') \n         incoming[(new_name_prefix + input.test_param.name)] = values[input.test_param.name] \n         params_to_incoming(incoming, input.cases[current].inputs, values, app, new_name_prefix) \n      elif isinstance(input, Section): \n         values = input_values[input.name] \n         new_name_prefix = ((name_prefix + input.name) + '|') \n         params_to_incoming(incoming, input.inputs, values, app, new_name_prefix) \n      else: \n         value = input_values.get(input.name) \n         incoming[(name_prefix + input.name)] = value",
+        "line_count": 19,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def cocktail_shaker_sort(unsorted): \n    for i in range((len(unsorted) - 1), 0, (-1)): \n      swapped = False \n      for j in range(i, 0, (-1)): \n         if (unsorted[j] < unsorted[(j - 1)]): \n            (unsorted[j], unsorted[(j - 1)]) = (unsorted[(j - 1)], unsorted[j]) \n            swapped = True \n      for j in range(i): \n         if (unsorted[j] > unsorted[(j + 1)]): \n            (unsorted[j], unsorted[(j + 1)]) = (unsorted[(j + 1)], unsorted[j]) \n            swapped = True \n      if (not swapped): \n         return unsorted",
+        "line_count": 12,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def _check_children(node): \n    for child in node.get_children(): \n      ok = False \n      if (child is None): \n         print(('Hm,   child   of   %s   is   None' % node)) \n         continue \n      if (not hasattr(child, 'parent')): \n         print(('   ERROR:   %s   has   child   %s   %x   with   no   parent' % (node, child, id(child)))) \n      elif (not child.parent): \n         print(('   ERROR:   %s   has   child   %s   %x   with   parent   %r' % (node, child, id(child), child.parent))) \n      elif (child.parent is not node): \n         print(('   ERROR:   %s   %x   has   child   %s   %x   with   wrong   parent   %s' % (node, id(node), child, id(child), child.parent))) \n      else: \n         ok = True \n      if (not ok): \n         print('lines;', node.lineno, child.lineno) \n         print('of   module', node.root(), node.root().name) \n         raise AstroidBuildingException \n      _check_children(child)",
+        "line_count": 18,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def merge(dict1, dict2): \n    for (key, val2) in dict2.items(): \n      if (val2 is not None): \n         val1 = dict1.get(key) \n         if isinstance(val2, dict): \n            if (val1 is None): \n               val1 = {} \n            if isinstance(val1, Alias): \n               val1 = (val1, val2) \n            elif isinstance(val1, tuple): \n               (alias, others) = val1 \n               others = others.copy() \n               merge(others, val2) \n               val1 = (alias, others) \n            else: \n               val1 = val1.copy() \n               merge(val1, val2) \n         else: \n            val1 = val2 \n         dict1[key] = val1",
+        "line_count": 19,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def vbd_unplug_with_retry(session, vbd): \n    while True: \n      try: \n         session.xenapi.VBD.unplug(vbd) \n         logging.debug(_('VBD.unplug   successful   first   time.')) \n         return \n      except XenAPI.Failure as e: \n         if ((len(e.details) > 0) and (e.details[0] == 'DEVICE_DETACH_REJECTED')): \n            logging.debug(_('VBD.unplug   rejected:   retrying...')) \n            time.sleep(1) \n         elif ((len(e.details) > 0) and (e.details[0] == 'DEVICE_ALREADY_DETACHED')): \n            logging.debug(_('VBD.unplug   successful   eventually.')) \n            return \n         else: \n            logging.error(_('Ignoring   XenAPI.Failure   in   VBD.unplug:   %s'), e) \n            return",
+        "line_count": 15,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def parse_redaction_policy_from_file(filename): \n    with open(filename) as f: \n      s = f.read().strip() \n      if (not s): \n         return RedactionPolicy([]) \n      scheme = json.loads(s) \n      try: \n         version = str(scheme.pop('version')) \n      except KeyError: \n         raise ValueError('Redaction   policy   is   missing   `version`   field') \n      if (version != '1'): \n         raise ValueError(('unknown   version   `%s`' % version)) \n      try: \n         rules = scheme.pop('rules') \n      except KeyError: \n         raise ValueError('Redaction   policy   is   missing   `rules`   field') \n      rules = [parse_one_rule_from_dict(rule) for rule in rules] \n      if scheme: \n         raise ValueError(('Redaction   policy   contains   unknown   field(s):   %s' % scheme.keys())) \n      return RedactionPolicy(rules)",
+        "line_count": 19,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def GetJavaJars(target_list, target_dicts, toplevel_dir): \n    for target_name in target_list: \n      target = target_dicts[target_name] \n      for action in target.get('actions', []): \n         for input_ in action['inputs']: \n            if ((os.path.splitext(input_)[1] == '.jar') and (not input_.startswith('$'))): \n               if os.path.isabs(input_): \n                  (yield input_) \n               else: \n                  (yield os.path.join(os.path.dirname(target_name), input_))",
+        "line_count": 9,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def nova_docstring_multiline_start(physical_line, previous_logical, tokens): \n    if is_docstring(physical_line, previous_logical): \n      pos = max([physical_line.find(i) for i in START_DOCSTRING_TRIPLE]) \n      if ((len(tokens) == 0) and (pos != (-1)) and (len(physical_line) == (pos + 4))): \n         if (physical_line.strip() in START_DOCSTRING_TRIPLE): \n            return (pos, 'N404:   multi   line   docstring   should   start   with   a   summary')",
+        "line_count": 5,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def _process_worker(call_queue, result_queue, shutdown): \n    while True: \n      try: \n         call_item = call_queue.get(block=True, timeout=0.1) \n      except queue.Empty: \n         if shutdown.is_set(): \n            return \n      else: \n         try: \n            r = call_item.fn(*call_item.args, **call_item.kwargs) \n         except BaseException: \n            e = sys.exc_info()[1] \n            result_queue.put(_ResultItem(call_item.work_id, exception=e)) \n         else: \n            result_queue.put(_ResultItem(call_item.work_id, result=r))",
+        "line_count": 14,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def pollProcess(process, suppress_errors=False): \n    while True: \n      dataToStdout('.') \n      time.sleep(1) \n      returncode = process.poll() \n      if (returncode is not None): \n         if (not suppress_errors): \n            if (returncode == 0): \n               dataToStdout('   done\\n') \n            elif (returncode < 0): \n               dataToStdout(('   process   terminated   by   signal   %d\\n' % returncode)) \n            elif (returncode > 0): \n               dataToStdout(('   quit   unexpectedly   with   return   code   %d\\n' % returncode)) \n         break",
+        "line_count": 13,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def _pick_runner_opts(runner_alias=None, cloud_role=None): \n    return set((opt_name for (opt_name, conf) in _RUNNER_OPTS.items() if (((runner_alias is None) or (conf.get('runners') is None) or (runner_alias in conf['runners'])) and ((cloud_role is None) or (cloud_role == conf.get('cloud_role'))))))",
+        "line_count": 1,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def expand_tokens(tokens, equal=False): \n    for token in tokens: \n      for pre in token.pre_tags: \n         (yield pre) \n      if ((not equal) or (not token.hide_when_equal)): \n         if token.trailing_whitespace: \n            (yield (token.html() + token.trailing_whitespace)) \n         else: \n            (yield token.html()) \n      for post in token.post_tags: \n         (yield post)",
+        "line_count": 10,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def get_value_from_json(json_dict, sensor_type, group, tool): \n    if (group in json_dict): \n      if (sensor_type in json_dict[group]): \n         if ((sensor_type == 'target') and (json_dict[sensor_type] is None)): \n            return 0 \n         else: \n            return json_dict[group][sensor_type] \n      elif (tool is not None): \n         if (sensor_type in json_dict[group][tool]): \n            return json_dict[group][tool][sensor_type]",
+        "line_count": 9,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def eventloop(conn, limit=None, timeout=None, ignore_timeouts=False): \n    for i in ((limit and range(limit)) or count()): \n      try: \n         (yield conn.drain_events(timeout=timeout)) \n      except socket.timeout: \n         if (timeout and (not ignore_timeouts)): \n            raise",
+        "line_count": 6,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def RemoveLinkDependenciesFromNoneTargets(targets): \n    for (target_name, target_dict) in targets.iteritems(): \n      for dependency_key in dependency_sections: \n         dependencies = target_dict.get(dependency_key, []) \n         if dependencies: \n            for t in dependencies: \n               if (target_dict.get('type', None) == 'none'): \n                  if targets[t].get('variables', {}).get('link_dependency', 0): \n                     target_dict[dependency_key] = Filter(target_dict[dependency_key], t)",
+        "line_count": 8,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def distort_color(image, color_ordering=0, fast_mode=True, scope=None): \n    with tf.name_scope(scope, 'distort_color', [image]): \n      if fast_mode: \n         if (color_ordering == 0): \n            image = tf.image.random_brightness(image, max_delta=(32.0 / 255.0)) \n            image = tf.image.random_saturation(image, lower=0.5, upper=1.5) \n         else: \n            image = tf.image.random_saturation(image, lower=0.5, upper=1.5) \n            image = tf.image.random_brightness(image, max_delta=(32.0 / 255.0)) \n      elif (color_ordering == 0): \n         image = tf.image.random_brightness(image, max_delta=(32.0 / 255.0)) \n         image = tf.image.random_saturation(image, lower=0.5, upper=1.5) \n         image = tf.image.random_hue(image, max_delta=0.2) \n         image = tf.image.random_contrast(image, lower=0.5, upper=1.5) \n      elif (color_ordering == 1): \n         image = tf.image.random_saturation(image, lower=0.5, upper=1.5) \n         image = tf.image.random_brightness(image, max_delta=(32.0 / 255.0)) \n         image = tf.image.random_contrast(image, lower=0.5, upper=1.5) \n         image = tf.image.random_hue(image, max_delta=0.2) \n      elif (color_ordering == 2): \n         image = tf.image.random_contrast(image, lower=0.5, upper=1.5) \n         image = tf.image.random_hue(image, max_delta=0.2) \n         image = tf.image.random_brightness(image, max_delta=(32.0 / 255.0)) \n         image = tf.image.random_saturation(image, lower=0.5, upper=1.5) \n      elif (color_ordering == 3): \n         image = tf.image.random_hue(image, max_delta=0.2) \n         image = tf.image.random_saturation(image, lower=0.5, upper=1.5) \n         image = tf.image.random_contrast(image, lower=0.5, upper=1.5) \n         image = tf.image.random_brightness(image, max_delta=(32.0 / 255.0)) \n      else: \n         raise ValueError('color_ordering   must   be   in   [0,   3]') \n      return tf.clip_by_value(image, 0.0, 1.0)",
+        "line_count": 31,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def _propagate_internal_output(graph, node, field, connections, portinputs): \n    for (destnode, inport, src) in connections: \n      if (field in portinputs): \n         (srcnode, srcport) = portinputs[field] \n         if (isinstance(srcport, tuple) and isinstance(src, tuple)): \n            src_func = srcport[1].split(u'\\\\n')[0] \n            dst_func = src[1].split(u'\\\\n')[0] \n            raise ValueError(u\"Does   not   support   two   inline   functions   in   series   ('{}'      and   '{}'),   found   when   connecting   {}   to   {}.   Please   use   a   Function   node.\".format(src_func, dst_func, srcnode, destnode)) \n         connect = graph.get_edge_data(srcnode, destnode, default={u'connect': []}) \n         if isinstance(src, tuple): \n            connect[u'connect'].append(((srcport, src[1], src[2]), inport)) \n         else: \n            connect = {u'connect': [(srcport, inport)]} \n         old_connect = graph.get_edge_data(srcnode, destnode, default={u'connect': []}) \n         old_connect[u'connect'] += connect[u'connect'] \n         graph.add_edges_from([(srcnode, destnode, old_connect)]) \n      else: \n         value = getattr(node.inputs, field) \n         if isinstance(src, tuple): \n            value = evaluate_connect_function(src[1], src[2], value) \n         destnode.set_input(inport, value)",
+        "line_count": 20,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def resnet_v1(inputs, blocks, num_classes=None, is_training=True, global_pool=True, output_stride=None, include_root_block=True, reuse=None, scope=None): \n    with tf.variable_scope(scope, 'resnet_v1', [inputs], reuse=reuse) as sc: \n      end_points_collection = (sc.name + '_end_points') \n      with slim.arg_scope([slim.conv2d, bottleneck, resnet_utils.stack_blocks_dense], outputs_collections=end_points_collection): \n         with slim.arg_scope([slim.batch_norm], is_training=is_training): \n            net = inputs \n            if include_root_block: \n               if (output_stride is not None): \n                  if ((output_stride % 4) != 0): \n                     raise ValueError('The   output_stride   needs   to   be   a   multiple   of   4.') \n                  output_stride /= 4 \n               net = resnet_utils.conv2d_same(net, 64, 7, stride=2, scope='conv1') \n               net = slim.max_pool2d(net, [3, 3], stride=2, scope='pool1') \n            net = resnet_utils.stack_blocks_dense(net, blocks, output_stride) \n            if global_pool: \n               net = tf.reduce_mean(net, [1, 2], name='pool5', keep_dims=True) \n            if (num_classes is not None): \n               net = slim.conv2d(net, num_classes, [1, 1], activation_fn=None, normalizer_fn=None, scope='logits') \n            end_points = slim.utils.convert_collection_to_dict(end_points_collection) \n            if (num_classes is not None): \n               end_points['predictions'] = slim.softmax(net, scope='predictions') \n            return (net, end_points)",
+        "line_count": 21,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def test_fix_types(): \n    for (fname, change) in ((hp_fif_fname, True), (test_fif_fname, False), (ctf_fname, False)): \n      raw = read_raw_fif(fname) \n      mag_picks = pick_types(raw.info, meg='mag') \n      other_picks = np.setdiff1d(np.arange(len(raw.ch_names)), mag_picks) \n      if change: \n         for ii in mag_picks: \n            raw.info['chs'][ii]['coil_type'] = FIFF.FIFFV_COIL_VV_MAG_T2 \n      orig_types = np.array([ch['coil_type'] for ch in raw.info['chs']]) \n      raw.fix_mag_coil_types() \n      new_types = np.array([ch['coil_type'] for ch in raw.info['chs']]) \n      if (not change): \n         assert_array_equal(orig_types, new_types) \n      else: \n         assert_array_equal(orig_types[other_picks], new_types[other_picks]) \n         assert_true((orig_types[mag_picks] != new_types[mag_picks]).all()) \n         assert_true((new_types[mag_picks] == FIFF.FIFFV_COIL_VV_MAG_T3).all())",
+        "line_count": 16,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def daemonize(enable_stdio_inheritance=False): \n    if ('GUNICORN_FD' not in os.environ): \n      if os.fork(): \n         os._exit(0) \n      os.setsid() \n      if os.fork(): \n         os._exit(0) \n      os.umask(18) \n      if (not enable_stdio_inheritance): \n         closerange(0, 3) \n         fd_null = os.open(REDIRECT_TO, os.O_RDWR) \n         if (fd_null != 0): \n            os.dup2(fd_null, 0) \n         os.dup2(fd_null, 1) \n         os.dup2(fd_null, 2) \n      else: \n         fd_null = os.open(REDIRECT_TO, os.O_RDWR) \n         if (fd_null != 0): \n            os.close(0) \n            os.dup2(fd_null, 0) \n         def redirect(stream, fd_expect): \n            try: \n               fd = stream.fileno() \n               if ((fd == fd_expect) and stream.isatty()): \n                  os.close(fd) \n                  os.dup2(fd_null, fd) \n            except AttributeError: \n               pass \n         redirect(sys.stdout, 1) \n         redirect(sys.stderr, 2)",
+        "line_count": 29,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def launch(__INSTANCE__=None, **kw): \n    for (k, v) in kw.iteritems(): \n      if (v is True): \n         v = k \n         k = '' \n      try: \n         v = int(v) \n      except: \n         old = v \n         v = logging.DEBUG \n         def dofail(): \n            core.getLogger(k).error('Bad   log   level:   %s.   Defaulting   to   DEBUG.', old) \n         if ((len(old) == 0) or (len(old.strip(string.ascii_uppercase)) != 0)): \n            dofail() \n         else: \n            vv = getattr(logging, old, None) \n            if (not isinstance(vv, int)): \n               dofail() \n            else: \n               v = vv \n      core.getLogger(k).setLevel(v)",
+        "line_count": 20,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def _collect_post_update_commands(base_mapper, uowtransaction, table, states_to_update, post_update_cols): \n    for (state, state_dict, mapper, connection) in states_to_update: \n      pks = mapper._pks_by_table[table] \n      params = {} \n      hasdata = False \n      for col in mapper._cols_by_table[table]: \n         if (col in pks): \n            params[col._label] = mapper._get_state_attr_by_column(state, state_dict, col, passive=attributes.PASSIVE_OFF) \n         elif (col in post_update_cols): \n            prop = mapper._columntoproperty[col] \n            history = state.manager[prop.key].impl.get_history(state, state_dict, attributes.PASSIVE_NO_INITIALIZE) \n            if history.added: \n               value = history.added[0] \n               params[col.key] = value \n               hasdata = True \n      if hasdata: \n         (yield (params, connection))",
+        "line_count": 16,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def run_hook(component, translation, script, env=None, *args): \n    if script: \n      command = [script] \n      if args: \n         command.extend(args) \n      if component.is_repo_link: \n         target = component.linked_subproject \n      else: \n         target = component \n      environment = {'WL_VCS': target.vcs, 'WL_REPO': target.repo, 'WL_PATH': target.get_path(), 'WL_FILEMASK': component.filemask, 'WL_TEMPLATE': component.template, 'WL_FILE_FORMAT': component.file_format, 'WL_BRANCH': component.branch} \n      if translation: \n         environment['WL_LANGUAGE'] = translation.language_code \n      if (env is not None): \n         environment.update(env) \n      try: \n         subprocess.check_call(command, env=get_clean_env(environment), cwd=component.get_path()) \n         return True \n      except (OSError, subprocess.CalledProcessError) as err: \n         component.log_error('failed   to   run   hook   script   %s:   %s', script, err) \n         return False",
+        "line_count": 19,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def notify_unreplied(): \n    for email_account in frappe.get_all(u'Email   Account', u'name', filters={u'enable_incoming': 1, u'notify_if_unreplied': 1}): \n      email_account = frappe.get_doc(u'Email   Account', email_account.name) \n      if email_account.append_to: \n         for comm in frappe.get_all(u'Communication', u'name', filters={u'sent_or_received': u'Received', u'reference_doctype': email_account.append_to, u'unread_notification_sent': 0, u'email_account': email_account.name, u'creation': (u'<', (datetime.now() - timedelta(seconds=((email_account.unreplied_for_mins or 30) * 60)))), u'creation': (u'>', (datetime.now() - timedelta(seconds=(((email_account.unreplied_for_mins or 30) * 60) * 3))))}): \n            comm = frappe.get_doc(u'Communication', comm.name) \n            if (frappe.db.get_value(comm.reference_doctype, comm.reference_name, u'status') == u'Open'): \n               frappe.sendmail(recipients=email_account.get_unreplied_notification_emails(), content=comm.content, subject=comm.subject, doctype=comm.reference_doctype, name=comm.reference_name) \n            comm.db_set(u'unread_notification_sent', 1)",
+        "line_count": 8,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def fixup_for_packaged(): \n    if exists(join(ROOT, 'PKG-INFOvi   ')): \n      if (('--build-js' in sys.argv) or ('--install-js' in sys.argv)): \n         print(SDIST_BUILD_WARNING) \n         if ('--build-js' in sys.argv): \n            sys.argv.remove('--build-js') \n         if ('--install-js' in sys.argv): \n            sys.argv.remove('--install-js') \n      if ('--existing-js' not in sys.argv): \n         sys.argv.append('--existing-js')",
+        "line_count": 9,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def _create_scheduled_actions(conn, as_name, scheduled_actions): \n    if scheduled_actions: \n      for (name, action) in six.iteritems(scheduled_actions): \n         if (('start_time' in action) and isinstance(action['start_time'], six.string_types)): \n            action['start_time'] = datetime.datetime.strptime(action['start_time'], DATE_FORMAT) \n         if (('end_time' in action) and isinstance(action['end_time'], six.string_types)): \n            action['end_time'] = datetime.datetime.strptime(action['end_time'], DATE_FORMAT) \n         conn.create_scheduled_group_action(as_name, name, desired_capacity=action.get('desired_capacity'), min_size=action.get('min_size'), max_size=action.get('max_size'), start_time=action.get('start_time'), end_time=action.get('end_time'), recurrence=action.get('recurrence'))",
+        "line_count": 7,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def _collect_delete_commands(base_mapper, uowtransaction, table, states_to_delete): \n    for (state, state_dict, mapper, connection, update_version_id) in states_to_delete: \n      if (table not in mapper._pks_by_table): \n         continue \n      params = {} \n      for col in mapper._pks_by_table[table]: \n         params[col.key] = value = mapper._get_committed_state_attr_by_column(state, state_dict, col) \n         if (value is None): \n            raise orm_exc.FlushError((\"Can't   delete   from   table   %s   using   NULL   for   primary   key   value   on   column   %s\" % (table, col))) \n      if ((update_version_id is not None) and (mapper.version_id_col in mapper._cols_by_table[table])): \n         params[mapper.version_id_col.key] = update_version_id \n      (yield (params, connection))",
+        "line_count": 11,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def eval_master_func(opts): \n    if ('__master_func_evaluated' not in opts): \n      mod_fun = opts['master'] \n      (mod, fun) = mod_fun.split('.') \n      try: \n         master_mod = salt.loader.raw_mod(opts, mod, fun) \n         if (not master_mod): \n            raise KeyError \n         opts['master'] = master_mod[mod_fun]() \n         if ((not isinstance(opts['master'], str)) and (not isinstance(opts['master'], list))): \n            raise TypeError \n         opts['__master_func_evaluated'] = True \n      except KeyError: \n         log.error('Failed   to   load   module   {0}'.format(mod_fun)) \n         sys.exit(salt.defaults.exitcodes.EX_GENERIC) \n      except TypeError: \n         log.error('{0}   returned   from   {1}   is   not   a   string   or   a   list'.format(opts['master'], mod_fun)) \n         sys.exit(salt.defaults.exitcodes.EX_GENERIC) \n      log.info('Evaluated   master   from   module:   {0}'.format(mod_fun))",
+        "line_count": 18,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def _process_worker(call_queue, result_queue, shutdown): \n    while True: \n      try: \n         call_item = call_queue.get(block=True, timeout=0.1) \n      except queue.Empty: \n         if shutdown.is_set(): \n            return \n      else: \n         try: \n            r = call_item.fn(*call_item.args, **call_item.kwargs) \n         except BaseException: \n            e = sys.exc_info()[1] \n            result_queue.put(_ResultItem(call_item.work_id, exception=e)) \n         else: \n            result_queue.put(_ResultItem(call_item.work_id, result=r))",
+        "line_count": 14,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def coerce_dtypes(df, dtypes): \n    for c in df.columns: \n      if ((c in dtypes) and (df.dtypes[c] != dtypes[c])): \n         if (np.issubdtype(df.dtypes[c], np.floating) and np.issubdtype(dtypes[c], np.integer)): \n            if (df[c] % 1).any(): \n               msg = \"Runtime   type   mismatch.   Add   {'%s':   float}   to   dtype=   keyword   in   read_csv/read_table\" \n               raise TypeError((msg % c)) \n         df[c] = df[c].astype(dtypes[c])",
+        "line_count": 7,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def process_rst_and_summaries(content_generators): \n    for generator in content_generators: \n      if isinstance(generator, generators.ArticlesGenerator): \n         for article in ((generator.articles + generator.translations) + generator.drafts): \n            rst_add_mathjax(article) \n            if (process_summary.mathjax_script is not None): \n               process_summary(article) \n      elif isinstance(generator, generators.PagesGenerator): \n         for page in generator.pages: \n            rst_add_mathjax(page)",
+        "line_count": 9,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def resolve_duplicates(session, task): \n    if (task.choice_flag in (action.ASIS, action.APPLY, action.RETAG)): \n      found_duplicates = task.find_duplicates(session.lib) \n      if found_duplicates: \n         log.debug(u'found   duplicates:   {}'.format([o.id for o in found_duplicates])) \n         duplicate_action = config['import']['duplicate_action'].as_choice({u'skip': u's', u'keep': u'k', u'remove': u'r', u'ask': u'a'}) \n         log.debug(u'default   action   for   duplicates:   {0}', duplicate_action) \n         if (duplicate_action == u's'): \n            task.set_choice(action.SKIP) \n         elif (duplicate_action == u'k'): \n            pass \n         elif (duplicate_action == u'r'): \n            task.should_remove_duplicates = True \n         else: \n            session.resolve_duplicate(task, found_duplicates) \n         session.log_choice(task, True)",
+        "line_count": 15,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def set_permissions(path, recursive=True): \n    if (not sabnzbd.WIN32): \n      umask = cfg.umask() \n      try: \n         umask = (int(umask, 8) | int('0700', 8)) \n         report = True \n      except ValueError: \n         umask = (int('0777', 8) & (sabnzbd.ORG_UMASK ^ int('0777', 8))) \n         report = False \n      umask_file = (umask & int('7666', 8)) \n      if os.path.isdir(path): \n         if recursive: \n            for (root, _dirs, files) in os.walk(path): \n               set_chmod(root, umask, report) \n               for name in files: \n                  set_chmod(os.path.join(root, name), umask_file, report) \n         else: \n            set_chmod(path, umask, report) \n      else: \n         set_chmod(path, umask_file, report)",
+        "line_count": 19,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def add_settings(mod, settings): \n    for setting in dir(mod): \n      if (not setting.isupper()): \n         continue \n      setting_value = getattr(mod, setting) \n      if ((setting in ('INSTALLED_APPS', 'TEMPLATE_DIRS')) and isinstance(setting_value, six.string_types)): \n         setting_value = (setting_value,) \n      if (setting[:6] == 'EXTRA_'): \n         base_setting = setting[6:] \n         if isinstance(getattr(settings, base_setting), (list, tuple)): \n            curval = getattr(settings, base_setting) \n            setattr(settings, base_setting, (curval + type(curval)(setting_value))) \n            continue \n      setattr(settings, setting, setting_value)",
+        "line_count": 13,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def generate_alias(tbl): \n    return u''.join(([l for l in tbl if l.isupper()] or [l for (l, prev) in zip(tbl, (u'_' + tbl)) if ((prev == u'_') and (l != u'_'))]))",
+        "line_count": 1,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def makeRst(prefix, section, app, exampleByIdentifier, schema_store): \n    for route in sorted(getRoutes(app)): \n      if route.attributes.get('private_api', False): \n         continue \n      data = _introspectRoute(route, exampleByIdentifier, schema_store) \n      if (data['section'] != section): \n         continue \n      for method in route.methods: \n         if (data['header'] is not None): \n            (yield data['header']) \n            (yield ('-' * len(data['header']))) \n            (yield '') \n         body = _formatRouteBody(data, schema_store) \n         for line in http_directive(method, (prefix + route.path), body): \n            (yield line)",
+        "line_count": 14,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def _prep_input(kwargs): \n    for kwarg in ('environment', 'lxc_conf'): \n      kwarg_value = kwargs.get(kwarg) \n      if ((kwarg_value is not None) and (not isinstance(kwarg_value, six.string_types))): \n         err = 'Invalid   {0}   configuration.   See   the   documentation   for   proper   usage.'.format(kwarg) \n         if salt.utils.is_dictlist(kwarg_value): \n            new_kwarg_value = salt.utils.repack_dictlist(kwarg_value) \n            if (not kwarg_value): \n               raise SaltInvocationError(err) \n            kwargs[kwarg] = new_kwarg_value \n         if (not isinstance(kwargs[kwarg], dict)): \n            raise SaltInvocationError(err)",
+        "line_count": 11,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def eval_once(saver, summary_writer, top_k_op, summary_op): \n    with tf.Session() as sess: \n      ckpt = tf.train.get_checkpoint_state(FLAGS.checkpoint_dir) \n      if (ckpt and ckpt.model_checkpoint_path): \n         saver.restore(sess, ckpt.model_checkpoint_path) \n         global_step = ckpt.model_checkpoint_path.split('/')[(-1)].split('-')[(-1)] \n      else: \n         print('No   checkpoint   file   found') \n         return \n      coord = tf.train.Coordinator() \n      try: \n         threads = [] \n         for qr in tf.get_collection(tf.GraphKeys.QUEUE_RUNNERS): \n            threads.extend(qr.create_threads(sess, coord=coord, daemon=True, start=True)) \n         num_iter = int(math.ceil((FLAGS.num_examples / FLAGS.batch_size))) \n         true_count = 0 \n         total_sample_count = (num_iter * FLAGS.batch_size) \n         step = 0 \n         while ((step < num_iter) and (not coord.should_stop())): \n            predictions = sess.run([top_k_op]) \n            true_count += np.sum(predictions) \n            step += 1 \n         precision = (true_count / total_sample_count) \n         print(('%s:   precision   @   1   =   %.3f' % (datetime.now(), precision))) \n         summary = tf.Summary() \n         summary.ParseFromString(sess.run(summary_op)) \n         summary.value.add(tag='Precision   @   1', simple_value=precision) \n         summary_writer.add_summary(summary, global_step) \n      except Exception as e: \n         coord.request_stop(e) \n      coord.request_stop() \n      coord.join(threads, stop_grace_period_secs=10)",
+        "line_count": 31,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def pretty_all(container): \n    for (name, mt) in container.mime_map.iteritems(): \n      prettied = False \n      if (mt in OEB_DOCS): \n         pretty_html_tree(container, container.parsed(name)) \n         prettied = True \n      elif (mt in OEB_STYLES): \n         container.parsed(name) \n         prettied = True \n      elif (name == container.opf_name): \n         root = container.parsed(name) \n         pretty_opf(root) \n         pretty_xml_tree(root) \n         prettied = True \n      elif (mt in {guess_type(u'a.ncx'), guess_type(u'a.xml')}): \n         pretty_xml_tree(container.parsed(name)) \n         prettied = True \n      if prettied: \n         container.dirty(name)",
+        "line_count": 18,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def do_login(sender, user, request, **kwargs): \n    if (user and user.is_authenticated()): \n      token = None \n      try: \n         Application = get_application_model() \n         app = Application.objects.get(name='GeoServer') \n         token = generate_token() \n         AccessToken.objects.get_or_create(user=user, application=app, expires=(datetime.datetime.now() + datetime.timedelta(days=1)), token=token) \n      except: \n         u = uuid.uuid1() \n         token = u.hex \n      url = ('%s%s?access_token=%s' % (settings.OGC_SERVER['default']['PUBLIC_LOCATION'], 'ows?service=wms&version=1.3.0&request=GetCapabilities', token)) \n      cj = cookielib.CookieJar() \n      opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj)) \n      jsessionid = None \n      try: \n         opener.open(url) \n         for c in cj: \n            if (c.name == 'JSESSIONID'): \n               jsessionid = c.value \n      except: \n         u = uuid.uuid1() \n         jsessionid = u.hex \n      request.session['access_token'] = token \n      request.session['JSESSIONID'] = jsessionid",
+        "line_count": 24,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def _InitNinjaFlavor(params, target_list, target_dicts): \n    for qualified_target in target_list: \n      spec = target_dicts[qualified_target] \n      if spec.get('msvs_external_builder'): \n         continue \n      path_to_ninja = spec.get('msvs_path_to_ninja', 'ninja.exe') \n      spec['msvs_external_builder'] = 'ninja' \n      if (not spec.get('msvs_external_builder_out_dir')): \n         (gyp_file, _, _) = gyp.common.ParseQualifiedTarget(qualified_target) \n         gyp_dir = os.path.dirname(gyp_file) \n         configuration = '$(Configuration)' \n         if (params.get('target_arch') == 'x64'): \n            configuration += '_x64' \n         spec['msvs_external_builder_out_dir'] = os.path.join(gyp.common.RelativePath(params['options'].toplevel_dir, gyp_dir), ninja_generator.ComputeOutputDir(params), configuration) \n      if (not spec.get('msvs_external_builder_build_cmd')): \n         spec['msvs_external_builder_build_cmd'] = [path_to_ninja, '-C', '$(OutDir)', '$(ProjectName)'] \n      if (not spec.get('msvs_external_builder_clean_cmd')): \n         spec['msvs_external_builder_clean_cmd'] = [path_to_ninja, '-C', '$(OutDir)', '-tclean', '$(ProjectName)']",
+        "line_count": 17,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def eventloop(conn, limit=None, timeout=None, ignore_timeouts=False): \n    for i in ((limit and range(limit)) or count()): \n      try: \n         (yield conn.drain_events(timeout=timeout)) \n      except socket.timeout: \n         if (timeout and (not ignore_timeouts)): \n            raise",
+        "line_count": 6,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def resnet_v2(inputs, blocks, num_classes=None, is_training=True, global_pool=True, output_stride=None, include_root_block=True, reuse=None, scope=None): \n    with tf.variable_scope(scope, 'resnet_v2', [inputs], reuse=reuse) as sc: \n      end_points_collection = (sc.name + '_end_points') \n      with slim.arg_scope([slim.conv2d, bottleneck, resnet_utils.stack_blocks_dense], outputs_collections=end_points_collection): \n         with slim.arg_scope([slim.batch_norm], is_training=is_training): \n            net = inputs \n            if include_root_block: \n               if (output_stride is not None): \n                  if ((output_stride % 4) != 0): \n                     raise ValueError('The   output_stride   needs   to   be   a   multiple   of   4.') \n                  output_stride /= 4 \n               with slim.arg_scope([slim.conv2d], activation_fn=None, normalizer_fn=None): \n                  net = resnet_utils.conv2d_same(net, 64, 7, stride=2, scope='conv1') \n               net = slim.max_pool2d(net, [3, 3], stride=2, scope='pool1') \n            net = resnet_utils.stack_blocks_dense(net, blocks, output_stride) \n            net = slim.batch_norm(net, activation_fn=tf.nn.relu, scope='postnorm') \n            if global_pool: \n               net = tf.reduce_mean(net, [1, 2], name='pool5', keep_dims=True) \n            if (num_classes is not None): \n               net = slim.conv2d(net, num_classes, [1, 1], activation_fn=None, normalizer_fn=None, scope='logits') \n            end_points = slim.utils.convert_collection_to_dict(end_points_collection) \n            if (num_classes is not None): \n               end_points['predictions'] = slim.softmax(net, scope='predictions') \n            return (net, end_points)",
+        "line_count": 23,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def traverse(roots, parent='', verbose=False): \n    for root in roots: \n      if root.method_map: \n         print('->', ((parent + '/') + root.raw_segment)) \n         if verbose: \n            for (method, func) in root.method_map.items(): \n               if (func.__name__ != 'method_not_allowed'): \n                  print('-->{0}   {1}:{2}'.format(method, inspect.getsourcefile(func), inspect.getsourcelines(func)[1])) \n      if root.children: \n         traverse(root.children, ((parent + '/') + root.raw_segment), verbose)",
+        "line_count": 9,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def consume_queue(queue, cascade_stop): \n    while True: \n      try: \n         item = queue.get(timeout=0.1) \n      except Empty: \n         (yield None) \n         continue \n      except thread.error: \n         raise ShutdownException() \n      if item.exc: \n         raise item.exc \n      if item.is_stop: \n         if cascade_stop: \n            raise StopIteration \n         else: \n            continue \n      (yield item.item)",
+        "line_count": 16,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def t_KEGG_Enzyme(testfiles): \n    for file in testfiles: \n      fh = open(os.path.join('KEGG', file)) \n      print((('Testing   Bio.KEGG.Enzyme   on   ' + file) + '\\n\\n')) \n      records = Enzyme.parse(fh) \n      for (i, record) in enumerate(records): \n         print(record) \n      fh.seek(0) \n      if (i == 0): \n         print(Enzyme.read(fh)) \n      else: \n         try: \n            print(Enzyme.read(fh)) \n            assert False \n         except ValueError as e: \n            assert (str(e) == 'More   than   one   record   found   in   handle') \n      print('\\n') \n      fh.close()",
+        "line_count": 17,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def RemoveSelfDependencies(targets): \n    for (target_name, target_dict) in targets.iteritems(): \n      for dependency_key in dependency_sections: \n         dependencies = target_dict.get(dependency_key, []) \n         if dependencies: \n            for t in dependencies: \n               if (t == target_name): \n                  if targets[t].get('variables', {}).get('prune_self_dependency', 0): \n                     target_dict[dependency_key] = Filter(dependencies, target_name)",
+        "line_count": 8,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def iter_format_modules(lang): \n    if check_for_language(lang): \n      format_locations = ['django.conf.locale.%s'] \n      if settings.FORMAT_MODULE_PATH: \n         format_locations.append((settings.FORMAT_MODULE_PATH + '.%s')) \n         format_locations.reverse() \n      locale = to_locale(lang) \n      locales = [locale] \n      if ('_' in locale): \n         locales.append(locale.split('_')[0]) \n      for location in format_locations: \n         for loc in locales: \n            try: \n               (yield import_module(('%s.formats' % (location % loc)))) \n            except ImportError: \n               pass",
+        "line_count": 15,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def recursive_update_dict(root, changes, ignores=()): \n    if isinstance(changes, dict): \n      for (k, v) in changes.items(): \n         if isinstance(v, dict): \n            if (k not in root): \n               root[k] = {} \n            recursive_update_dict(root[k], v, ignores) \n         elif (v in ignores): \n            if (k in root): \n               root.pop(k) \n         else: \n            root[k] = v",
+        "line_count": 11,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def iter_format_modules(lang): \n    if check_for_language(lang): \n      format_locations = ['django.conf.locale.%s'] \n      if settings.FORMAT_MODULE_PATH: \n         format_locations.append((settings.FORMAT_MODULE_PATH + '.%s')) \n         format_locations.reverse() \n      locale = to_locale(lang) \n      locales = [locale] \n      if ('_' in locale): \n         locales.append(locale.split('_')[0]) \n      for location in format_locations: \n         for loc in locales: \n            try: \n               (yield import_module('.formats', (location % loc))) \n            except ImportError: \n               pass",
+        "line_count": 15,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def check_valid_file_exists(in_files): \n    for in_file in in_files: \n      if (in_file == u'-'): \n         pass \n      elif os.path.exists(in_file): \n         mode = os.stat(in_file).st_mode \n         if ((os.stat(in_file).st_size > 0) or S_ISBLK(mode) or S_ISFIFO(mode)): \n            return \n         else: \n            print((u'WARNING:   Input   file   %s   is   empty' % in_file), file=sys.stderr) \n      else: \n         print((u'WARNING:   Input   file   %s   not   found' % in_file), file=sys.stderr)",
+        "line_count": 11,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def _package_conf_file_to_dir(file_name): \n    if (file_name in SUPPORTED_CONFS): \n      path = BASE_PATH.format(file_name) \n      if os.path.exists(path): \n         if os.path.isdir(path): \n            return False \n         else: \n            os.rename(path, (path + '.tmpbak')) \n            os.mkdir(path, 493) \n            with salt.utils.fopen((path + '.tmpbak')) as fh_: \n               for line in fh_: \n                  line = line.strip() \n                  if (line and (not line.startswith('#'))): \n                     append_to_package_conf(file_name, string=line) \n            os.remove((path + '.tmpbak')) \n            return True \n      else: \n         os.mkdir(path, 493) \n         return True",
+        "line_count": 18,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def _set_tcp_keepalive(zmq_socket, opts): \n    if (hasattr(zmq, 'TCP_KEEPALIVE') and opts): \n      if ('tcp_keepalive' in opts): \n         zmq_socket.setsockopt(zmq.TCP_KEEPALIVE, opts['tcp_keepalive']) \n      if ('tcp_keepalive_idle' in opts): \n         zmq_socket.setsockopt(zmq.TCP_KEEPALIVE_IDLE, opts['tcp_keepalive_idle']) \n      if ('tcp_keepalive_cnt' in opts): \n         zmq_socket.setsockopt(zmq.TCP_KEEPALIVE_CNT, opts['tcp_keepalive_cnt']) \n      if ('tcp_keepalive_intvl' in opts): \n         zmq_socket.setsockopt(zmq.TCP_KEEPALIVE_INTVL, opts['tcp_keepalive_intvl'])",
+        "line_count": 9,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def mro_lookup(cls, attr, stop=set(), monkey_patched=[]): \n    for node in cls.mro(): \n      if (node in stop): \n         try: \n            value = node.__dict__[attr] \n            module_origin = value.__module__ \n         except (AttributeError, KeyError): \n            pass \n         else: \n            if (module_origin not in monkey_patched): \n               return node \n         return \n      if (attr in node.__dict__): \n         return node",
+        "line_count": 13,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def merge(dict1, dict2): \n    for (key, val2) in dict2.items(): \n      if (val2 is not None): \n         val1 = dict1.get(key) \n         if isinstance(val2, dict): \n            if (val1 is None): \n               val1 = {} \n            if isinstance(val1, Alias): \n               val1 = (val1, val2) \n            elif isinstance(val1, tuple): \n               (alias, others) = val1 \n               others = others.copy() \n               merge(others, val2) \n               val1 = (alias, others) \n            else: \n               val1 = val1.copy() \n               merge(val1, val2) \n         else: \n            val1 = val2 \n         dict1[key] = val1",
+        "line_count": 19,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def tokenize_asdl(buf): \n    for (lineno, line) in enumerate(buf.splitlines(), 1): \n      for m in re.finditer('\\\\s*(\\\\w+|--.*|.)', line.strip()): \n         c = m.group(1) \n         if c[0].isalpha(): \n            if c[0].isupper(): \n               (yield Token(TokenKind.ConstructorId, c, lineno)) \n            else: \n               (yield Token(TokenKind.TypeId, c, lineno)) \n         elif (c[:2] == '--'): \n            break \n         else: \n            try: \n               op_kind = TokenKind.operator_table[c] \n            except KeyError: \n               raise ASDLSyntaxError(('Invalid   operator   %s' % c), lineno) \n            (yield Token(op_kind, c, lineno))",
+        "line_count": 16,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def user_details(strategy, details, user=None, *args, **kwargs): \n    if user: \n      changed = False \n      protected = (('username', 'id', 'pk', 'email') + tuple(strategy.setting('PROTECTED_USER_FIELDS', []))) \n      for (name, value) in details.items(): \n         if (not hasattr(user, name)): \n            continue \n         current_value = getattr(user, name, None) \n         if ((not current_value) or (name not in protected)): \n            changed |= (current_value != value) \n            setattr(user, name, value) \n      if changed: \n         strategy.storage.user.changed(user)",
+        "line_count": 12,
+        "cyclomatic_complexity": 7
+    },
+    {
+        "method": "def _recurse_config_to_dict(t_data): \n    if (not isinstance(t_data, type(None))): \n      if isinstance(t_data, list): \n         t_list = [] \n         for i in t_data: \n            t_list.append(_recurse_config_to_dict(i)) \n         return t_list \n      elif isinstance(t_data, dict): \n         t_dict = {} \n         for (k, v) in t_data.iteritems(): \n            t_dict[k] = _recurse_config_to_dict(v) \n         return t_dict \n      elif hasattr(t_data, '__dict__'): \n         return _recurse_config_to_dict(t_data.__dict__) \n      else: \n         return _serializer(t_data)",
+        "line_count": 15,
+        "cyclomatic_complexity": 7
+    }
+]
