@@ -2,60 +2,16 @@
     {
         "Task 1": [
             {
-                "method": "def test_client_options(config): \n    if config['use_ssl']: \n      if (('certificate' in config) and config['certificate']): \n         read_file(config['certificate']) \n      if (('client_cert' in config) and config['client_cert']): \n         read_file(config['client_cert']) \n      if (('client_key' in config) and config['client_key']): \n         read_file(config['client_key'])",
-                "line_count": 7,
-                "cyclomatic_complexity": 8,
-                "description": "'Test whether a SSL/TLS files exist. Will raise an exception if the files   cannot be read.   :arg config: A client configuration file data dictionary   :rtype: None'"
-            },
-            {
-                "method": "def _normalize_configuration_objs(configurations): \n    for c in configurations: \n      if (not hasattr(c, 'properties')): \n         c.properties = [] \n      if hasattr(c, 'configurations'): \n         if (not c.configurations): \n            del c.configurations \n         else: \n            _normalize_configuration_objs(c.configurations)",
-                "line_count": 8,
-                "cyclomatic_complexity": 5,
-                "description": "'The API will return an empty Properties list for configurations   without properties set, and remove empty sub-configurations'"
-            },
-            {
-                "method": "def _filter_apis(name, apis): \n    return [api for api in apis if (api['name'] == name)]",
-                "line_count": 1,
-                "cyclomatic_complexity": 3,
-                "description": "'Return list of api items matching the given name.'"
-            }
-        ]
-    },
-    {
-        "Task 2": [
-            {
-                "method": "def RemoveSelfDependencies(targets): \n    for (target_name, target_dict) in targets.iteritems(): \n      for dependency_key in dependency_sections: \n         dependencies = target_dict.get(dependency_key, []) \n         if dependencies: \n            for t in dependencies: \n               if (t == target_name): \n                  if targets[t].get('variables', {}).get('prune_self_dependency', 0): \n                     target_dict[dependency_key] = Filter(dependencies, target_name)",
-                "line_count": 8,
-                "cyclomatic_complexity": 7,
-                "description": "'Remove self dependencies from targets that have the prune_self_dependency   variable set.'"
-            },
-            {
-                "method": "def _normalize_configuration_objs(configurations): \n    for c in configurations: \n      if (not hasattr(c, 'properties')): \n         c.properties = [] \n      if hasattr(c, 'configurations'): \n         if (not c.configurations): \n            del c.configurations \n         else: \n            _normalize_configuration_objs(c.configurations)",
-                "line_count": 8,
-                "cyclomatic_complexity": 5,
-                "description": "'The API will return an empty Properties list for configurations   without properties set, and remove empty sub-configurations'"
-            },
-            {
-                "method": "def is_error(node): \n    for child_node in node.get_children(): \n      if isinstance(child_node, astroid.Raise): \n         return True \n      return False",
-                "line_count": 4,
-                "cyclomatic_complexity": 3,
-                "description": "'return true if the function does nothing but raising an exception'"
-            }
-        ]
-    },
-    {
-        "Task 3": [
-            {
-                "method": "def get_metadata(headers): \n    return dict(((k, v) for (k, v) in headers.iteritems() if k.startswith('x-goog-meta-')))",
-                "line_count": 1,
-                "cyclomatic_complexity": 3,
-                "description": "'Get user defined metadata from HTTP response headers.'"
-            },
-            {
                 "method": "def merge(dict1, dict2): \n    for (key, val2) in dict2.items(): \n      if (val2 is not None): \n         val1 = dict1.get(key) \n         if isinstance(val2, dict): \n            if (val1 is None): \n               val1 = {} \n            if isinstance(val1, Alias): \n               val1 = (val1, val2) \n            elif isinstance(val1, tuple): \n               (alias, others) = val1 \n               others = others.copy() \n               merge(others, val2) \n               val1 = (alias, others) \n            else: \n               val1 = val1.copy() \n               merge(val1, val2) \n         else: \n            val1 = val2 \n         dict1[key] = val1",
                 "line_count": 19,
                 "cyclomatic_complexity": 7,
                 "description": "'Merge the data from `dict2` into the `dict1` dictionary, making copies   of nested dictionaries.   >>> d = {1: \\'foo\\', 3: \\'baz\\'}   >>> merge(d, {1: \\'Foo\\', 2: \\'Bar\\'})   >>> sorted(d.items())   [(1, \\'Foo\\'), (2, \\'Bar\\'), (3, \\'baz\\')]   :param dict1: the dictionary to merge into   :param dict2: the dictionary containing the data that should be merged'"
+            },
+            {
+                "method": "def detect(code): \n    return (('   ' not in code) and (('%20' in code) or (code.count('%') > 3)))",
+                "line_count": 1,
+                "cyclomatic_complexity": 3,
+                "description": "'Detects if `code` is JavascriptObfuscator.com packed.'"
             },
             {
                 "method": "def check_abstract_methods(base, subclass): \n    for attrname in dir(base): \n      if attrname.startswith('_'): \n         continue \n      attr = getattr(base, attrname) \n      if is_abstract_method(attr): \n         oattr = getattr(subclass, attrname) \n         if is_abstract_method(oattr): \n            raise Exception(('%s.%s   not   overridden' % (subclass.__name__, attrname)))",
@@ -66,12 +22,78 @@
         ]
     },
     {
+        "Task 2": [
+            {
+                "method": "def do_exit(actions): \n    for action_group in actions: \n      if (len(action_group.destroy) > 0): \n         raise SystemExit(1)",
+                "line_count": 3,
+                "cyclomatic_complexity": 3,
+                "description": "'If resources are destroyed, the operation is considered to have failed.   The test suite should have cleaned those resources up.   This is an unfortunate time to be reporting the problem but it\\'s better   than never reporting it.'"
+            },
+            {
+                "method": "def update_csp(): \n    for key in ('CSP_SCRIPT_SRC',): \n      values = getattr(settings, key) \n      new = set() \n      for value in values: \n         if (value.startswith('https://') and settings.DEBUG): \n            res = value.replace('https://', 'http://') \n            for v in (value, res): \n               new.add(v) \n            continue \n         elif (value.startswith('http://') and (not settings.DEBUG)): \n            continue \n         else: \n            new.add(value) \n      setattr(settings, key, tuple(new))",
+                "line_count": 14,
+                "cyclomatic_complexity": 8,
+                "description": "'After settings, including DEBUG has loaded, see if we need to update CSP.'"
+            },
+            {
+                "method": "def ensure_sys_path_contains(paths): \n    for entry in paths: \n      if isinstance(entry, (list, tuple)): \n         ensure_sys_path_contains(entry) \n      elif ((entry is not None) and (entry not in sys.path)): \n         sys.path.append(entry)",
+                "line_count": 5,
+                "cyclomatic_complexity": 5,
+                "description": "'Ensure that os.path contains paths   :param base_paths:   a list of base paths to walk from   elements can be a string or a list/tuple of strings'"
+            }
+        ]
+    },
+    {
+        "Task 3": [
+            {
+                "method": "def get_numpy_dtype(obj): \n    if (ndarray is not FakeObject): \n      import numpy as np \n      if (isinstance(obj, np.generic) or isinstance(obj, np.ndarray)): \n         try: \n            return obj.dtype.type \n         except (AttributeError, RuntimeError): \n            return",
+                "line_count": 7,
+                "cyclomatic_complexity": 5,
+                "description": "'Return NumPy data type associated to obj   Return None if NumPy is not available   or if obj is not a NumPy array or scalar'"
+            },
+            {
+                "method": "def GetChild(node, tag): \n    for child in node.getchildren(): \n      if (GetTag(child) == tag): \n         return child",
+                "line_count": 3,
+                "cyclomatic_complexity": 3,
+                "description": "'Returns first child of node with tag.'"
+            },
+            {
+                "method": "def recursive_update_dict(root, changes, ignores=()): \n    if isinstance(changes, dict): \n      for (k, v) in changes.items(): \n         if isinstance(v, dict): \n            if (k not in root): \n               root[k] = {} \n            recursive_update_dict(root[k], v, ignores) \n         elif (v in ignores): \n            if (k in root): \n               root.pop(k) \n         else: \n            root[k] = v",
+                "line_count": 11,
+                "cyclomatic_complexity": 7,
+                "description": "'Update recursively all the entries from a dict and it\\'s children dicts.   :param dict root: root dictionary   :param dict changes: dictonary where changes should be made (default=root)   :returns dict newd: dictionary with removed entries of val.'"
+            }
+        ]
+    },
+    {
         "Task 4": [
             {
-                "method": "def test_client_options(config): \n    if config['use_ssl']: \n      if (('certificate' in config) and config['certificate']): \n         read_file(config['certificate']) \n      if (('client_cert' in config) and config['client_cert']): \n         read_file(config['client_cert']) \n      if (('client_key' in config) and config['client_key']): \n         read_file(config['client_key'])",
-                "line_count": 7,
-                "cyclomatic_complexity": 8,
-                "description": "'Test whether a SSL/TLS files exist. Will raise an exception if the files   cannot be read.   :arg config: A client configuration file data dictionary   :rtype: None'"
+                "method": "def add(repo='.', paths=None): \n    with open_repo_closing(repo) as r: \n      if (not paths): \n         paths = [] \n         for (dirpath, dirnames, filenames) in os.walk(r.path): \n            if ('.git' in dirnames): \n               dirnames.remove('.git') \n            for filename in filenames: \n               paths.append(os.path.join(dirpath[(len(r.path) + 1):], filename)) \n      r.stage(paths)",
+                "line_count": 9,
+                "cyclomatic_complexity": 5,
+                "description": "'Add files to the staging area.   :param repo: Repository for the files   :param paths: Paths to add.  No value passed stages all modified files.'"
+            },
+            {
+                "method": "def consume_queue(queue, cascade_stop): \n    while True: \n      try: \n         item = queue.get(timeout=0.1) \n      except Empty: \n         (yield None) \n         continue \n      except thread.error: \n         raise ShutdownException() \n      if item.exc: \n         raise item.exc \n      if item.is_stop: \n         if cascade_stop: \n            raise StopIteration \n         else: \n            continue \n      (yield item.item)",
+                "line_count": 16,
+                "cyclomatic_complexity": 7,
+                "description": "'Consume the queue by reading lines off of it and yielding them.'"
+            },
+            {
+                "method": "def validate_maximum(value, maximum): \n    if ((maximum is not None) and (value > maximum)): \n      raise ValueError((u'%r   must   be   smaller   than   %r.' % (value, maximum)))",
+                "line_count": 2,
+                "cyclomatic_complexity": 3,
+                "description": "'Validate that ``value`` is at most ``maximum``   Normally called in :meth:`~mopidy.config.types.ConfigValue.deserialize`.'"
+            }
+        ]
+    },
+    {
+        "Task 5": [
+            {
+                "method": "def mkdirs(path): \n    if (not os.path.isdir(path)): \n      try: \n         os.makedirs(path) \n      except OSError as err: \n         if ((err.errno != errno.EEXIST) or (not os.path.isdir(path))): \n            raise",
+                "line_count": 6,
+                "cyclomatic_complexity": 5,
+                "description": "'Ensures the path is a directory or makes it if not. Errors if the path   exists but is a file or on permissions failure.   :param path: path to create'"
             },
             {
                 "method": "def _filter_apis(name, apis): \n    return [api for api in apis if (api['name'] == name)]",
@@ -80,15 +102,65 @@
                 "description": "'Return list of api items matching the given name.'"
             },
             {
-                "method": "def add(repo='.', paths=None): \n    with open_repo_closing(repo) as r: \n      if (not paths): \n         paths = [] \n         for (dirpath, dirnames, filenames) in os.walk(r.path): \n            if ('.git' in dirnames): \n               dirnames.remove('.git') \n            for filename in filenames: \n               paths.append(os.path.join(dirpath[(len(r.path) + 1):], filename)) \n      r.stage(paths)",
-                "line_count": 9,
-                "cyclomatic_complexity": 5,
-                "description": "'Add files to the staging area.   :param repo: Repository for the files   :param paths: Paths to add.  No value passed stages all modified files.'"
+                "method": "def test_client_options(config): \n    if config['use_ssl']: \n      if (('certificate' in config) and config['certificate']): \n         read_file(config['certificate']) \n      if (('client_cert' in config) and config['client_cert']): \n         read_file(config['client_cert']) \n      if (('client_key' in config) and config['client_key']): \n         read_file(config['client_key'])",
+                "line_count": 7,
+                "cyclomatic_complexity": 8,
+                "description": "'Test whether a SSL/TLS files exist. Will raise an exception if the files   cannot be read.   :arg config: A client configuration file data dictionary   :rtype: None'"
             }
         ]
     },
     {
-        "Task 5": [
+        "Task 6": [
+            {
+                "method": "def _traverse_results(value, fields, row, path): \n    for (f, v) in value.iteritems(): \n      field_name = ('{path}.{name}'.format(path=path, name=f) if path else f) \n      if (not isinstance(v, (dict, list, tuple))): \n         if (field_name in fields): \n            row[fields.index(field_name)] = ensure_utf(v) \n      elif (isinstance(v, dict) and (f != 'attributes')): \n         _traverse_results(v, fields, row, field_name)",
+                "line_count": 7,
+                "cyclomatic_complexity": 7,
+                "description": "'Helper method for parse_results().   Traverses through ordered dict and recursively calls itself when encountering a dictionary'"
+            },
+            {
+                "method": "def removeCSVFile(csvFilePath): \n    if (('alterations' in csvFilePath) and ('example_' not in csvFilePath)): \n      os.remove(csvFilePath) \n      print ('removeGeneratedFiles   deleted   ' + csvFilePath)",
+                "line_count": 3,
+                "cyclomatic_complexity": 3,
+                "description": "'Remove csv file.'"
+            },
+            {
+                "method": "def _validate_min_score(min_score): \n    if min_score: \n      message = (_('%(min_score)s   is   not   a   valid   grade   percentage') % {'min_score': min_score}) \n      try: \n         min_score = int(min_score) \n      except ValueError: \n         raise GatingValidationError(message) \n      if ((min_score < 0) or (min_score > 100)): \n         raise GatingValidationError(message)",
+                "line_count": 8,
+                "cyclomatic_complexity": 5,
+                "description": "'Validates the minimum score entered by the Studio user.   Arguments:   min_score (str|int): The minimum score to validate   Returns:   None   Raises:   GatingValidationError: If the minimum score is not valid'"
+            }
+        ]
+    },
+    {
+        "Task 7": [
+            {
+                "method": "def get_metadata(headers): \n    return dict(((k, v) for (k, v) in headers.iteritems() if k.startswith('x-goog-meta-')))",
+                "line_count": 1,
+                "cyclomatic_complexity": 3,
+                "description": "'Get user defined metadata from HTTP response headers.'"
+            },
+            {
+                "method": "def GetJavaJars(target_list, target_dicts, toplevel_dir): \n    for target_name in target_list: \n      target = target_dicts[target_name] \n      for action in target.get('actions', []): \n         for input_ in action['inputs']: \n            if ((os.path.splitext(input_)[1] == '.jar') and (not input_.startswith('$'))): \n               if os.path.isabs(input_): \n                  (yield input_) \n               else: \n                  (yield os.path.join(os.path.dirname(target_name), input_))",
+                "line_count": 9,
+                "cyclomatic_complexity": 7,
+                "description": "'Generates a sequence of all .jars used as inputs.'"
+            },
+            {
+                "method": "def unlink_older_than(path, mtime): \n    if os.path.exists(path): \n      for fname in listdir(path): \n         fpath = os.path.join(path, fname) \n         try: \n            if (os.path.getmtime(fpath) < mtime): \n               os.unlink(fpath) \n         except OSError: \n            pass",
+                "line_count": 8,
+                "cyclomatic_complexity": 5,
+                "description": "'Remove any file in a given path that that was last modified before mtime.   :param path: path to remove file from   :mtime: timestamp of oldest file to keep'"
+            }
+        ]
+    },
+    {
+        "Task 8": [
+            {
+                "method": "def is_error(node): \n    for child_node in node.get_children(): \n      if isinstance(child_node, astroid.Raise): \n         return True \n      return False",
+                "line_count": 4,
+                "cyclomatic_complexity": 3,
+                "description": "'return true if the function does nothing but raising an exception'"
+            },
             {
                 "method": "def _keysFromFilepaths(filepaths, parseKey): \n    for fp in filepaths: \n      if fp.exists(): \n         try: \n            with fp.open() as f: \n               for key in readAuthorizedKeyFile(f, parseKey): \n                  (yield key) \n         except (IOError, OSError) as e: \n            log.msg('Unable   to   read   {0}:   {1!s}'.format(fp.path, e))",
                 "line_count": 8,
@@ -96,76 +168,26 @@
                 "description": "'Helper function that turns an iterable of filepaths into a generator of   keys.  If any file cannot be read, a message is logged but it is   otherwise ignored.   @param filepaths: iterable of L{twisted.python.filepath.FilePath}.   @type filepaths: iterable   @param parseKey: a callable that takes a string and returns a   L{twisted.conch.ssh.keys.Key}   @type parseKey: L{callable}   @return: generator of L{twisted.conch.ssh.keys.Key}   @rtype: generator   @since: 15.0'"
             },
             {
-                "method": "def merge(dict1, dict2): \n    for (key, val2) in dict2.items(): \n      if (val2 is not None): \n         val1 = dict1.get(key) \n         if isinstance(val2, dict): \n            if (val1 is None): \n               val1 = {} \n            if isinstance(val1, Alias): \n               val1 = (val1, val2) \n            elif isinstance(val1, tuple): \n               (alias, others) = val1 \n               others = others.copy() \n               merge(others, val2) \n               val1 = (alias, others) \n            else: \n               val1 = val1.copy() \n               merge(val1, val2) \n         else: \n            val1 = val2 \n         dict1[key] = val1",
-                "line_count": 19,
-                "cyclomatic_complexity": 7,
-                "description": "'Merge the data from `dict2` into the `dict1` dictionary, making copies   of nested dictionaries.   >>> d = {1: \\'foo\\', 3: \\'baz\\'}   >>> merge(d, {1: \\'Foo\\', 2: \\'Bar\\'})   >>> sorted(d.items())   [(1, \\'Foo\\'), (2, \\'Bar\\'), (3, \\'baz\\')]   :param dict1: the dictionary to merge into   :param dict2: the dictionary containing the data that should be merged'"
-            },
-            {
-                "method": "def is_error(node): \n    for child_node in node.get_children(): \n      if isinstance(child_node, astroid.Raise): \n         return True \n      return False",
-                "line_count": 4,
-                "cyclomatic_complexity": 3,
-                "description": "'return true if the function does nothing but raising an exception'"
-            }
-        ]
-    },
-    {
-        "Task 6": [
-            {
-                "method": "def ensure_sys_path_contains(paths): \n    for entry in paths: \n      if isinstance(entry, (list, tuple)): \n         ensure_sys_path_contains(entry) \n      elif ((entry is not None) and (entry not in sys.path)): \n         sys.path.append(entry)",
-                "line_count": 5,
-                "cyclomatic_complexity": 5,
-                "description": "'Ensure that os.path contains paths   :param base_paths:   a list of base paths to walk from   elements can be a string or a list/tuple of strings'"
-            },
-            {
-                "method": "def get_metadata(headers): \n    return dict(((k, v) for (k, v) in headers.iteritems() if k.startswith('x-goog-meta-')))",
-                "line_count": 1,
-                "cyclomatic_complexity": 3,
-                "description": "'Get user defined metadata from HTTP response headers.'"
-            },
-            {
-                "method": "def update_csp(): \n    for key in ('CSP_SCRIPT_SRC',): \n      values = getattr(settings, key) \n      new = set() \n      for value in values: \n         if (value.startswith('https://') and settings.DEBUG): \n            res = value.replace('https://', 'http://') \n            for v in (value, res): \n               new.add(v) \n            continue \n         elif (value.startswith('http://') and (not settings.DEBUG)): \n            continue \n         else: \n            new.add(value) \n      setattr(settings, key, tuple(new))",
-                "line_count": 14,
+                "method": "def collect(names, match=(lambda name: True), match_dir=(lambda name: True)): \n    for name in names: \n      if os.path.isdir(name): \n         for (root, dirs, filenames) in os.walk(name): \n            dirs[:] = [dir for dir in dirs if match_dir(dir)] \n            for filename in filenames: \n               if match(filename): \n                  (yield os.path.join(root, filename)) \n      else: \n         (yield name)",
+                "line_count": 9,
                 "cyclomatic_complexity": 8,
-                "description": "'After settings, including DEBUG has loaded, see if we need to update CSP.'"
+                "description": "'Walk dir trees under `names` and generate filnames that `match`.   Example   >>> sorted(collect([\\'non-dir.txt\\', \\'./\\'],   ...                match=lambda name: name.endswith(\\'.py\\')))   [\\'non-dir.txt\\', \\'./pep257.py\\', \\'./setup.py\\', \\'./test_pep257.py\\']'"
             }
         ]
     },
     {
-        "Task 7": [
+        "Task 9": [
+            {
+                "method": "def dict_delall(d, keys): \n    for key in keys: \n      try: \n         del d[key] \n      except KeyError: \n         pass",
+                "line_count": 5,
+                "cyclomatic_complexity": 3,
+                "description": "'delete all of the *keys* from the :class:`dict` *d*'"
+            },
             {
                 "method": "def RemoveSelfDependencies(targets): \n    for (target_name, target_dict) in targets.iteritems(): \n      for dependency_key in dependency_sections: \n         dependencies = target_dict.get(dependency_key, []) \n         if dependencies: \n            for t in dependencies: \n               if (t == target_name): \n                  if targets[t].get('variables', {}).get('prune_self_dependency', 0): \n                     target_dict[dependency_key] = Filter(dependencies, target_name)",
                 "line_count": 8,
                 "cyclomatic_complexity": 7,
                 "description": "'Remove self dependencies from targets that have the prune_self_dependency   variable set.'"
-            },
-            {
-                "method": "def get_metadata(headers): \n    return dict(((k, v) for (k, v) in headers.iteritems() if k.startswith('x-goog-meta-')))",
-                "line_count": 1,
-                "cyclomatic_complexity": 3,
-                "description": "'Get user defined metadata from HTTP response headers.'"
-            },
-            {
-                "method": "def _normalize_configuration_objs(configurations): \n    for c in configurations: \n      if (not hasattr(c, 'properties')): \n         c.properties = [] \n      if hasattr(c, 'configurations'): \n         if (not c.configurations): \n            del c.configurations \n         else: \n            _normalize_configuration_objs(c.configurations)",
-                "line_count": 8,
-                "cyclomatic_complexity": 5,
-                "description": "'The API will return an empty Properties list for configurations   without properties set, and remove empty sub-configurations'"
-            }
-        ]
-    },
-    {
-        "Task 8": [
-            {
-                "method": "def validate_maximum(value, maximum): \n    if ((maximum is not None) and (value > maximum)): \n      raise ValueError((u'%r   must   be   smaller   than   %r.' % (value, maximum)))",
-                "line_count": 2,
-                "cyclomatic_complexity": 3,
-                "description": "'Validate that ``value`` is at most ``maximum``   Normally called in :meth:`~mopidy.config.types.ConfigValue.deserialize`.'"
-            },
-            {
-                "method": "def GetJavaJars(target_list, target_dicts, toplevel_dir): \n    for target_name in target_list: \n      target = target_dicts[target_name] \n      for action in target.get('actions', []): \n         for input_ in action['inputs']: \n            if ((os.path.splitext(input_)[1] == '.jar') and (not input_.startswith('$'))): \n               if os.path.isabs(input_): \n                  (yield input_) \n               else: \n                  (yield os.path.join(os.path.dirname(target_name), input_))",
-                "line_count": 9,
-                "cyclomatic_complexity": 7,
-                "description": "'Generates a sequence of all .jars used as inputs.'"
             },
             {
                 "method": "def copy_tcltk(src, dest, symlink): \n    for libversion in ('8.5', '8.6'): \n      for libname in ('tcl', 'tk'): \n         srcdir = join(src, 'tcl', (libname + libversion)) \n         destdir = join(dest, 'tcl', (libname + libversion)) \n         if (os.path.exists(srcdir) and (not os.path.exists(destdir))): \n            copyfileordir(srcdir, destdir, symlink)",
@@ -176,68 +198,46 @@
         ]
     },
     {
-        "Task 9": [
-            {
-                "method": "def _validate_min_score(min_score): \n    if min_score: \n      message = (_('%(min_score)s   is   not   a   valid   grade   percentage') % {'min_score': min_score}) \n      try: \n         min_score = int(min_score) \n      except ValueError: \n         raise GatingValidationError(message) \n      if ((min_score < 0) or (min_score > 100)): \n         raise GatingValidationError(message)",
-                "line_count": 8,
-                "cyclomatic_complexity": 5,
-                "description": "'Validates the minimum score entered by the Studio user.   Arguments:   min_score (str|int): The minimum score to validate   Returns:   None   Raises:   GatingValidationError: If the minimum score is not valid'"
-            },
-            {
-                "method": "def _traverse_results(value, fields, row, path): \n    for (f, v) in value.iteritems(): \n      field_name = ('{path}.{name}'.format(path=path, name=f) if path else f) \n      if (not isinstance(v, (dict, list, tuple))): \n         if (field_name in fields): \n            row[fields.index(field_name)] = ensure_utf(v) \n      elif (isinstance(v, dict) and (f != 'attributes')): \n         _traverse_results(v, fields, row, field_name)",
-                "line_count": 7,
-                "cyclomatic_complexity": 7,
-                "description": "'Helper method for parse_results().   Traverses through ordered dict and recursively calls itself when encountering a dictionary'"
-            },
+        "Task 10": [
             {
                 "method": "def get_imlist(path): \n    return [os.path.join(path, f) for f in os.listdir(path) if f.endswith('.jpg')]",
                 "line_count": 1,
                 "cyclomatic_complexity": 3,
                 "description": "'Returns a list of filenames for   all jpg images in a directory.'"
-            }
-        ]
-    },
-    {
-        "Task 10": [
-            {
-                "method": "def merge(dict1, dict2): \n    for (key, val2) in dict2.items(): \n      if (val2 is not None): \n         val1 = dict1.get(key) \n         if isinstance(val2, dict): \n            if (val1 is None): \n               val1 = {} \n            if isinstance(val1, Alias): \n               val1 = (val1, val2) \n            elif isinstance(val1, tuple): \n               (alias, others) = val1 \n               others = others.copy() \n               merge(others, val2) \n               val1 = (alias, others) \n            else: \n               val1 = val1.copy() \n               merge(val1, val2) \n         else: \n            val1 = val2 \n         dict1[key] = val1",
-                "line_count": 19,
-                "cyclomatic_complexity": 7,
-                "description": "'Merge the data from `dict2` into the `dict1` dictionary, making copies   of nested dictionaries.   >>> d = {1: \\'foo\\', 3: \\'baz\\'}   >>> merge(d, {1: \\'Foo\\', 2: \\'Bar\\'})   >>> sorted(d.items())   [(1, \\'Foo\\'), (2, \\'Bar\\'), (3, \\'baz\\')]   :param dict1: the dictionary to merge into   :param dict2: the dictionary containing the data that should be merged'"
             },
             {
-                "method": "def get_metadata(headers): \n    return dict(((k, v) for (k, v) in headers.iteritems() if k.startswith('x-goog-meta-')))",
-                "line_count": 1,
-                "cyclomatic_complexity": 3,
-                "description": "'Get user defined metadata from HTTP response headers.'"
+                "method": "def parse_assigned_metadata(csvfile): \n    with open(csvfile, 'rb') as f: \n      for record in csv.reader(f): \n         module = record[0] \n         supported_by = record[1] \n         status = [] \n         if record[2]: \n            status.append('stableinterface') \n         if record[4]: \n            status.append('deprecated') \n         if record[5]: \n            status.append('removed') \n         if record[6]: \n            status.append('tested') \n         if ((not status) or record[3]): \n            status.append('preview') \n         (yield (module, {'version': '1.0', 'supported_by': supported_by, 'status': status}))",
+                "line_count": 16,
+                "cyclomatic_complexity": 8,
+                "description": "'Fields:   :0: Module name   :1: supported_by  string.  One of the valid support fields   core, community, unmaintained, committer   :2: stableinterface   :3: preview   :4: deprecated   :5: removed   :6: tested   https://github.com/ansible/proposals/issues/30'"
             },
             {
-                "method": "def add(repo='.', paths=None): \n    with open_repo_closing(repo) as r: \n      if (not paths): \n         paths = [] \n         for (dirpath, dirnames, filenames) in os.walk(r.path): \n            if ('.git' in dirnames): \n               dirnames.remove('.git') \n            for filename in filenames: \n               paths.append(os.path.join(dirpath[(len(r.path) + 1):], filename)) \n      r.stage(paths)",
-                "line_count": 9,
+                "method": "def print_results(distributions, list_all_files): \n    for dist in distributions: \n      logger.notify('---') \n      logger.notify(('Name:   %s' % dist['name'])) \n      logger.notify(('Version:   %s' % dist['version'])) \n      logger.notify(('Location:   %s' % dist['location'])) \n      logger.notify(('Requires:   %s' % ',   '.join(dist['requires']))) \n      if list_all_files: \n         logger.notify('Files:') \n         if ('files' in dist): \n            for line in open(dist['files']): \n               logger.notify(('      %s' % line.strip())) \n         else: \n            logger.notify('Cannot   locate   installed-files.txt')",
+                "line_count": 13,
                 "cyclomatic_complexity": 5,
-                "description": "'Add files to the staging area.   :param repo: Repository for the files   :param paths: Paths to add.  No value passed stages all modified files.'"
+                "description": "'Print the informations from installed distributions found.'"
             }
         ]
     },
     {
         "Task 11": [
             {
-                "method": "def do_exit(actions): \n    for action_group in actions: \n      if (len(action_group.destroy) > 0): \n         raise SystemExit(1)",
-                "line_count": 3,
-                "cyclomatic_complexity": 3,
-                "description": "'If resources are destroyed, the operation is considered to have failed.   The test suite should have cleaned those resources up.   This is an unfortunate time to be reporting the problem but it\\'s better   than never reporting it.'"
-            },
-            {
-                "method": "def unlink_older_than(path, mtime): \n    if os.path.exists(path): \n      for fname in listdir(path): \n         fpath = os.path.join(path, fname) \n         try: \n            if (os.path.getmtime(fpath) < mtime): \n               os.unlink(fpath) \n         except OSError: \n            pass",
+                "method": "def _normalize_configuration_objs(configurations): \n    for c in configurations: \n      if (not hasattr(c, 'properties')): \n         c.properties = [] \n      if hasattr(c, 'configurations'): \n         if (not c.configurations): \n            del c.configurations \n         else: \n            _normalize_configuration_objs(c.configurations)",
                 "line_count": 8,
                 "cyclomatic_complexity": 5,
-                "description": "'Remove any file in a given path that that was last modified before mtime.   :param path: path to remove file from   :mtime: timestamp of oldest file to keep'"
+                "description": "'The API will return an empty Properties list for configurations   without properties set, and remove empty sub-configurations'"
             },
             {
-                "method": "def update_csp(): \n    for key in ('CSP_SCRIPT_SRC',): \n      values = getattr(settings, key) \n      new = set() \n      for value in values: \n         if (value.startswith('https://') and settings.DEBUG): \n            res = value.replace('https://', 'http://') \n            for v in (value, res): \n               new.add(v) \n            continue \n         elif (value.startswith('http://') and (not settings.DEBUG)): \n            continue \n         else: \n            new.add(value) \n      setattr(settings, key, tuple(new))",
-                "line_count": 14,
-                "cyclomatic_complexity": 8,
-                "description": "'After settings, including DEBUG has loaded, see if we need to update CSP.'"
+                "method": "def get_value_from_json(json_dict, sensor_type, group, tool): \n    if (group in json_dict): \n      if (sensor_type in json_dict[group]): \n         if ((sensor_type == 'target') and (json_dict[sensor_type] is None)): \n            return 0 \n         else: \n            return json_dict[group][sensor_type] \n      elif (tool is not None): \n         if (sensor_type in json_dict[group][tool]): \n            return json_dict[group][tool][sensor_type]",
+                "line_count": 9,
+                "cyclomatic_complexity": 7,
+                "description": "'Return the value for sensor_type from the JSON.'"
+            },
+            {
+                "method": "def overwriteDictionary(fromDictionary, keys, toDictionary): \n    for key in keys: \n      if (key in fromDictionary): \n         toDictionary[key] = fromDictionary[key]",
+                "line_count": 3,
+                "cyclomatic_complexity": 3,
+                "description": "'Overwrite the dictionary.'"
             }
         ]
     }
