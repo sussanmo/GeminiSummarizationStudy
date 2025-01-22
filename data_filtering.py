@@ -2,8 +2,9 @@ import os
 import json
 import gzip  # Make sure to import gzip
 import random 
-from radon.complexity import cc_visit
+# from radon.complexity import cc_visit
 import ast
+import re
 
 
 
@@ -119,15 +120,128 @@ def save_to_json(data, filename):
     with open(filename, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
+
+def filter_methods(filtered_file, final_methods_file, output_file):
+    def extract_method_name(method_string):
+        """Extract the method name from a method string."""
+        match = re.match(r"def\s+(\w+)\s*\(", method_string)
+        return match.group(1) if match else None
+
+    # Load the final methods
+    with open(final_methods_file, 'r', encoding='utf-8') as f:
+        final_methods = json.load(f)
+
+    # Extract method names
+    method_names = {
+        extract_method_name(method['method'])
+        for method in final_methods if 'method' in method
+    }
+
+    matching_entries = []
+
+    # Detect if the file is GZip or plain text
+    open_func = gzip.open if filtered_file.endswith('.gz') else open
+    with open_func(filtered_file, 'rt', encoding='utf-8') as f:
+        for line in f:
+            line = line.strip()  # Remove leading/trailing whitespace
+            if not line:  # Skip empty lines
+                continue
+            try:
+                entry = json.loads(line)  # Parse JSON
+                if entry['func_name'] in method_names:
+                    matching_entries.append(entry)
+            except json.JSONDecodeError:
+                print(f"Skipping invalid JSON line: {line}")
+                continue
+
+    # Save the matching entries to the output file
+    with open(output_file, 'w', encoding='utf-8') as f:
+        json.dump(matching_entries, f, ensure_ascii=False, indent=4)
+
+def normalize_method_signature(signature):
+    """Normalize the method signature for consistent matching."""
+    # Strip spaces, newlines, and colons
+    return " ".join(signature.strip().split())
+def parse_decldesc(decldesc_file):
+    """Parse decldesc file to extract method signatures and their descriptions."""
+    decldesc_entries = []
+    with open(decldesc_file, 'r', encoding='utf-8', errors='ignore') as f:
+        lines = f.read().splitlines()
+    
+    for line in lines:
+        if "DCNL" in line:
+            # Split into method and description
+            method, description = line.split("DCNL", 1)
+            method = normalize_method_signature(method)
+            description = description.strip().replace("DCNL", " ").strip()
+            decldesc_entries.append((method, description))
+    
+    return decldesc_entries
+
+def add_descriptions_to_methods(methods_file, decldesc_file, output_file):
+    # Load the JSON data from final_methods.json
+    with open(methods_file, 'r', encoding='utf-8') as f:
+        methods_data = json.load(f)
+    
+    # Parse the decldesc file
+    decldesc_entries = parse_decldesc(decldesc_file)
+
+    # Debug: Log decldesc method signatures
+    print("Parsed decldesc methods:")
+    for method, description in decldesc_entries:
+        print(f"- {method}")
+
+    # Update methods_data with descriptions
+    unmatched_methods = []
+    for entry in methods_data:
+        raw_signature = entry['method'].split("\n")[0].strip()  # Extract the first line of the method
+        normalized_signature = normalize_method_signature(raw_signature)
+        
+        # Direct comparison
+        matched_description = None
+        for method, description in decldesc_entries:
+            if normalized_signature == method:
+                matched_description = description
+                break
+
+        if matched_description:
+            entry['description'] = matched_description
+        else:
+            unmatched_methods.append(raw_signature)
+    
+    # Write the updated data back to a new file
+    with open(output_file, 'w', encoding='utf-8') as f:
+        json.dump(methods_data, f, indent=4)
+    
+    # Log unmatched methods for debugging
+    print(f"Unmatched methods ({len(unmatched_methods)}):")
+    for method in unmatched_methods:
+        print(f"- {method}")
+
 if __name__ == '__main__':
     directory = 'CodeSearchNet/python/python/final/jsonl/train'
-    all_methods = jsonIteration(directory)
+    # all_methods = jsonIteration(directory)
     #sampled_methods = random_sample(all_methods, 0.05)
-    sampled_methods = filter_methods(all_methods)
+    # sampled_methods = filter_methods(all_methods)
 
     # Save the sampled methods to a JSON file
-    save_to_json(sampled_methods, 'filtered_dataset.jsonl.gz')
+    # save_to_json(sampled_methods, 'filtered_dataset.jsonl.gz')
 
-    
+    filtered_file = '/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/filtered_dataset.jsonl.gz'
+    final_methods_file = '/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/final_methods.json'
+    output_file = 'final_methods_with_summary.json'
 
-    
+    # jsonIteration2(filtered_file, final_methods_file)
+
+    # Path to the gzipped file
+    # gzipped_file = '/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/code-docstring-corpus/parallel-corpus/data_ps.all.train.gz'
+
+    # Print the first two entries
+    # print_first_two_entries(gzipped_file)
+
+    # gzipped_file = '/path/to/data_ps.all.train.gz'
+    # final_methods_file = '/path/to/final_methods.json'
+    decldesc_file = '/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/code-docstring-corpus/parallel-corpus/data_ps.decldesc.train'
+    output_file = 'final_methods_with_descriptions.json'
+
+    add_descriptions_to_methods(final_methods_file, decldesc_file, output_file)
