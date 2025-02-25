@@ -1,0 +1,1409 @@
+{
+  "is_error": [
+    {
+      "category": "method declaration",
+      "function_name": "is_error",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "node"
+        }
+      ],
+      "body": [
+        {
+          "category": "loop body",
+          "token": "for child_node in node.get_children():\n    if isinstance(child_node, astroid.Raise):\n        return True\n    return False"
+        },
+        {
+          "category": "conditional statement",
+          "token": "isinstance(child_node, astroid.Raise)"
+        },
+        {
+          "category": "conditional body",
+          "token": "if isinstance(child_node, astroid.Raise):\n    return True"
+        },
+        {
+          "category": "method call",
+          "token": "isinstance(child_node, astroid.Raise)"
+        },
+        {
+          "category": "variable name",
+          "token": "isinstance"
+        },
+        {
+          "category": "variable name",
+          "token": "child_node"
+        },
+        {
+          "category": "variable name",
+          "token": "astroid"
+        },
+        {
+          "category": "external variable/method",
+          "token": "astroid.Raise"
+        },
+        {
+          "category": "variable name",
+          "token": "astroid"
+        },
+        {
+          "category": "return",
+          "token": "return False"
+        }
+      ]
+    }
+  ],
+  "_filter_apis": [
+    {
+      "category": "method declaration",
+      "function_name": "_filter_apis",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "name"
+        },
+        {
+          "category": "parameter",
+          "token": "apis"
+        }
+      ],
+      "body": [
+        {
+          "category": "return",
+          "token": "return [api for api in apis if api['name'] == name]"
+        }
+      ]
+    }
+  ],
+  "overwriteDictionary": [
+    {
+      "category": "method declaration",
+      "function_name": "overwriteDictionary",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "fromDictionary"
+        },
+        {
+          "category": "parameter",
+          "token": "keys"
+        },
+        {
+          "category": "parameter",
+          "token": "toDictionary"
+        }
+      ],
+      "body": [
+        {
+          "category": "loop body",
+          "token": "for key in keys:\n    if key in fromDictionary:\n        toDictionary[key] = fromDictionary[key]"
+        },
+        {
+          "category": "conditional statement",
+          "token": "key in fromDictionary"
+        },
+        {
+          "category": "conditional body",
+          "token": "if key in fromDictionary:\n    toDictionary[key] = fromDictionary[key]"
+        },
+        {
+          "category": "variable name",
+          "token": "key"
+        },
+        {
+          "category": "variable name",
+          "token": "fromDictionary"
+        }
+      ]
+    }
+  ],
+  "detect": [
+    {
+      "category": "method declaration",
+      "function_name": "detect",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "code"
+        }
+      ],
+      "body": [
+        {
+          "category": "return",
+          "token": "return '   ' not in code and ('%20' in code or code.count('%') > 3)"
+        }
+      ]
+    }
+  ],
+  "validate_maximum": [
+    {
+      "category": "method declaration",
+      "function_name": "validate_maximum",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "value"
+        },
+        {
+          "category": "parameter",
+          "token": "maximum"
+        }
+      ],
+      "body": [
+        {
+          "category": "conditional statement",
+          "token": "maximum is not None and value > maximum"
+        },
+        {
+          "category": "conditional body",
+          "token": "if maximum is not None and value > maximum:\n    raise ValueError(u'%r   must   be   smaller   than   %r.' % (value, maximum))"
+        },
+        {
+          "category": "variable name",
+          "token": "maximum"
+        },
+        {
+          "category": "variable name",
+          "token": "value"
+        },
+        {
+          "category": "variable name",
+          "token": "maximum"
+        }
+      ]
+    }
+  ],
+  "do_exit": [
+    {
+      "category": "method declaration",
+      "function_name": "do_exit",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "actions"
+        }
+      ],
+      "body": [
+        {
+          "category": "loop body",
+          "token": "for action_group in actions:\n    if len(action_group.destroy) > 0:\n        raise SystemExit(1)"
+        },
+        {
+          "category": "conditional statement",
+          "token": "len(action_group.destroy) > 0"
+        },
+        {
+          "category": "conditional body",
+          "token": "if len(action_group.destroy) > 0:\n    raise SystemExit(1)"
+        },
+        {
+          "category": "method call",
+          "token": "len(action_group.destroy)"
+        },
+        {
+          "category": "variable name",
+          "token": "len"
+        },
+        {
+          "category": "variable name",
+          "token": "action_group"
+        },
+        {
+          "category": "external variable/method",
+          "token": "action_group.destroy"
+        },
+        {
+          "category": "variable name",
+          "token": "action_group"
+        }
+      ]
+    }
+  ],
+  "dict_delall": [
+    {
+      "category": "method declaration",
+      "function_name": "dict_delall",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "d"
+        },
+        {
+          "category": "parameter",
+          "token": "keys"
+        }
+      ],
+      "body": [
+        {
+          "category": "loop body",
+          "token": "for key in keys:\n    try:\n        del d[key]\n    except KeyError:\n        pass"
+        }
+      ]
+    }
+  ],
+  "GetChild": [
+    {
+      "category": "method declaration",
+      "function_name": "GetChild",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "node"
+        },
+        {
+          "category": "parameter",
+          "token": "tag"
+        }
+      ],
+      "body": [
+        {
+          "category": "loop body",
+          "token": "for child in node.getchildren():\n    if GetTag(child) == tag:\n        return child"
+        },
+        {
+          "category": "conditional statement",
+          "token": "GetTag(child) == tag"
+        },
+        {
+          "category": "conditional body",
+          "token": "if GetTag(child) == tag:\n    return child"
+        },
+        {
+          "category": "method call",
+          "token": "GetTag(child)"
+        },
+        {
+          "category": "variable name",
+          "token": "tag"
+        },
+        {
+          "category": "variable name",
+          "token": "GetTag"
+        },
+        {
+          "category": "variable name",
+          "token": "child"
+        }
+      ]
+    }
+  ],
+  "get_metadata": [
+    {
+      "category": "method declaration",
+      "function_name": "get_metadata",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "headers"
+        }
+      ],
+      "body": [
+        {
+          "category": "return",
+          "token": "return dict(((k, v) for k, v in headers.iteritems() if k.startswith('x-goog-meta-')))"
+        }
+      ]
+    }
+  ],
+  "get_imlist": [
+    {
+      "category": "method declaration",
+      "function_name": "get_imlist",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "path"
+        }
+      ],
+      "body": [
+        {
+          "category": "return",
+          "token": "return [os.path.join(path, f) for f in os.listdir(path) if f.endswith('.jpg')]"
+        }
+      ]
+    }
+  ],
+  "removeCSVFile": [
+    {
+      "category": "method declaration",
+      "function_name": "removeCSVFile",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "csvFilePath"
+        }
+      ],
+      "body": [
+        {
+          "category": "conditional statement",
+          "token": "'alterations' in csvFilePath and 'example_' not in csvFilePath"
+        },
+        {
+          "category": "conditional body",
+          "token": "if 'alterations' in csvFilePath and 'example_' not in csvFilePath:\n    os.remove(csvFilePath)\n    print('removeGeneratedFiles   deleted   ' + csvFilePath)"
+        },
+        {
+          "category": "variable name",
+          "token": "csvFilePath"
+        },
+        {
+          "category": "variable name",
+          "token": "csvFilePath"
+        }
+      ]
+    }
+  ],
+  "unlink_older_than": [
+    {
+      "category": "method declaration",
+      "function_name": "unlink_older_than",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "path"
+        },
+        {
+          "category": "parameter",
+          "token": "mtime"
+        }
+      ],
+      "body": [
+        {
+          "category": "conditional statement",
+          "token": "os.path.exists(path)"
+        },
+        {
+          "category": "conditional body",
+          "token": "if os.path.exists(path):\n    for fname in listdir(path):\n        fpath = os.path.join(path, fname)\n        try:\n            if os.path.getmtime(fpath) < mtime:\n                os.unlink(fpath)\n        except OSError:\n            pass"
+        },
+        {
+          "category": "method call",
+          "token": "os.path.exists(path)"
+        },
+        {
+          "category": "variable name",
+          "token": "os.path"
+        },
+        {
+          "category": "external variable/method",
+          "token": "os.path.exists"
+        },
+        {
+          "category": "variable name",
+          "token": "path"
+        },
+        {
+          "category": "variable name",
+          "token": "os"
+        },
+        {
+          "category": "external variable/method",
+          "token": "os.path"
+        },
+        {
+          "category": "variable name",
+          "token": "os"
+        }
+      ]
+    }
+  ],
+  "_normalize_configuration_objs": [
+    {
+      "category": "method declaration",
+      "function_name": "_normalize_configuration_objs",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "configurations"
+        }
+      ],
+      "body": [
+        {
+          "category": "loop body",
+          "token": "for c in configurations:\n    if not hasattr(c, 'properties'):\n        c.properties = []\n    if hasattr(c, 'configurations'):\n        if not c.configurations:\n            del c.configurations\n        else:\n            _normalize_configuration_objs(c.configurations)"
+        },
+        {
+          "category": "conditional statement",
+          "token": "not hasattr(c, 'properties')"
+        },
+        {
+          "category": "conditional body",
+          "token": "if not hasattr(c, 'properties'):\n    c.properties = []"
+        },
+        {
+          "category": "method call",
+          "token": "hasattr(c, 'properties')"
+        },
+        {
+          "category": "variable name",
+          "token": "hasattr"
+        },
+        {
+          "category": "variable name",
+          "token": "c"
+        },
+        {
+          "category": "conditional statement",
+          "token": "hasattr(c, 'configurations')"
+        },
+        {
+          "category": "conditional body",
+          "token": "if hasattr(c, 'configurations'):\n    if not c.configurations:\n        del c.configurations\n    else:\n        _normalize_configuration_objs(c.configurations)"
+        },
+        {
+          "category": "method call",
+          "token": "hasattr(c, 'configurations')"
+        },
+        {
+          "category": "variable name",
+          "token": "hasattr"
+        },
+        {
+          "category": "variable name",
+          "token": "c"
+        }
+      ]
+    }
+  ],
+  "_validate_min_score": [
+    {
+      "category": "method declaration",
+      "function_name": "_validate_min_score",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "min_score"
+        }
+      ],
+      "body": [
+        {
+          "category": "conditional statement",
+          "token": "min_score"
+        },
+        {
+          "category": "conditional body",
+          "token": "if min_score:\n    message = _('%(min_score)s   is   not   a   valid   grade   percentage') % {'min_score': min_score}\n    try:\n        min_score = int(min_score)\n    except ValueError:\n        raise GatingValidationError(message)\n    if min_score < 0 or min_score > 100:\n        raise GatingValidationError(message)"
+        },
+        {
+          "category": "variable name",
+          "token": "min_score"
+        }
+      ]
+    }
+  ],
+  "mkdirs": [
+    {
+      "category": "method declaration",
+      "function_name": "mkdirs",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "path"
+        }
+      ],
+      "body": [
+        {
+          "category": "conditional statement",
+          "token": "not os.path.isdir(path)"
+        },
+        {
+          "category": "conditional body",
+          "token": "if not os.path.isdir(path):\n    try:\n        os.makedirs(path)\n    except OSError as err:\n        if err.errno != errno.EEXIST or not os.path.isdir(path):\n            raise"
+        },
+        {
+          "category": "method call",
+          "token": "os.path.isdir(path)"
+        },
+        {
+          "category": "variable name",
+          "token": "os.path"
+        },
+        {
+          "category": "external variable/method",
+          "token": "os.path.isdir"
+        },
+        {
+          "category": "variable name",
+          "token": "path"
+        },
+        {
+          "category": "variable name",
+          "token": "os"
+        },
+        {
+          "category": "external variable/method",
+          "token": "os.path"
+        },
+        {
+          "category": "variable name",
+          "token": "os"
+        }
+      ]
+    }
+  ],
+  "get_numpy_dtype": [
+    {
+      "category": "method declaration",
+      "function_name": "get_numpy_dtype",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "obj"
+        }
+      ],
+      "body": [
+        {
+          "category": "conditional statement",
+          "token": "ndarray is not FakeObject"
+        },
+        {
+          "category": "conditional body",
+          "token": "if ndarray is not FakeObject:\n    import numpy as np\n    if isinstance(obj, np.generic) or isinstance(obj, np.ndarray):\n        try:\n            return obj.dtype.type\n        except (AttributeError, RuntimeError):\n            return"
+        },
+        {
+          "category": "variable name",
+          "token": "ndarray"
+        },
+        {
+          "category": "variable name",
+          "token": "FakeObject"
+        }
+      ]
+    }
+  ],
+  "check_abstract_methods": [
+    {
+      "category": "method declaration",
+      "function_name": "check_abstract_methods",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "base"
+        },
+        {
+          "category": "parameter",
+          "token": "subclass"
+        }
+      ],
+      "body": [
+        {
+          "category": "loop body",
+          "token": "for attrname in dir(base):\n    if attrname.startswith('_'):\n        continue\n    attr = getattr(base, attrname)\n    if is_abstract_method(attr):\n        oattr = getattr(subclass, attrname)\n        if is_abstract_method(oattr):\n            raise Exception('%s.%s   not   overridden' % (subclass.__name__, attrname))"
+        },
+        {
+          "category": "conditional statement",
+          "token": "attrname.startswith('_')"
+        },
+        {
+          "category": "conditional body",
+          "token": "if attrname.startswith('_'):\n    continue"
+        },
+        {
+          "category": "method call",
+          "token": "attrname.startswith('_')"
+        },
+        {
+          "category": "variable name",
+          "token": "attrname"
+        },
+        {
+          "category": "external variable/method",
+          "token": "attrname.startswith"
+        },
+        {
+          "category": "variable name",
+          "token": "attrname"
+        },
+        {
+          "category": "assignment",
+          "token": "attr = getattr(base, attrname)"
+        },
+        {
+          "category": "conditional statement",
+          "token": "is_abstract_method(attr)"
+        },
+        {
+          "category": "conditional body",
+          "token": "if is_abstract_method(attr):\n    oattr = getattr(subclass, attrname)\n    if is_abstract_method(oattr):\n        raise Exception('%s.%s   not   overridden' % (subclass.__name__, attrname))"
+        },
+        {
+          "category": "method call",
+          "token": "is_abstract_method(attr)"
+        },
+        {
+          "category": "variable name",
+          "token": "is_abstract_method"
+        },
+        {
+          "category": "variable name",
+          "token": "attr"
+        }
+      ]
+    }
+  ],
+  "print_results": [
+    {
+      "category": "method declaration",
+      "function_name": "print_results",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "distributions"
+        },
+        {
+          "category": "parameter",
+          "token": "list_all_files"
+        }
+      ],
+      "body": [
+        {
+          "category": "loop body",
+          "token": "for dist in distributions:\n    logger.notify('---')\n    logger.notify('Name:   %s' % dist['name'])\n    logger.notify('Version:   %s' % dist['version'])\n    logger.notify('Location:   %s' % dist['location'])\n    logger.notify('Requires:   %s' % ',   '.join(dist['requires']))\n    if list_all_files:\n        logger.notify('Files:')\n        if 'files' in dist:\n            for line in open(dist['files']):\n                logger.notify('      %s' % line.strip())\n        else:\n            logger.notify('Cannot   locate   installed-files.txt')"
+        },
+        {
+          "category": "conditional statement",
+          "token": "list_all_files"
+        },
+        {
+          "category": "conditional body",
+          "token": "if list_all_files:\n    logger.notify('Files:')\n    if 'files' in dist:\n        for line in open(dist['files']):\n            logger.notify('      %s' % line.strip())\n    else:\n        logger.notify('Cannot   locate   installed-files.txt')"
+        },
+        {
+          "category": "variable name",
+          "token": "list_all_files"
+        }
+      ]
+    }
+  ],
+  "_keysFromFilepaths": [
+    {
+      "category": "method declaration",
+      "function_name": "_keysFromFilepaths",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "filepaths"
+        },
+        {
+          "category": "parameter",
+          "token": "parseKey"
+        }
+      ],
+      "body": [
+        {
+          "category": "loop body",
+          "token": "for fp in filepaths:\n    if fp.exists():\n        try:\n            with fp.open() as f:\n                for key in readAuthorizedKeyFile(f, parseKey):\n                    yield key\n        except (IOError, OSError) as e:\n            log.msg('Unable   to   read   {0}:   {1!s}'.format(fp.path, e))"
+        },
+        {
+          "category": "conditional statement",
+          "token": "fp.exists()"
+        },
+        {
+          "category": "conditional body",
+          "token": "if fp.exists():\n    try:\n        with fp.open() as f:\n            for key in readAuthorizedKeyFile(f, parseKey):\n                yield key\n    except (IOError, OSError) as e:\n        log.msg('Unable   to   read   {0}:   {1!s}'.format(fp.path, e))"
+        },
+        {
+          "category": "method call",
+          "token": "fp.exists()"
+        },
+        {
+          "category": "variable name",
+          "token": "fp"
+        },
+        {
+          "category": "external variable/method",
+          "token": "fp.exists"
+        },
+        {
+          "category": "variable name",
+          "token": "fp"
+        }
+      ]
+    }
+  ],
+  "add": [
+    {
+      "category": "method declaration",
+      "function_name": "add",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "repo"
+        },
+        {
+          "category": "parameter",
+          "token": "paths"
+        }
+      ],
+      "body": []
+    }
+  ],
+  "copy_tcltk": [
+    {
+      "category": "method declaration",
+      "function_name": "copy_tcltk",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "src"
+        },
+        {
+          "category": "parameter",
+          "token": "dest"
+        },
+        {
+          "category": "parameter",
+          "token": "symlink"
+        }
+      ],
+      "body": [
+        {
+          "category": "loop body",
+          "token": "for libversion in ('8.5', '8.6'):\n    for libname in ('tcl', 'tk'):\n        srcdir = join(src, 'tcl', libname + libversion)\n        destdir = join(dest, 'tcl', libname + libversion)\n        if os.path.exists(srcdir) and (not os.path.exists(destdir)):\n            copyfileordir(srcdir, destdir, symlink)"
+        },
+        {
+          "category": "loop body",
+          "token": "for libname in ('tcl', 'tk'):\n    srcdir = join(src, 'tcl', libname + libversion)\n    destdir = join(dest, 'tcl', libname + libversion)\n    if os.path.exists(srcdir) and (not os.path.exists(destdir)):\n        copyfileordir(srcdir, destdir, symlink)"
+        },
+        {
+          "category": "assignment",
+          "token": "srcdir = join(src, 'tcl', libname + libversion)"
+        },
+        {
+          "category": "assignment",
+          "token": "destdir = join(dest, 'tcl', libname + libversion)"
+        },
+        {
+          "category": "conditional statement",
+          "token": "os.path.exists(srcdir) and (not os.path.exists(destdir))"
+        },
+        {
+          "category": "conditional body",
+          "token": "if os.path.exists(srcdir) and (not os.path.exists(destdir)):\n    copyfileordir(srcdir, destdir, symlink)"
+        },
+        {
+          "category": "variable name",
+          "token": "os.path"
+        },
+        {
+          "category": "external variable/method",
+          "token": "os.path.exists"
+        },
+        {
+          "category": "variable name",
+          "token": "srcdir"
+        },
+        {
+          "category": "variable name",
+          "token": "os"
+        },
+        {
+          "category": "external variable/method",
+          "token": "os.path"
+        },
+        {
+          "category": "variable name",
+          "token": "os.path"
+        },
+        {
+          "category": "external variable/method",
+          "token": "os.path.exists"
+        },
+        {
+          "category": "variable name",
+          "token": "destdir"
+        },
+        {
+          "category": "variable name",
+          "token": "os"
+        },
+        {
+          "category": "variable name",
+          "token": "os"
+        },
+        {
+          "category": "external variable/method",
+          "token": "os.path"
+        },
+        {
+          "category": "variable name",
+          "token": "os"
+        }
+      ]
+    }
+  ],
+  "ensure_sys_path_contains": [
+    {
+      "category": "method declaration",
+      "function_name": "ensure_sys_path_contains",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "paths"
+        }
+      ],
+      "body": [
+        {
+          "category": "loop body",
+          "token": "for entry in paths:\n    if isinstance(entry, (list, tuple)):\n        ensure_sys_path_contains(entry)\n    elif entry is not None and entry not in sys.path:\n        sys.path.append(entry)"
+        },
+        {
+          "category": "conditional statement",
+          "token": "isinstance(entry, (list, tuple))"
+        },
+        {
+          "category": "conditional body",
+          "token": "if isinstance(entry, (list, tuple)):\n    ensure_sys_path_contains(entry)\nelif entry is not None and entry not in sys.path:\n    sys.path.append(entry)"
+        },
+        {
+          "category": "method call",
+          "token": "isinstance(entry, (list, tuple))"
+        },
+        {
+          "category": "variable name",
+          "token": "isinstance"
+        },
+        {
+          "category": "variable name",
+          "token": "entry"
+        },
+        {
+          "category": "variable name",
+          "token": "list"
+        },
+        {
+          "category": "variable name",
+          "token": "tuple"
+        }
+      ]
+    }
+  ],
+  "merge": [
+    {
+      "category": "method declaration",
+      "function_name": "merge",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "dict1"
+        },
+        {
+          "category": "parameter",
+          "token": "dict2"
+        }
+      ],
+      "body": [
+        {
+          "category": "loop body",
+          "token": "for key, val2 in dict2.items():\n    if val2 is not None:\n        val1 = dict1.get(key)\n        if isinstance(val2, dict):\n            if val1 is None:\n                val1 = {}\n            if isinstance(val1, Alias):\n                val1 = (val1, val2)\n            elif isinstance(val1, tuple):\n                alias, others = val1\n                others = others.copy()\n                merge(others, val2)\n                val1 = (alias, others)\n            else:\n                val1 = val1.copy()\n                merge(val1, val2)\n        else:\n            val1 = val2\n        dict1[key] = val1"
+        },
+        {
+          "category": "conditional statement",
+          "token": "val2 is not None"
+        },
+        {
+          "category": "conditional body",
+          "token": "if val2 is not None:\n    val1 = dict1.get(key)\n    if isinstance(val2, dict):\n        if val1 is None:\n            val1 = {}\n        if isinstance(val1, Alias):\n            val1 = (val1, val2)\n        elif isinstance(val1, tuple):\n            alias, others = val1\n            others = others.copy()\n            merge(others, val2)\n            val1 = (alias, others)\n        else:\n            val1 = val1.copy()\n            merge(val1, val2)\n    else:\n        val1 = val2\n    dict1[key] = val1"
+        },
+        {
+          "category": "variable name",
+          "token": "val2"
+        }
+      ]
+    }
+  ],
+  "_traverse_results": [
+    {
+      "category": "method declaration",
+      "function_name": "_traverse_results",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "value"
+        },
+        {
+          "category": "parameter",
+          "token": "fields"
+        },
+        {
+          "category": "parameter",
+          "token": "row"
+        },
+        {
+          "category": "parameter",
+          "token": "path"
+        }
+      ],
+      "body": [
+        {
+          "category": "loop body",
+          "token": "for f, v in value.iteritems():\n    field_name = '{path}.{name}'.format(path=path, name=f) if path else f\n    if not isinstance(v, (dict, list, tuple)):\n        if field_name in fields:\n            row[fields.index(field_name)] = ensure_utf(v)\n    elif isinstance(v, dict) and f != 'attributes':\n        _traverse_results(v, fields, row, field_name)"
+        },
+        {
+          "category": "assignment",
+          "token": "field_name = '{path}.{name}'.format(path=path, name=f) if path else f"
+        },
+        {
+          "category": "conditional statement",
+          "token": "not isinstance(v, (dict, list, tuple))"
+        },
+        {
+          "category": "conditional body",
+          "token": "if not isinstance(v, (dict, list, tuple)):\n    if field_name in fields:\n        row[fields.index(field_name)] = ensure_utf(v)\nelif isinstance(v, dict) and f != 'attributes':\n    _traverse_results(v, fields, row, field_name)"
+        },
+        {
+          "category": "method call",
+          "token": "isinstance(v, (dict, list, tuple))"
+        },
+        {
+          "category": "variable name",
+          "token": "isinstance"
+        },
+        {
+          "category": "variable name",
+          "token": "v"
+        },
+        {
+          "category": "variable name",
+          "token": "dict"
+        },
+        {
+          "category": "variable name",
+          "token": "list"
+        },
+        {
+          "category": "variable name",
+          "token": "tuple"
+        }
+      ]
+    }
+  ],
+  "consume_queue": [
+    {
+      "category": "method declaration",
+      "function_name": "consume_queue",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "queue"
+        },
+        {
+          "category": "parameter",
+          "token": "cascade_stop"
+        }
+      ],
+      "body": [
+        {
+          "category": "loop body",
+          "token": "while True:\n    try:\n        item = queue.get(timeout=0.1)\n    except Empty:\n        yield None\n        continue\n    except thread.error:\n        raise ShutdownException()\n    if item.exc:\n        raise item.exc\n    if item.is_stop:\n        if cascade_stop:\n            raise StopIteration\n        else:\n            continue\n    yield item.item"
+        },
+        {
+          "category": "conditional statement",
+          "token": "item.exc"
+        },
+        {
+          "category": "conditional body",
+          "token": "if item.exc:\n    raise item.exc"
+        },
+        {
+          "category": "variable name",
+          "token": "item"
+        },
+        {
+          "category": "external variable/method",
+          "token": "item.exc"
+        },
+        {
+          "category": "variable name",
+          "token": "item"
+        },
+        {
+          "category": "conditional statement",
+          "token": "item.is_stop"
+        },
+        {
+          "category": "conditional body",
+          "token": "if item.is_stop:\n    if cascade_stop:\n        raise StopIteration\n    else:\n        continue"
+        },
+        {
+          "category": "variable name",
+          "token": "item"
+        },
+        {
+          "category": "external variable/method",
+          "token": "item.is_stop"
+        },
+        {
+          "category": "variable name",
+          "token": "item"
+        }
+      ]
+    }
+  ],
+  "recursive_update_dict": [
+    {
+      "category": "method declaration",
+      "function_name": "recursive_update_dict",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "root"
+        },
+        {
+          "category": "parameter",
+          "token": "changes"
+        },
+        {
+          "category": "parameter",
+          "token": "ignores"
+        }
+      ],
+      "body": [
+        {
+          "category": "conditional statement",
+          "token": "isinstance(changes, dict)"
+        },
+        {
+          "category": "conditional body",
+          "token": "if isinstance(changes, dict):\n    for k, v in changes.items():\n        if isinstance(v, dict):\n            if k not in root:\n                root[k] = {}\n            recursive_update_dict(root[k], v, ignores)\n        elif v in ignores:\n            if k in root:\n                root.pop(k)\n        else:\n            root[k] = v"
+        },
+        {
+          "category": "method call",
+          "token": "isinstance(changes, dict)"
+        },
+        {
+          "category": "variable name",
+          "token": "isinstance"
+        },
+        {
+          "category": "variable name",
+          "token": "changes"
+        },
+        {
+          "category": "variable name",
+          "token": "dict"
+        }
+      ]
+    }
+  ],
+  "get_value_from_json": [
+    {
+      "category": "method declaration",
+      "function_name": "get_value_from_json",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "json_dict"
+        },
+        {
+          "category": "parameter",
+          "token": "sensor_type"
+        },
+        {
+          "category": "parameter",
+          "token": "group"
+        },
+        {
+          "category": "parameter",
+          "token": "tool"
+        }
+      ],
+      "body": [
+        {
+          "category": "conditional statement",
+          "token": "group in json_dict"
+        },
+        {
+          "category": "conditional body",
+          "token": "if group in json_dict:\n    if sensor_type in json_dict[group]:\n        if sensor_type == 'target' and json_dict[sensor_type] is None:\n            return 0\n        else:\n            return json_dict[group][sensor_type]\n    elif tool is not None:\n        if sensor_type in json_dict[group][tool]:\n            return json_dict[group][tool][sensor_type]"
+        },
+        {
+          "category": "variable name",
+          "token": "group"
+        },
+        {
+          "category": "variable name",
+          "token": "json_dict"
+        }
+      ]
+    }
+  ],
+  "GetJavaJars": [
+    {
+      "category": "method declaration",
+      "function_name": "GetJavaJars",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "target_list"
+        },
+        {
+          "category": "parameter",
+          "token": "target_dicts"
+        },
+        {
+          "category": "parameter",
+          "token": "toplevel_dir"
+        }
+      ],
+      "body": [
+        {
+          "category": "loop body",
+          "token": "for target_name in target_list:\n    target = target_dicts[target_name]\n    for action in target.get('actions', []):\n        for input_ in action['inputs']:\n            if os.path.splitext(input_)[1] == '.jar' and (not input_.startswith('$')):\n                if os.path.isabs(input_):\n                    yield input_\n                else:\n                    yield os.path.join(os.path.dirname(target_name), input_)"
+        },
+        {
+          "category": "assignment",
+          "token": "target = target_dicts[target_name]"
+        },
+        {
+          "category": "loop body",
+          "token": "for action in target.get('actions', []):\n    for input_ in action['inputs']:\n        if os.path.splitext(input_)[1] == '.jar' and (not input_.startswith('$')):\n            if os.path.isabs(input_):\n                yield input_\n            else:\n                yield os.path.join(os.path.dirname(target_name), input_)"
+        },
+        {
+          "category": "loop body",
+          "token": "for input_ in action['inputs']:\n    if os.path.splitext(input_)[1] == '.jar' and (not input_.startswith('$')):\n        if os.path.isabs(input_):\n            yield input_\n        else:\n            yield os.path.join(os.path.dirname(target_name), input_)"
+        },
+        {
+          "category": "conditional statement",
+          "token": "os.path.splitext(input_)[1] == '.jar' and (not input_.startswith('$'))"
+        },
+        {
+          "category": "conditional body",
+          "token": "if os.path.splitext(input_)[1] == '.jar' and (not input_.startswith('$')):\n    if os.path.isabs(input_):\n        yield input_\n    else:\n        yield os.path.join(os.path.dirname(target_name), input_)"
+        },
+        {
+          "category": "variable name",
+          "token": "input_"
+        },
+        {
+          "category": "external variable/method",
+          "token": "input_.startswith"
+        },
+        {
+          "category": "variable name",
+          "token": "os.path"
+        },
+        {
+          "category": "external variable/method",
+          "token": "os.path.splitext"
+        },
+        {
+          "category": "variable name",
+          "token": "input_"
+        },
+        {
+          "category": "variable name",
+          "token": "input_"
+        },
+        {
+          "category": "variable name",
+          "token": "os"
+        },
+        {
+          "category": "external variable/method",
+          "token": "os.path"
+        },
+        {
+          "category": "variable name",
+          "token": "os"
+        }
+      ]
+    }
+  ],
+  "RemoveSelfDependencies": [
+    {
+      "category": "method declaration",
+      "function_name": "RemoveSelfDependencies",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "targets"
+        }
+      ],
+      "body": [
+        {
+          "category": "loop body",
+          "token": "for target_name, target_dict in targets.iteritems():\n    for dependency_key in dependency_sections:\n        dependencies = target_dict.get(dependency_key, [])\n        if dependencies:\n            for t in dependencies:\n                if t == target_name:\n                    if targets[t].get('variables', {}).get('prune_self_dependency', 0):\n                        target_dict[dependency_key] = Filter(dependencies, target_name)"
+        },
+        {
+          "category": "loop body",
+          "token": "for dependency_key in dependency_sections:\n    dependencies = target_dict.get(dependency_key, [])\n    if dependencies:\n        for t in dependencies:\n            if t == target_name:\n                if targets[t].get('variables', {}).get('prune_self_dependency', 0):\n                    target_dict[dependency_key] = Filter(dependencies, target_name)"
+        },
+        {
+          "category": "assignment",
+          "token": "dependencies = target_dict.get(dependency_key, [])"
+        },
+        {
+          "category": "conditional statement",
+          "token": "dependencies"
+        },
+        {
+          "category": "conditional body",
+          "token": "if dependencies:\n    for t in dependencies:\n        if t == target_name:\n            if targets[t].get('variables', {}).get('prune_self_dependency', 0):\n                target_dict[dependency_key] = Filter(dependencies, target_name)"
+        },
+        {
+          "category": "variable name",
+          "token": "dependencies"
+        }
+      ]
+    }
+  ],
+  "parse_assigned_metadata": [
+    {
+      "category": "method declaration",
+      "function_name": "parse_assigned_metadata",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "csvfile"
+        }
+      ],
+      "body": []
+    }
+  ],
+  "test_client_options": [
+    {
+      "category": "method declaration",
+      "function_name": "test_client_options",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "config"
+        }
+      ],
+      "body": [
+        {
+          "category": "conditional statement",
+          "token": "config['use_ssl']"
+        },
+        {
+          "category": "conditional body",
+          "token": "if config['use_ssl']:\n    if 'certificate' in config and config['certificate']:\n        read_file(config['certificate'])\n    if 'client_cert' in config and config['client_cert']:\n        read_file(config['client_cert'])\n    if 'client_key' in config and config['client_key']:\n        read_file(config['client_key'])"
+        },
+        {
+          "category": "variable name",
+          "token": "config"
+        }
+      ]
+    }
+  ],
+  "collect": [
+    {
+      "category": "method declaration",
+      "function_name": "collect",
+      "parameters": [
+        {
+          "category": "parameter",
+          "token": "names"
+        },
+        {
+          "category": "parameter",
+          "token": "match"
+        },
+        {
+          "category": "parameter",
+          "token": "match_dir"
+        }
+      ],
+      "body": [
+        {
+          "category": "loop body",
+          "token": "for name in names:\n    if os.path.isdir(name):\n        for root, dirs, filenames in os.walk(name):\n            dirs[:] = [dir for dir in dirs if match_dir(dir)]\n            for filename in filenames:\n                if match(filename):\n                    yield os.path.join(root, filename)\n    else:\n        yield name"
+        },
+        {
+          "category": "conditional statement",
+          "token": "os.path.isdir(name)"
+        },
+        {
+          "category": "conditional body",
+          "token": "if os.path.isdir(name):\n    for root, dirs, filenames in os.walk(name):\n        dirs[:] = [dir for dir in dirs if match_dir(dir)]\n        for filename in filenames:\n            if match(filename):\n                yield os.path.join(root, filename)\nelse:\n    yield name"
+        },
+        {
+          "category": "method call",
+          "token": "os.path.isdir(name)"
+        },
+        {
+          "category": "variable name",
+          "token": "os.path"
+        },
+        {
+          "category": "external variable/method",
+          "token": "os.path.isdir"
+        },
+        {
+          "category": "variable name",
+          "token": "name"
+        },
+        {
+          "category": "variable name",
+          "token": "os"
+        },
+        {
+          "category": "external variable/method",
+          "token": "os.path"
+        },
+        {
+          "category": "variable name",
+          "token": "os"
+        }
+      ]
+    }
+  ],
+  "update_csp": [
+    {
+      "category": "method declaration",
+      "function_name": "update_csp",
+      "parameters": [],
+      "body": [
+        {
+          "category": "loop body",
+          "token": "for key in ('CSP_SCRIPT_SRC',):\n    values = getattr(settings, key)\n    new = set()\n    for value in values:\n        if value.startswith('https://') and settings.DEBUG:\n            res = value.replace('https://', 'http://')\n            for v in (value, res):\n                new.add(v)\n            continue\n        elif value.startswith('http://') and (not settings.DEBUG):\n            continue\n        else:\n            new.add(value)\n    setattr(settings, key, tuple(new))"
+        },
+        {
+          "category": "assignment",
+          "token": "values = getattr(settings, key)"
+        },
+        {
+          "category": "assignment",
+          "token": "new = set()"
+        },
+        {
+          "category": "loop body",
+          "token": "for value in values:\n    if value.startswith('https://') and settings.DEBUG:\n        res = value.replace('https://', 'http://')\n        for v in (value, res):\n            new.add(v)\n        continue\n    elif value.startswith('http://') and (not settings.DEBUG):\n        continue\n    else:\n        new.add(value)"
+        },
+        {
+          "category": "conditional statement",
+          "token": "value.startswith('https://') and settings.DEBUG"
+        },
+        {
+          "category": "conditional body",
+          "token": "if value.startswith('https://') and settings.DEBUG:\n    res = value.replace('https://', 'http://')\n    for v in (value, res):\n        new.add(v)\n    continue\nelif value.startswith('http://') and (not settings.DEBUG):\n    continue\nelse:\n    new.add(value)"
+        },
+        {
+          "category": "variable name",
+          "token": "settings"
+        },
+        {
+          "category": "external variable/method",
+          "token": "settings.DEBUG"
+        },
+        {
+          "category": "variable name",
+          "token": "value"
+        },
+        {
+          "category": "external variable/method",
+          "token": "value.startswith"
+        },
+        {
+          "category": "variable name",
+          "token": "settings"
+        },
+        {
+          "category": "variable name",
+          "token": "value"
+        }
+      ]
+    }
+  ]
+}
