@@ -6,113 +6,13 @@ import pandas as pd
 from difflib import get_close_matches
 
 import difflib
-
-def fuzzy_match_columns(ref_cols, target_cols, cutoff=0.6):
-    mapping = {}
-    for ref_col in ref_cols:
-        ref_clean = clean_post_column(ref_col)
-        matches = difflib.get_close_matches(ref_clean, [clean_post_column(tc) for tc in target_cols], n=1, cutoff=cutoff)
-        if matches:
-            matched_clean = matches[0]
-            # Map to original name in target_cols
-            for tc in target_cols:
-                if clean_post_column(tc) == matched_clean:
-                    mapping[ref_col] = tc
-                    break
-    return mapping
-    
-def clean_post_column(col):
-    
-    original_col = col
-    col = str(col).lower()
-    if 'post_' in col:
-        cleaned = col.replace('post_', '').strip()
-    elif '_post' in col:
-        cleaned = col.replace('_post', '').strip()
-    elif col.endswith('post'):
-        cleaned = col.replace('post', '').strip()
-    else:
-        cleaned = col.strip()
-    
-    # print(f"Original: '{original_col}' → Cleaned: '{cleaned}'")
-    return cleaned
-
-def handle_outlier_participant(file_path, pre_dir, post_dir):
-    os.makedirs(pre_dir, exist_ok=True)
-    os.makedirs(post_dir, exist_ok=True)
-
-    xls = pd.ExcelFile(file_path)
-    participant_id = os.path.splitext(os.path.basename(file_path))[0]
-
-    for sheet_name in xls.sheet_names:
-        print(f"\n=== Processing sheet: {sheet_name} ===")
-        df = xls.parse(sheet_name)
-        df_total = df.iloc[:8].copy()
-        df_post = df.iloc[11:].copy()
-
-        # Set first row as column headers
-        raw_columns = df_post.iloc[0]
-        print(raw_columns)
-        cleaned_columns = [clean_post_column(col) for col in raw_columns]
-        # print("Original header row:", list(raw_columns))
-        # print("Cleaned post columns:", cleaned_columns)
-
-        df_post.columns = cleaned_columns
-        df_post = df_post.iloc[1:].copy()  # Drop the header row
-
-        # Save cleaned post df
-        post_out_path = os.path.join(post_dir, f"{participant_id}_{sheet_name}_post.xlsx")
-        df_post.to_excel(post_out_path, index=False)
-
-        # Get common numeric columns
-        # print(df_total.columns)
-        # print(df_post.columns)
-        match_map = fuzzy_match_columns(df_total.columns, df_post.columns)
-        print("Fuzzy match mapping:")
-        print(match_map)
-
-        # Filter numeric columns from df_total that matched
-        numeric_cols = [col for col in match_map if pd.api.types.is_numeric_dtype(df_total[col])]
-        print("Numeric columns used for subtraction:", numeric_cols)
-
-        df_total_numeric = df_total[numeric_cols]
-        df_post_numeric = df_post[[match_map[col] for col in numeric_cols]].reindex(columns=[match_map[col] for col in numeric_cols], fill_value=0)
-
-        df_pre = df_total_numeric.subtract(df_post_numeric.values, fill_value=0).clip(lower=0)
-
-        pre_out_path = os.path.join(pre_dir, f"{participant_id}_{sheet_name}_pre.xlsx")
-        df_pre.to_excel(pre_out_path, index=False)
-
-        print(f"Sheet '{sheet_name}': saved pre → {pre_out_path}, post → {post_out_path}")
-        
-        # common_cols = df_total.columns.intersection(df_post.columns)
-        # # print(common_cols.tolist())
-        # numeric_cols = df_total[common_cols].select_dtypes(include='number').columns
-        # print("Numeric columns used for subtraction:", numeric_cols.tolist())
-
-        # df_total_numeric = df_total[numeric_cols]
-        # df_post_numeric = df_post[numeric_cols].reindex(columns=numeric_cols, fill_value=0)
-
-        # # Confirm dtypes
-        # # print("dtypes of df_total_numeric:")
-        # # print(df_total_numeric.dtypes)
-        # # print("dtypes of df_post_numeric:")
-        # # print(df_post_numeric.dtypes)
-
-        # # Compute pre = total - post
-        # df_pre = df_total_numeric.subtract(df_post_numeric, fill_value=0).clip(lower=0)
-
-        # # Save result
-        # pre_out_path = os.path.join(pre_dir, f"{participant_id}_{sheet_name}_pre.xlsx")
-        # df_pre.to_excel(pre_out_path, index=False)
-
-        # print(f"Sheet '{sheet_name}': saved pre → {pre_out_path}, post → {post_out_path}")
-
 # create directories for pre v. post gemini data per participant/task
-def create_directories(dir_input, dir_pre, dir_post):
+#mehtod assumes that pre/post are in each file 
+def create_directories_initial(dir_input, dir_pre, dir_post, dir_total):
     # create directories
     os.makedirs(dir_pre, exist_ok=True)
     os.makedirs(dir_post, exist_ok=True)
+    os.makedirs(dir_total, exist_ok=True)
     taskCounter=0
     #iterate through extracted data
     for pid_file in os.listdir(dir_input):
@@ -123,6 +23,7 @@ def create_directories(dir_input, dir_pre, dir_post):
 
         os.makedirs(os.path.join(dir_pre, participant_id), exist_ok=True)
         os.makedirs(os.path.join(dir_post, participant_id), exist_ok=True)
+        os.makedirs(os.path.join(dir_total, participant_id), exist_ok=True)
         # df_pre.to_excel(os.path.join(dir_pre, "Participant01", "task1.xlsx"))   
 
         #for each file, copy contents above line break (pre/post gem) into respective outputdirectory
@@ -181,10 +82,96 @@ def create_directories(dir_input, dir_pre, dir_post):
     print()
 
 
+def create_directories(dir_input, dir_pre, dir_post, dir_total):
+    os.makedirs(dir_pre, exist_ok=True)
+    os.makedirs(dir_post, exist_ok=True)
+    os.makedirs(dir_total, exist_ok=True)
+
+    for pid_file in os.listdir(dir_input):
+        if not pid_file.endswith('.xlsx'):
+            continue
+
+        participant_id = pid_file.replace('.xlsx', '')
+        print(f"\n🔍 Processing Participant: {participant_id}")
+
+        os.makedirs(os.path.join(dir_pre, participant_id), exist_ok=True)
+        os.makedirs(os.path.join(dir_post, participant_id), exist_ok=True)
+        os.makedirs(os.path.join(dir_total, participant_id), exist_ok=True)
+
+        file_path = os.path.join(dir_input, pid_file)
+
+        try:
+            excel_data = pd.read_excel(file_path, sheet_name=None, engine='openpyxl')
+        except Exception as e:
+            print(f"❌ Error reading file {pid_file}: {e}")
+            continue
+
+        for sheet_name, data in excel_data.items():
+            print(f"  📄 Sheet: {sheet_name}")
+            marker_indices = []
+
+            # Step 1: Find all rows where any cell starts with 'pre' or 'post'
+            for idx, row in data.iterrows():
+                row_strs = row.astype(str).str.lower()
+                if row_strs.str.startswith("pre").any() or row_strs.str.startswith("post").any():
+                    marker_indices.append(idx)
+
+            print(f"    ➤ Found markers at rows: {marker_indices}")
+
+            if not marker_indices:
+                print(f"    ⚠️ No 'pre' or 'post' markers found.")
+                data.to_excel(os.path.join(dir_total, participant_id, f"{sheet_name}.xlsx"), index=False)
+                pd.DataFrame().to_excel(os.path.join(dir_pre, participant_id, f"{sheet_name}.xlsx"), index=False)
+                pd.DataFrame().to_excel(os.path.join(dir_post, participant_id, f"{sheet_name}.xlsx"), index=False)
+                continue
+
+            # Step 2: Define slices
+            total_end = marker_indices[0]
+            df_total = data.iloc[:total_end]
+            print(f"    ✅ Total section: rows 0 to {total_end - 1}")
+
+            # Initialize
+            df_pre = pd.DataFrame()
+            df_post = pd.DataFrame()
+
+            for i, marker_idx in enumerate(marker_indices):
+                marker_row = data.iloc[marker_idx].astype(str).str.lower()
+                label = None
+                if marker_row.str.startswith("pre").any():
+                    label = "pre"
+                elif marker_row.str.startswith("post").any():
+                    label = "post"
+                else:
+                    print(f"    ⚠️ Marker at row {marker_idx} not labeled correctly.")
+                    continue
+
+                start_idx = marker_idx + 1
+                end_idx = marker_indices[i + 1] if i + 1 < len(marker_indices) else len(data)
+                segment = data.iloc[start_idx:end_idx]
+
+                print(f"    ➤ Detected '{label}' segment: rows {start_idx} to {end_idx - 1} ({end_idx - start_idx} rows)")
+
+                if label == "pre":
+                    df_pre = segment
+                elif label == "post":
+                    df_post = segment
+
+            # Save all
+            df_total.to_excel(os.path.join(dir_total, participant_id, f"{sheet_name}.xlsx"), index=False, header=False)
+            df_pre.to_excel(os.path.join(dir_pre, participant_id, f"{sheet_name}.xlsx"), index=False, header=False)
+            df_post.to_excel(os.path.join(dir_post, participant_id, f"{sheet_name}.xlsx"), index=False, header=False)
+
+            # Validation prints
+            print(f"    ✅ Saved total ({len(df_total)} rows), pre ({len(df_pre)} rows), post ({len(df_post)} rows)")
+
+    print("\n🎉 All files processed.")
+
+
+
 if __name__ == '__main__':
     # directory = 'GeminiSummarizationStudy/analysis/participant_extractedmetrics'
     directory = '/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/analysis/participant_extractedmetrics'
-    create_directories(directory, 'pre_gemini_data', 'post_gemini_data')
+    create_directories(directory, 'pre_gemini_data', 'post_gemini_data', 'total_AOI_data')
 
     # total_dir = 'GeminiSummarizationStudy/analysis/participant_extractedmetrics/Participant100.xlsx'
     # pre_dir = 'pre_gemini_data/Participant100'
