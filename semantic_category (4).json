@@ -1,0 +1,1893 @@
+{
+    "functions": [
+        {
+            "method_declaration": "is_error",
+            "parameters": [
+                "node"
+            ],
+            "return_statements": [
+                "False",
+                "True"
+            ],
+            "return": 2,
+            "conditional_statements": [
+                "isinstance(child_node, astroid.Raise)"
+            ],
+            "exception_handling": [],
+            "loop_body": [
+                "for child_node in node.get_children():\n    if isinstance(child_node, astroid.Raise):\n        return True\n    return False"
+            ],
+            "loop": ["for child_node in node.get_children():\n"],
+            "conditional_bodies": [
+                "return True"
+            ],
+            "arguments": [
+                "child_node",
+                "astroid.Raise"
+            ],
+            "variable_names": [
+                "child_node",
+                "node"
+            ],
+            "method_calls": [
+                "node.get_children",
+                "isinstance"
+            ],
+            "external_variables_methods": [
+                "astroid.Raise"
+            ],
+            "assignments": [],
+            "literals": [
+                true,
+                false
+            ],
+            "operators": [],
+            "index_operations": [],
+            "difficulty": "easy"
+        },
+        {
+            "method_declaration": "_filter_apis",
+            "parameters": [
+                "name",
+                "apis"
+            ],
+            "return_statements": [
+                "[api for api in apis if api['name'] == name]"
+            ],
+            "return": 1,
+            "conditional_statements": [" if api['name'] == name]"],
+            "exception_handling": [],
+            "loop": [" for api in apis"],
+            "conditional_bodies": [],
+            "arguments": [],
+            "variable_names": [
+                "apis",
+                "api",
+                "name"
+            ],
+            "method_calls": [],
+            "external_variables_methods": [],
+            "assignments": [],
+            "literals": [
+                "name"
+            ],
+            "operators": [],
+            "index_operations": [
+                "api['name']"
+            ],
+            "difficulty": "easy"
+        },
+        {
+            "method_declaration": "overwriteDictionary",
+            "parameters": [
+                "fromDictionary",
+                "keys",
+                "toDictionary"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "key in fromDictionary"
+            ],
+            "exception_handling": [],
+            "loop_body": [
+                "for key in keys:\n    if key in fromDictionary:\n        toDictionary[key] = fromDictionary[key]"
+            ],
+            "conditional_bodies": [
+                "toDictionary[key] = fromDictionary[key]"
+            ],
+            "arguments": [],
+            "variable_names": [
+                "toDictionary",
+                "keys",
+                "fromDictionary",
+                "key"
+            ],
+            "method_calls": [],
+            "external_variables_methods": [],
+            "assignments": [
+                "toDictionary[key]"
+            ],
+            "literals": [],
+            "operators": [],
+            "index_operations": [
+                "toDictionary[key]",
+                "fromDictionary[key]"
+            ],
+            "difficulty": "easy"
+        },
+        {
+            "method_declaration": "detect",
+            "parameters": [
+                "code"
+            ],
+            "return_statements": [
+                "'   ' not in code and ('%20' in code or code.count('%') > 3)"
+            ],
+            "return": 1,
+            "conditional_statements": ["'   ' not in code and ('%20' in code or code.count('%') > 3)"],
+            "exception_handling": [],
+            "loop_body": [],
+            "conditional_bodies": [],
+            "arguments": [
+                "'%'"
+            ],
+            "variable_names": [
+                "code"
+            ],
+            "method_calls": [
+                "code.count"
+            ],
+            "external_variables_methods": [],
+            "assignments": [],
+            "literals": [
+                "   ",
+                "%20",
+                "%",
+                3
+            ],
+            "operators": [],
+            "index_operations": [],
+            "difficulty": "easy"
+        },
+        {
+            "method_declaration": "validate_maximum",
+            "parameters": [
+                "value",
+                "maximum"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "maximum is not None and value > maximum"
+            ],
+            "exception_handling": ["raise ValueError(u'%r   must   be   smaller   than   %r.' % (value, maximum))"],
+            "loop_body": [],
+            "conditional_bodies": [
+                "raise ValueError(u'%r   must   be   smaller   than   %r.' % (value, maximum))"
+            ],
+            "arguments": [
+                "u'%r   must   be   smaller   than   %r.' % (value, maximum)"
+            ],
+            "variable_names": [
+                "value",
+                "maximum"
+            ],
+            "method_calls": [
+                
+            ],
+            "external_variables_methods": ["ValueError"],
+            "assignments": [],
+            "literals": [
+                null,
+                "%r   must   be   smaller   than   %r."
+            ],
+            "operators": [
+                ""
+            ],
+            "index_operations": [],
+            "difficulty": "easy"
+        },
+        {
+            "method_declaration": "do_exit",
+            "parameters": [
+                "actions"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "len(action_group.destroy) > 0"
+            ],
+            "exception_handling": ["raise SystemExit"],
+            "loop_body": [
+                "if len(action_group.destroy) > 0:\n        raise SystemExit(1)"
+            ],
+            "loop": [
+                "for action_group in actions:"
+            ],
+            "conditional_bodies": [
+                "raise SystemExit(1)"
+            ],
+            "arguments": [
+                
+            ],
+            "variable_names": [
+                "actions",
+                "action_group"
+            ],
+            "method_calls": [
+                "len",
+                "SystemExit"
+            ],
+            "external_variables_methods": [
+                "action_group.destroy"
+            ],
+            "assignments": [],
+            "literals": [
+                0,
+                1
+            ],
+            "operators": [">"],
+            "index_operations": [],
+            "difficulty": "easy"
+        },
+        {
+            "method_declaration": "dict_delall",
+            "parameters": [
+                "d",
+                "keys"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [],
+            "exception_handling": [
+                "except KeyError:\n    pass"
+            ],
+            "loop_body": [
+                "for key in keys:\n    try:\n        del d[key]\n    except KeyError:\n        pass"
+            ],
+            "conditional_bodies": [],
+            "arguments": [],
+            "variable_names": [
+                "keys",
+                "d",
+                "key"
+            ],
+            "method_calls": [],
+            "external_variables_methods": [],
+            "assignments": [],
+            "literals": [],
+            "operators": [],
+            "index_operations": [
+                "d[key]"
+            ],
+            "difficulty": "easy"
+        },
+        {
+            "method_declaration": "GetChild",
+            "parameters": [
+                "node",
+                "tag"
+            ],
+            "return_statements": [
+                "child"
+            ],
+            "return": 1,
+            "conditional_statements": [
+                "GetTag(child) == tag"
+            ],
+            "exception_handling": [],
+            "loop_body": [
+                "for child in node.getchildren():\n    if GetTag(child) == tag:\n        return child"
+            ],
+            "loop": [
+                "for child in node.getchildren():\n" ],
+            "conditional_bodies": [
+                "return child"
+            ],
+            "arguments": [
+                "child"
+            ],
+            "variable_names": [
+                "child",
+                "tag",
+                "node"
+            ],
+            "method_calls": [
+                "node.getchildren",
+                "GetTag"
+            ],
+            "external_variables_methods": [],
+            "assignments": [],
+            "literals": [],
+            "operators": [],
+            "index_operations": [],
+            "difficulty": "easy"
+        },
+        {
+            "method_declaration": "get_metadata",
+            "parameters": [
+                "headers"
+            ],
+            "return_statements": [
+                "dict(((k, v) for (k, v) in headers.iteritems() if k.startswith('x-goog-meta-')))"
+            ],
+            "return": 1,
+            "conditional_statements": ["if k.startswith('x-goog-meta-'))"],
+            "exception_handling": [],
+            "loop_body": [],
+            "conditional_bodies": [],
+            "arguments": [
+                "((k, v) for (k, v) in headers.iteritems() if k.startswith('x-goog-meta-'))",
+                "'x-goog-meta-'"
+            ],
+            "variable_names": [
+                "k",
+                "headers",
+                "v"
+            ],
+            "method_calls": [
+                "dict",
+                "headers.iteritems",
+                "k.startswith"
+            ],
+            "external_variables_methods": [],
+            "assignments": [],
+            "literals": [
+                "x-goog-meta-"
+            ],
+            "operators": [],
+            "index_operations": [],
+            "difficulty": "easy"
+        },
+        {
+            "method_declaration": "get_imlist",
+            "parameters": [
+                "path"
+            ],
+            "return_statements": [
+                "[os.path.join(path, f) for f in os.listdir(path) if f.endswith('.jpg')]"
+            ],
+            "return": 1,
+            "conditional_statements": [],
+            "exception_handling": [],
+            "loop_body": [],
+            "conditional_bodies": [],
+            "arguments": [
+                "path",
+                "f",
+                "path",
+                "'.jpg'"
+            ],
+            "variable_names": [
+                "path",
+                "f",
+                "os"
+            ],
+            "method_calls": [
+                "os.path.join",
+                "os.listdir",
+                "f.endswith"
+            ],
+            "external_variables_methods": [
+                "os.path"
+            ],
+            "assignments": [],
+            "literals": [
+                ".jpg"
+            ],
+            "operators": [],
+            "index_operations": [],
+            "difficulty": "easy"
+        },
+        {
+            "method_declaration": "removeCSVFile",
+            "parameters": [
+                "csvFilePath"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "'alterations' in csvFilePath and 'example_' not in csvFilePath"
+            ],
+            "exception_handling": [],
+            "loop_body": [],
+            "conditional_bodies": [
+                "os.remove(csvFilePath)",
+                "print('removeGeneratedFiles   deleted   ' + csvFilePath)"
+            ],
+            "arguments": [
+                "csvFilePath",
+                "'removeGeneratedFiles   deleted   ' + csvFilePath"
+            ],
+            "variable_names": [
+                "csvFilePath",
+                "os"
+            ],
+            "method_calls": [
+                "os.remove",
+                "print"
+            ],
+            "external_variables_methods": [],
+            "assignments": [],
+            "literals": [
+                "alterations",
+                "example_",
+                "removeGeneratedFiles   deleted   "
+            ],
+            "operators": [
+                ""
+            ],
+            "index_operations": [],
+            "difficulty": "easy"
+        },
+        {
+            "method_declaration": "unlink_older_than",
+            "parameters": [
+                "path",
+                "mtime"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "os.path.exists(path)",
+                "os.path.getmtime(fpath) < mtime"
+            ],
+            "exception_handling": [
+                "except OSError:\n    pass"
+            ],
+            "loop_body": [
+                "for fname in listdir(path):\n    fpath = os.path.join(path, fname)\n    try:\n        if os.path.getmtime(fpath) < mtime:\n            os.unlink(fpath)\n    except OSError:\n        pass"
+            ],
+            "conditional_bodies": [
+                "for fname in listdir(path):\n    fpath = os.path.join(path, fname)\n    try:\n        if os.path.getmtime(fpath) < mtime:\n            os.unlink(fpath)\n    except OSError:\n        pass",
+                "os.unlink(fpath)"
+            ],
+            "arguments": [
+                "path",
+                "path",
+                "path",
+                "fname",
+                "fpath",
+                "fpath"
+            ],
+            "variable_names": [
+                "mtime",
+                "path",
+                "os",
+                "fname",
+                "fpath"
+            ],
+            "method_calls": [
+                "os.path.exists",
+                "listdir",
+                "os.path.join",
+                "os.path.getmtime",
+                "os.unlink"
+            ],
+            "external_variables_methods": [
+                "os.path",
+                "os.path",
+                "os.path"
+            ],
+            "assignments": [
+                "fpath"
+            ],
+            "literals": [],
+            "operators": [],
+            "index_operations": [],
+            "difficulty": "medium"
+        },
+        {
+            "method_declaration": "_normalize_configuration_objs",
+            "parameters": [
+                "configurations"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "not hasattr(c, 'properties')",
+                "hasattr(c, 'configurations')",
+                "not c.configurations"
+            ],
+            "exception_handling": [],
+            "loop_body": [
+                "for c in configurations:\n    if not hasattr(c, 'properties'):\n        c.properties = []\n    if hasattr(c, 'configurations'):\n        if not c.configurations:\n            del c.configurations\n        else:\n            _normalize_configuration_objs(c.configurations)"
+            ],
+            "conditional_bodies": [
+                "c.properties = []",
+                "if not c.configurations:\n    del c.configurations\nelse:\n    _normalize_configuration_objs(c.configurations)",
+                "del c.configurations"
+            ],
+            "arguments": [
+                "c",
+                "'properties'",
+                "c",
+                "'configurations'",
+                "c.configurations"
+            ],
+            "variable_names": [
+                "c",
+                "configurations"
+            ],
+            "method_calls": [
+                "hasattr",
+                "hasattr",
+                "_normalize_configuration_objs"
+            ],
+            "external_variables_methods": [
+                "c.properties",
+                "c.configurations",
+                "c.configurations",
+                "c.configurations"
+            ],
+            "assignments": [
+                "c.properties"
+            ],
+            "literals": [
+                "properties",
+                "configurations"
+            ],
+            "operators": [],
+            "index_operations": [],
+            "difficulty": "medium"
+        },
+        {
+            "method_declaration": "_validate_min_score",
+            "parameters": [
+                "min_score"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "min_score",
+                "min_score < 0 or min_score > 100"
+            ],
+            "exception_handling": [
+                "except ValueError:\n    raise GatingValidationError(message)",
+                "raise GatingValidationError(message)"
+            ],
+            "loop_body": [],
+            "conditional_bodies": [
+                "message = _('%(min_score)s   is   not   a   valid   grade   percentage') % {'min_score': min_score}",
+                "try:\n    min_score = int(min_score)\nexcept ValueError:\n    raise GatingValidationError(message)",
+                "if min_score < 0 or min_score > 100:\n    raise GatingValidationError(message)",
+                "raise GatingValidationError(message)"
+            ],
+            "arguments": [
+                
+                "min_score",
+                "message",
+                "message"
+            ],
+            "variable_names": [
+                "min_score",
+                "message"
+            ],
+            "method_calls": [
+                "_",
+                "int"
+            ],
+            "external_variables_methods": ["GatingValidationError",
+            "GatingValidationError"],
+            "assignments": [
+                "message",
+                "min_score"
+            ],
+            "literals": [
+                "%(min_score)s   is   not   a   valid   grade   percentage",
+                "min_score",
+                0,
+                100
+            ],
+            "operators": [
+                ""
+            ],
+            "index_operations": [],
+            "difficulty": "medium"
+        },
+        {
+            "method_declaration": "mkdirs",
+            "parameters": [
+                "path"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "not os.path.isdir(path)",
+                "err.errno != errno.EEXIST or not os.path.isdir(path)"
+            ],
+            "exception_handling": [
+                "except OSError as err:\n    if err.errno != errno.EEXIST or not os.path.isdir(path):\n        raise"
+            ],
+            "loop_body": [],
+            "conditional_bodies": [
+                "try:\n    os.makedirs(path)\nexcept OSError as err:\n    if err.errno != errno.EEXIST or not os.path.isdir(path):\n        raise",
+                "raise"
+            ],
+            "arguments": [
+                "path",
+                "path",
+                "path"
+            ],
+            "variable_names": [
+                "err",
+                "errno",
+                "path",
+                "os"
+            ],
+            "method_calls": [
+                "os.path.isdir",
+                "os.makedirs",
+                "os.path.isdir"
+            ],
+            "external_variables_methods": [
+                "os.path",
+                "err.errno",
+                "errno.EEXIST",
+                "os.path"
+            ],
+            "assignments": [],
+            "literals": [],
+            "operators": [],
+            "index_operations": [],
+            "difficulty": "medium"
+        },
+        {
+            "method_declaration": "get_numpy_dtype",
+            "parameters": [
+                "obj"
+            ],
+            "return_statements": [
+                "obj.dtype.type",
+                ""
+            ],
+            "return": 2,
+            "conditional_statements": [
+                "ndarray is not FakeObject",
+                "isinstance(obj, np.generic) or isinstance(obj, np.ndarray)",
+                "isinstance(obj, np.generic) ",
+                " isinstance(obj, np.ndarray)"
+            ],
+            "exception_handling": [
+                "try:\n    return obj.dtype.type\nexcept (AttributeError, RuntimeError):\n    return"
+            ],
+            "loop_body": [],
+            "conditional_bodies": [
+                
+                "if isinstance(obj, np.generic) or isinstance(obj, np.ndarray):\n    try:\n        return obj.dtype.type\n    except (AttributeError, RuntimeError):\n        return",
+                "try:\n    return obj.dtype.type\nexcept (AttributeError, RuntimeError):\n    return"
+            ],
+            "arguments": [
+                "obj",
+                "np.generic",
+                "obj",
+                "np.ndarray"
+            ],
+            "variable_names": [
+                "obj",
+                "FakeObject",
+                "ndarray",
+                "np"
+            ],
+            "method_calls": [
+                "isinstance",
+                "isinstance"
+            ],
+            "external_variables_methods": [
+                "np.generic",
+                "np.ndarray",
+                "obj.dtype.type",
+                "obj.dtype",
+                "(AttributeError, RuntimeError)",
+                "import numpy as np"
+            ],
+            "assignments": [],
+            "literals": [],
+            "operators": [],
+            "index_operations": [],
+            "difficulty": "medium"
+        },
+        {
+            "method_declaration": "check_abstract_methods",
+            "parameters": [
+                "base",
+                "subclass"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "attrname.startswith('_')",
+                "is_abstract_method(attr)",
+                "is_abstract_method(oattr)"
+            ],
+            "exception_handling": ["raise Exception('%s.%s   not   overridden' % (subclass.__name__, attrname))"],
+            "loop_body": [
+                "for attrname in dir(base):\n    if attrname.startswith('_'):\n        continue\n    attr = getattr(base, attrname)\n    if is_abstract_method(attr):\n        oattr = getattr(subclass, attrname)\n        if is_abstract_method(oattr):\n            raise Exception('%s.%s   not   overridden' % (subclass.__name__, attrname))"
+            ],
+            "conditional_bodies": [
+                "continue",
+                "oattr = getattr(subclass, attrname)",
+                "if is_abstract_method(oattr):\n    raise Exception('%s.%s   not   overridden' % (subclass.__name__, attrname))",
+                "raise Exception('%s.%s   not   overridden' % (subclass.__name__, attrname))"
+            ],
+            "arguments": [
+                "base",
+                "'_'",
+                "base",
+                "attrname",
+                "attr",
+                "subclass",
+                "attrname",
+                "oattr",
+                "'%s.%s   not   overridden' % (subclass.__name__, attrname)"
+            ],
+            "variable_names": [
+                "oattr",
+                "base",
+                "attrname",
+                "subclass",
+                "attr"
+            ],
+            "method_calls": [
+                "dir",
+                "attrname.startswith",
+                "getattr",
+                "is_abstract_method",
+                "getattr",
+                "is_abstract_method"
+            ],
+            "external_variables_methods": [
+                "subclass.__name__"
+            ],
+            "assignments": [
+                "attr",
+                "oattr"
+            ],
+            "literals": [
+                "_",
+                "%s.%s   not   overridden"
+            ],
+            "operators": [
+                ""
+            ],
+            "index_operations": [],
+            "difficulty": "medium"
+        },
+        {
+            "method_declaration": "print_results",
+            "parameters": [
+                "distributions",
+                "list_all_files"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "list_all_files",
+                "'files' in dist"
+            ],
+            "exception_handling": [],
+            "loop_body": [
+                "for dist in distributions:\n    logger.notify('---')\n    logger.notify('Name:   %s' % dist['name'])\n    logger.notify('Version:   %s' % dist['version'])\n    logger.notify('Location:   %s' % dist['location'])\n    logger.notify('Requires:   %s' % ',   '.join(dist['requires']))\n    if list_all_files:\n        logger.notify('Files:')\n        if 'files' in dist:\n            for line in open(dist['files']):\n                logger.notify('      %s' % line.strip())\n        else:\n            logger.notify('Cannot   locate   installed-files.txt')",
+                "for line in open(dist['files']):\n    logger.notify('      %s' % line.strip())"
+            ],
+            "conditional_bodies": [
+                "logger.notify('Files:')",
+                "if 'files' in dist:\n    for line in open(dist['files']):\n        logger.notify('      %s' % line.strip())\nelse:\n    logger.notify('Cannot   locate   installed-files.txt')",
+                "for line in open(dist['files']):\n    logger.notify('      %s' % line.strip())"
+            ],
+            "arguments": [
+                "'---'",
+                "'Name:   %s' % dist['name']",
+                "'Version:   %s' % dist['version']",
+                "'Location:   %s' % dist['location']",
+                "'Requires:   %s' % ',   '.join(dist['requires'])",
+                "dist['requires']",
+                "'Files:'",
+                "dist['files']",
+                "'      %s' % line.strip()",
+                "'Cannot   locate   installed-files.txt'"
+            ],
+            "variable_names": [
+                "dist",
+                "distributions",
+                "logger",
+                "line",
+                "list_all_files"
+            ],
+            "method_calls": [
+                "logger.notify",
+                "logger.notify",
+                "logger.notify",
+                "logger.notify",
+                "logger.notify",
+                "',   '.join",
+                "logger.notify",
+                "open",
+                "logger.notify",
+                "line.strip",
+                "logger.notify"
+            ],
+            "external_variables_methods": [],
+            "assignments": [],
+            "literals": [
+                "---",
+                "Name:   %s",
+                "name",
+                "Version:   %s",
+                "version",
+                "Location:   %s",
+                "location",
+                "Requires:   %s",
+                ",   ",
+                "requires",
+                "Files:",
+                "files",
+                "files",
+                "      %s",
+                "Cannot   locate   installed-files.txt"
+            ],
+            "operators": [
+                "",
+                "",
+                "",
+                "",
+                ""
+            ],
+            "index_operations": [
+                "dist['name']",
+                "dist['version']",
+                "dist['location']",
+                "dist['requires']",
+                "dist['files']"
+            ],
+            "difficulty": "medium"
+        },
+        {
+            "method_declaration": "_keysFromFilepaths",
+            "parameters": [
+                "filepaths",
+                "parseKey"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "if fp.exists()"
+            ],
+            "exception_handling": [
+                "try:\n            with fp.open() as f:\n                for key in readAuthorizedKeyFile(f, parseKey):\n                    yield key\n        except (IOError, OSError) as e:\n            log.msg('Unable   to   read   {0}:   {1!s}'.format(fp.path, e))"
+            ],
+            "loop_body": [
+                "for fp in filepaths:\n    if fp.exists():\n        try:\n            with fp.open() as f:\n                for key in readAuthorizedKeyFile(f, parseKey):\n                    yield key\n        except (IOError, OSError) as e:\n            log.msg('Unable   to   read   {0}:   {1!s}'.format(fp.path, e))",
+                "for key in readAuthorizedKeyFile(f, parseKey):\n    yield key"
+            ],
+            "conditional_bodies": [
+                "try:\n    with fp.open() as f:\n        for key in readAuthorizedKeyFile(f, parseKey):\n            yield key\nexcept (IOError, OSError) as e:\n    log.msg('Unable   to   read   {0}:   {1!s}'.format(fp.path, e))"
+            ],
+            "arguments": [
+                "f",
+                "parseKey",
+                "'Unable   to   read   {0}:   {1!s}'.format(fp.path, e)",
+                "fp.path",
+                "e"
+            ],
+            "variable_names": [
+                "log",
+                "f",
+                "parseKey",
+                "key",
+                "filepaths",
+                "fp",
+                "e"
+            ],
+            "method_calls": [
+                "fp.exists",
+                "fp.open",
+                "readAuthorizedKeyFile",
+                "log.msg",
+                ".format"
+            ],
+            "external_variables_methods": [
+                "fp.path"
+            ],
+            "assignments": [],
+            "literals": [
+                "Unable   to   read   {0}:   {1!s}"
+            ],
+            "operators": [],
+            "index_operations": [],
+            "difficulty": "medium"
+        },
+        {
+            "method_declaration": "add",
+            "parameters": [
+                "repo",
+                "paths"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "not paths",
+                "'.git' in dirnames"
+            ],
+            "exception_handling": [],
+            "loop_body": [
+                "for (dirpath, dirnames, filenames) in os.walk(r.path):\n    if '.git' in dirnames:\n        dirnames.remove('.git')\n    for filename in filenames:\n        paths.append(os.path.join(dirpath[len(r.path) + 1:], filename))",
+                "for filename in filenames:\n    paths.append(os.path.join(dirpath[len(r.path) + 1:], filename))"
+            ],
+            "loop": [
+                "for (dirpath, dirnames, filenames) in os.walk(r.path):",
+                "for filename in filenames:"
+            ],
+            "conditional_bodies": [
+                "paths = []",
+                "for (dirpath, dirnames, filenames) in os.walk(r.path):\n    if '.git' in dirnames:\n        dirnames.remove('.git')\n    for filename in filenames:\n        paths.append(os.path.join(dirpath[len(r.path) + 1:], filename))",
+                "dirnames.remove('.git')"
+            ],
+            "arguments": [
+                "repo",
+                "r.path",
+                "'.git'",
+                "os.path.join(dirpath[len(r.path) + 1:], filename)",
+                "dirpath[len(r.path) + 1:]",
+                "filename",
+                "r.path",
+                "paths"
+            ],
+            "variable_names": [
+                "dirnames",
+                "paths",
+                "repo",
+                "filename",
+                
+                "r",
+                "filenames",
+                "dirpath"
+            ],
+            "method_calls": [
+                "open_repo_closing",
+                "os.walk",
+                "dirnames.remove",
+                "paths.append",
+                "os.path.join",
+                "len",
+                "r.stage"
+            ],
+            "external_variables_methods": [
+                "r.path",
+                "os.path",
+                "r.path"
+            ],
+            "assignments": [
+                "paths"
+            ],
+            "literals": [
+                ".git",
+                ".git",
+                1
+            ],
+            "operators": [
+                ""
+            ],
+            "index_operations": [
+                "dirpath[len(r.path) + 1:]"
+            ],
+            "difficulty": "medium"
+        },
+        {
+            "method_declaration": "copy_tcltk",
+            "parameters": [
+                "src",
+                "dest",
+                "symlink"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "os.path.exists(srcdir) and (not os.path.exists(destdir))"
+            ],
+            "exception_handling": [],
+            "loop_body": [
+                "for libversion in ('8.5', '8.6'):\n    for libname in ('tcl', 'tk'):\n        srcdir = join(src, 'tcl', libname + libversion)\n        destdir = join(dest, 'tcl', libname + libversion)\n        if os.path.exists(srcdir) and (not os.path.exists(destdir)):\n            copyfileordir(srcdir, destdir, symlink)",
+                "for libname in ('tcl', 'tk'):\n    srcdir = join(src, 'tcl', libname + libversion)\n    destdir = join(dest, 'tcl', libname + libversion)\n    if os.path.exists(srcdir) and (not os.path.exists(destdir)):\n        copyfileordir(srcdir, destdir, symlink)"
+            ],
+            "conditional_bodies": [
+                "copyfileordir(srcdir, destdir, symlink)"
+            ],
+            "arguments": [
+                "src",
+                "'tcl'",
+                "libname + libversion",
+                "dest",
+                "'tcl'",
+                "libname + libversion",
+                "srcdir",
+                "destdir",
+                "srcdir",
+                "destdir",
+                "symlink"
+            ],
+            "variable_names": [
+                "libversion",
+                "src",
+                "destdir",
+                "libname",
+                "symlink",
+                "os",
+                "srcdir",
+                "dest"
+            ],
+            "method_calls": [
+                "join",
+                "join",
+                "os.path.exists",
+                "os.path.exists",
+                "copyfileordir"
+            ],
+            "external_variables_methods": [
+                "os.path",
+                "os.path"
+            ],
+            "assignments": [
+                "srcdir",
+                "destdir"
+            ],
+            "literals": [
+                "8.5",
+                "8.6",
+                "tcl",
+                "tk",
+                "tcl",
+                "tcl"
+            ],
+            "operators": [
+                "",
+                ""
+            ],
+            "index_operations": [],
+            "difficulty": "medium"
+        },
+        {
+            "method_declaration": "ensure_sys_path_contains",
+            "parameters": [
+                "paths"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "isinstance(entry, (list, tuple))",
+                "entry is not None and entry not in sys.path",
+                "entry is not None",
+                "entry not in sys.path"
+            ],
+            "exception_handling": [],
+            "loop_body": [
+                "for entry in paths:\n    if isinstance(entry, (list, tuple)):\n        ensure_sys_path_contains(entry)\n    elif entry is not None and entry not in sys.path:\n        sys.path.append(entry)"
+            ],
+            "loop": ["for entry in paths:\n "],
+            "conditional_bodies": [
+                "ensure_sys_path_contains(entry)",
+                "sys.path.append(entry)"
+            ],
+            "arguments": [
+                "entry",
+                "(list, tuple)",
+                "entry",
+                "entry"
+            ],
+            "variable_names": [
+                "paths",
+                "entry",
+                "sys"
+            ],
+            "method_calls": [
+                "isinstance",
+                "ensure_sys_path_contains",
+                "sys.path.append"
+            ],
+            "external_variables_methods": [
+                "sys.path",
+                "sys.path"
+            ],
+            "assignments": [],
+            "literals": [
+            ],
+            "operators": [],
+            "index_operations": [],
+            "difficulty": "medium"
+        },
+        {
+            "method_declaration": "merge",
+            "parameters": [
+                "dict1",
+                "dict2"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "val2 is not None",
+                "isinstance(val2, dict)",
+                "val1 is None",
+                "isinstance(val1, Alias)",
+                "isinstance(val1, tuple)"
+            ],
+            "exception_handling": [],
+            "loop_body": [
+                "for (key, val2) in dict2.items():\n    if val2 is not None:\n        val1 = dict1.get(key)\n        if isinstance(val2, dict):\n            if val1 is None:\n                val1 = {}\n            if isinstance(val1, Alias):\n                val1 = (val1, val2)\n            elif isinstance(val1, tuple):\n                (alias, others) = val1\n                others = others.copy()\n                merge(others, val2)\n                val1 = (alias, others)\n            else:\n                val1 = val1.copy()\n                merge(val1, val2)\n        else:\n            val1 = val2\n        dict1[key] = val1"
+            ],
+            "loop":["for (key, val2) in dict2.items():"],
+            "conditional_bodies": [
+                "val1 = dict1.get(key)",
+                "if isinstance(val2, dict):\n    if val1 is None:\n        val1 = {}\n    if isinstance(val1, Alias):\n        val1 = (val1, val2)\n    elif isinstance(val1, tuple):\n        (alias, others) = val1\n        others = others.copy()\n        merge(others, val2)\n        val1 = (alias, others)\n    else:\n        val1 = val1.copy()\n        merge(val1, val2)\nelse:\n    val1 = val2",
+                "dict1[key] = val1",
+                "if val1 is None:\n    val1 = {}",
+                "if isinstance(val1, Alias):\n    val1 = (val1, val2)\nelif isinstance(val1, tuple):\n    (alias, others) = val1\n    others = others.copy()\n    merge(others, val2)\n    val1 = (alias, others)\nelse:\n    val1 = val1.copy()\n    merge(val1, val2)",
+                "val1 = {}",
+                "val1 = (val1, val2)",
+                "(alias, others) = val1",
+                "others = others.copy()",
+                "merge(others, val2)",
+                "val1 = (alias, others)"
+            ],
+            "arguments": [
+                "key",
+                "val2",
+                "dict",
+                "val1",
+                "Alias",
+                "val1",
+                "tuple",
+                "others",
+                "val2",
+                "val1",
+                "val2"
+            ],
+            "variable_names": [
+                "dict1",
+                "others",
+            
+                "dict2",
+                "val2",
+                "val1",
+                "key"
+            ],
+            "method_calls": [
+                "dict2.items",
+                "dict1.get(key)",
+                "isinstance(val2, dict)",
+                "isinstance(val1, Alias)",
+                "isinstance(val1, tuple)",
+                "others.copy",
+                "merge",
+                "val1.copy",
+                "merge"
+            ],
+            "external_variables_methods": [],
+            "assignments": [
+                "val1 = val2",
+                "val1 = val1.copy()",
+                "val1 = dic1.get(key)",
+                "val = {}",
+                "val1 = (val1, val2",
+                "(alias, others) = val1",
+                "others = others.copy()",
+                "dict1[key] = val1 ",
+                "val1 = (alias,others) "
+            ],
+            "literals": [
+                null,
+                null
+            ],
+            "operators": [],
+            "index_operations": [
+                "dict1[key]"
+            ],
+            "difficulty": "hard"
+        },
+        {
+            "method_declaration": "_traverse_results",
+            "parameters": [
+                "value",
+                "fields",
+                "row",
+                "path"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "not isinstance(v, (dict, list, tuple))",
+                "field_name in fields",
+                "isinstance(v, dict) and f != 'attributes'"
+            ],
+            "exception_handling": [],
+            "loop_body": [
+                "for (f, v) in value.iteritems():\n    field_name = '{path}.{name}'.format(path=path, name=f) if path else f\n    if not isinstance(v, (dict, list, tuple)):\n        if field_name in fields:\n            row[fields.index(field_name)] = ensure_utf(v)\n    elif isinstance(v, dict) and f != 'attributes':\n        _traverse_results(v, fields, row, field_name)"
+            ],
+            "loop": [
+                "for (f, v) in value.iteritems():\n    "
+            ],
+            "conditional_bodies": [
+                "if field_name in fields:\n    row[fields.index(field_name)] = ensure_utf(v)",
+                "row[fields.index(field_name)] = ensure_utf(v)",
+                "_traverse_results(v, fields, row, field_name)"
+            ],
+            "arguments": [
+                "v",
+                "(dict, list, tuple)",
+                "field_name",
+                "v",
+                "v",
+                "dict",
+                "v",
+                "fields",
+                "row",
+                "field_name"
+            ],
+            "variable_names": [
+                "f",
+                "value",
+                "fields",
+                "path",
+                "v",
+                "field_name",
+                "row"
+            ],
+            "method_calls": [
+                "value.iteritems",
+                "'{path}.{name}'.format",
+                "isinstance",
+                "fields.index",
+                "ensure_utf",
+                "isinstance",
+                "_traverse_results"
+            ],
+            "external_variables_methods": [],
+            "assignments": [
+                "field_name",
+                "row[fields.index(field_name)]"
+            ],
+            "literals": [
+                "{path}.{name}",
+                "attributes"
+            ],
+            "operators": [],
+            "index_operations": [
+                "row[fields.index(field_name)]"
+            ],
+            "difficulty": "hard"
+        },
+        {
+            "method_declaration": "consume_queue",
+            "parameters": [
+                "queue",
+                "cascade_stop"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "item.exc",
+                "item.is_stop",
+                "cascade_stop"
+            ],
+            "exception_handling": [
+                "try:\n    item = queue.get(timeout=0.1)\nexcept Empty:\n    yield None\n    continue",
+                "except thread.error:\n    raise ShutdownException()"
+            ],
+            "loop_body": [
+                "while True:\n    try:\n        item = queue.get(timeout=0.1)\n    except Empty:\n        yield None\n        continue\n    except thread.error:\n        raise ShutdownException()\n    if item.exc:\n        raise item.exc\n    if item.is_stop:\n        if cascade_stop:\n            raise StopIteration\n        else:\n            continue\n    yield item.item"
+            ],
+            "conditional_bodies": [
+                
+                " raise StopIteration\nelse:\n  ",
+                " if cascade_stop:\n            raise StopIteration\n",
+                "raise item.exc\n  "
+                
+            ],
+            "arguments": ["timeout=0.1"],
+            "variable_names": [
+                "cascade_stop",
+                "queue",
+                "item",
+                "Empty",
+                "thread"
+            ],
+            "method_calls": [
+                "queue.get",
+                "ShutdownException"
+            ],
+            "external_variables_methods": [
+                "thread.error",
+                "item.exc",
+                "item.exc",
+                "item.is_stop",
+                "item.item"
+            ],
+            "assignments": [
+                "item"
+            ],
+            "literals": [
+                true,
+                0.1,
+                null
+            ],
+            "operators": [],
+            "index_operations": [],
+            "difficulty": "hard"
+        },
+        {
+            "method_declaration": "recursive_update_dict",
+            "parameters": [
+                "root",
+                "changes",
+                "ignores"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "isinstance(changes, dict)",
+                "isinstance(v, dict)",
+                "k not in root",
+                "v in ignores",
+                "k in root"
+            ],
+            "exception_handling": [],
+            "loop_body": [
+                "for (k, v) in changes.items():\n    if isinstance(v, dict):\n        if k not in root:\n            root[k] = {}\n        recursive_update_dict(root[k], v, ignores)\n    elif v in ignores:\n        if k in root:\n            root.pop(k)\n    else:\n        root[k] = v"
+            ],
+            "loop": [
+                "for (k, v) in changes.items():\n"
+            ],
+            "conditional_bodies": [
+                "for (k, v) in changes.items():\n    if isinstance(v, dict):\n        if k not in root:\n            root[k] = {}\n        recursive_update_dict(root[k], v, ignores)\n    elif v in ignores:\n        if k in root:\n            root.pop(k)\n    else:\n        root[k] = v",
+                "if k not in root:\n    root[k] = {}",
+                "recursive_update_dict(root[k], v, ignores)",
+                "root[k] = {}",
+                "if k in root:\n    root.pop(k)",
+                "root.pop(k)"
+            ],
+            "arguments": [
+                "changes",
+                "dict",
+                "v",
+                "dict",
+                "root[k]",
+                "v",
+                "ignores",
+                "k"
+            ],
+            "variable_names": [
+                "root",
+                "k",
+                "ignores",
+                "changes",
+                "v"
+            ],
+            "method_calls": [
+                "isinstance",
+                "changes.items",
+                "isinstance",
+                "recursive_update_dict",
+                "root.pop"
+            ],
+            "external_variables_methods": [],
+            "assignments": [
+                "root[k]",
+                "root[k]"
+            ],
+            "literals": [],
+            "operators": [],
+            "index_operations": [
+                "root[k]",
+                "root[k]",
+                "root[k]"
+            ],
+            "difficulty": "hard"
+        },
+        {
+            "method_declaration": "get_value_from_json",
+            "parameters": [
+                "json_dict",
+                "sensor_type",
+                "group",
+                "tool"
+            ],
+            "return_statements": [
+                "0",
+                "json_dict[group][sensor_type]",
+                "json_dict[group][tool][sensor_type]"
+            ],
+            "return": 3,
+            "conditional_statements": [
+                "group in json_dict",
+                "sensor_type in json_dict[group]",
+                "sensor_type == 'target' and json_dict[sensor_type] is None",
+                "tool is not None",
+                "sensor_type in json_dict[group][tool]"
+            ],
+            "exception_handling": [],
+            "loop_body": [],
+            "conditional_bodies": [
+                "if sensor_type in json_dict[group]:\n    if sensor_type == 'target' and json_dict[sensor_type] is None:\n        return 0\n    else:\n        return json_dict[group][sensor_type]\nelif tool is not None:\n    if sensor_type in json_dict[group][tool]:\n        return json_dict[group][tool][sensor_type]",
+                "if sensor_type == 'target' and json_dict[sensor_type] is None:\n    return 0\nelse:\n    return json_dict[group][sensor_type]",
+                "return 0",
+                "if sensor_type in json_dict[group][tool]:\n    return json_dict[group][tool][sensor_type]",
+                "return json_dict[group][tool][sensor_type]"
+            ],
+            "arguments": [],
+            "variable_names": [
+                "tool",
+                "group",
+                "sensor_type",
+                "json_dict"
+            ],
+            "method_calls": [],
+            "external_variables_methods": [],
+            "assignments": [],
+            "literals": [
+                "target",
+                null,
+                0,
+                null
+            ],
+            "operators": [],
+            "index_operations": [
+                "json_dict[group]",
+                "json_dict[sensor_type]",
+                "json_dict[group][sensor_type]",
+                "json_dict[group]",
+                "json_dict[group][tool]",
+                "json_dict[group]",
+                "json_dict[group][tool][sensor_type]",
+                "json_dict[group][tool]",
+                "json_dict[group]"
+            ],
+            "difficulty": "hard"
+        },
+        {
+            "method_declaration": "GetJavaJars",
+            "parameters": [
+                "target_list",
+                "target_dicts",
+                "toplevel_dir"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "os.path.splitext(input_)[1] == '.jar' and (not input_.startswith('$'))",
+                "os.path.isabs(input_)"
+            ],
+            "exception_handling": [],
+            "loop_body": [
+                "for target_name in target_list:\n    target = target_dicts[target_name]\n    for action in target.get('actions', []):\n        for input_ in action['inputs']:\n            if os.path.splitext(input_)[1] == '.jar' and (not input_.startswith('$')):\n                if os.path.isabs(input_):\n                    yield input_\n                else:\n                    yield os.path.join(os.path.dirname(target_name), input_)",
+                "for action in target.get('actions', []):\n    for input_ in action['inputs']:\n        if os.path.splitext(input_)[1] == '.jar' and (not input_.startswith('$')):\n            if os.path.isabs(input_):\n                yield input_\n            else:\n                yield os.path.join(os.path.dirname(target_name), input_)",
+                "for input_ in action['inputs']:\n    if os.path.splitext(input_)[1] == '.jar' and (not input_.startswith('$')):\n        if os.path.isabs(input_):\n            yield input_\n        else:\n            yield os.path.join(os.path.dirname(target_name), input_)"
+            ],
+            "loop": [
+                "for target_name in target_list:\n    ",
+                "for action in target.get('actions', []):\n    ",
+                "for input_ in action['inputs']:\n    "
+            ],
+            "conditional_bodies": [
+                "if os.path.isabs(input_):\n    yield input_\nelse:\n    yield os.path.join(os.path.dirname(target_name), input_)",
+                "yield input_"
+            ],
+            "arguments": [
+                "'actions'",
+                "[]",
+                "input_",
+                "'$'",
+                "input_",
+                "os.path.dirname(target_name)",
+                "input_",
+                "target_name"
+            ],
+            "variable_names": [
+                "action",
+                "target_dicts",
+                "target_name",
+                "os",
+                "target_list",
+                "target",
+                "input_"
+            ],
+            "method_calls": [
+                "target.get",
+                "os.path.splitext",
+                "input_.startswith",
+                "os.path.isabs",
+                "os.path.join",
+                "os.path.dirname"
+            ],
+            "external_variables_methods": [
+                "os.path",
+                "os.path",
+                "os.path",
+                "os.path"
+            ],
+            "assignments": [
+                "target"
+            ],
+            "literals": [
+                "actions",
+                "inputs",
+                1,
+                ".jar",
+                "$"
+            ],
+            "operators": [],
+            "index_operations": [
+                "target_dicts[target_name]",
+                "action['inputs']",
+                "os.path.splitext(input_)[1]"
+            ],
+            "difficulty": "hard"
+        },
+        {
+            "method_declaration": "RemoveSelfDependencies",
+            "parameters": [
+                "targets"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "dependencies",
+                "t == target_name",
+                "targets[t].get('variables', {}).get('prune_self_dependency', 0)"
+            ],
+            "exception_handling": [],
+            "loop_body": [
+                "for (target_name, target_dict) in targets.iteritems():\n    for dependency_key in dependency_sections:\n        dependencies = target_dict.get(dependency_key, [])\n        if dependencies:\n            for t in dependencies:\n                if t == target_name:\n                    if targets[t].get('variables', {}).get('prune_self_dependency', 0):\n                        target_dict[dependency_key] = Filter(dependencies, target_name)",
+                "for dependency_key in dependency_sections:\n    dependencies = target_dict.get(dependency_key, [])\n    if dependencies:\n        for t in dependencies:\n            if t == target_name:\n                if targets[t].get('variables', {}).get('prune_self_dependency', 0):\n                    target_dict[dependency_key] = Filter(dependencies, target_name)",
+                "for t in dependencies:\n    if t == target_name:\n        if targets[t].get('variables', {}).get('prune_self_dependency', 0):\n            target_dict[dependency_key] = Filter(dependencies, target_name)"
+            ],
+            "conditional_bodies": [
+                "for t in dependencies:\n    if t == target_name:\n        if targets[t].get('variables', {}).get('prune_self_dependency', 0):\n            target_dict[dependency_key] = Filter(dependencies, target_name)",
+                "if targets[t].get('variables', {}).get('prune_self_dependency', 0):\n    target_dict[dependency_key] = Filter(dependencies, target_name)",
+                "target_dict[dependency_key] = Filter(dependencies, target_name)"
+            ],
+            "arguments": [
+                "dependency_key",
+                "[]",
+                "'prune_self_dependency'",
+                "0",
+                "'variables'",
+                "{}",
+                "dependencies",
+                "target_name"
+            ],
+            "variable_names": [
+                "target_dict",
+                "dependencies",
+                "target_name",
+                "targets",
+                "dependency_key",
+                "dependency_sections",
+                "t"
+            ],
+            "method_calls": [
+                "targets.iteritems",
+                "target_dict.get",
+                "targets[t].get('variables', {}).get",
+                "targets[t].get",
+                "Filter"
+            ],
+            "external_variables_methods": [],
+            "assignments": [
+                "dependencies",
+                "target_dict[dependency_key]"
+            ],
+            "literals": [
+                "variables",
+                "prune_self_dependency",
+                0
+            ],
+            "operators": [],
+            "index_operations": [
+                "targets[t]",
+                "target_dict[dependency_key]"
+            ],
+            "difficulty": "hard"
+        },
+        {
+            "method_declaration": "parse_assigned_metadata",
+            "parameters": [
+                "csvfile"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "record[2]",
+                "record[4]",
+                "record[5]",
+                "record[6]",
+                "not status or record[3]"
+            ],
+            "exception_handling": [],
+            "loop_body": [
+                "for record in csv.reader(f):\n    module = record[0]\n    supported_by = record[1]\n    status = []\n    if record[2]:\n        status.append('stableinterface')\n    if record[4]:\n        status.append('deprecated')\n    if record[5]:\n        status.append('removed')\n    if record[6]:\n        status.append('tested')\n    if not status or record[3]:\n        status.append('preview')\n    yield (module, {'version': '1.0', 'supported_by': supported_by, 'status': status})"
+            ],
+            "conditional_bodies": [
+                "status.append('stableinterface')",
+                "status.append('deprecated')",
+                "status.append('removed')",
+                "status.append('tested')",
+                "status.append('preview')"
+            ],
+            "arguments": [
+                "csvfile",
+                "'rb'",
+                "f",
+                "'stableinterface'",
+                "'deprecated'",
+                "'removed'",
+                "'tested'",
+                "'preview'"
+            ],
+            "variable_names": [
+                "supported_by",
+                "csv",
+                "status",
+                "f",
+                "module",
+                "csvfile",
+                "record"
+            ],
+            "method_calls": [
+                "open",
+                "csv.reader",
+                "status.append",
+                "status.append",
+                "status.append",
+                "status.append",
+                "status.append"
+            ],
+            "external_variables_methods": [],
+            "assignments": [
+                "module",
+                "supported_by",
+                "status"
+            ],
+            "literals": [
+                "rb",
+                0,
+                1,
+                2,
+                "stableinterface",
+                4,
+                "deprecated",
+                5,
+                "removed",
+                6,
+                "tested",
+                3,
+                "preview",
+                "version",
+                "supported_by",
+                "status",
+                "1.0"
+            ],
+            "operators": [],
+            "index_operations": [
+                "record[0]",
+                "record[1]",
+                "record[2]",
+                "record[4]",
+                "record[5]",
+                "record[6]",
+                "record[3]"
+            ],
+            "difficulty": "hard"
+        },
+        {
+            "method_declaration": "test_client_options",
+            "parameters": [
+                "config"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "config['use_ssl']",
+                "'certificate' in config and config['certificate']",
+                "'client_cert' in config and config['client_cert']",
+                "'client_key' in config and config['client_key']"
+            ],
+            "exception_handling": [],
+            "loop_body": [],
+            "conditional_bodies": [
+                "if 'certificate' in config and config['certificate']:\n    read_file(config['certificate'])",
+                "if 'client_cert' in config and config['client_cert']:\n    read_file(config['client_cert'])",
+                "if 'client_key' in config and config['client_key']:\n    read_file(config['client_key'])",
+                "read_file(config['certificate'])",
+                "read_file(config['client_cert'])",
+                "read_file(config['client_key'])"
+            ],
+            "arguments": [
+                "config['certificate']",
+                "config['client_cert']",
+                "config['client_key']"
+            ],
+            "variable_names": [
+                "config"
+            ],
+            "method_calls": [
+                "read_file",
+                "read_file",
+                "read_file"
+            ],
+            "external_variables_methods": [],
+            "assignments": [],
+            "literals": [
+                "use_ssl",
+                "certificate",
+                "certificate",
+                "certificate",
+                "client_cert",
+                "client_cert",
+                "client_cert",
+                "client_key",
+                "client_key",
+                "client_key"
+            ],
+            "operators": [],
+            "index_operations": [
+                "config['use_ssl']",
+                "config['certificate']",
+                "config['certificate']",
+                "config['client_cert']",
+                "config['client_cert']",
+                "config['client_key']",
+                "config['client_key']"
+            ],
+            "difficulty": "hard"
+        },
+        {
+            "method_declaration": "collect",
+            "parameters": [
+                "names",
+                "match",
+                "match_dir"
+            ],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "os.path.isdir(name)",
+                "match(filename)"
+            ],
+            "exception_handling": [],
+            "loop_body": [
+                "for name in names:\n    if os.path.isdir(name):\n        for (root, dirs, filenames) in os.walk(name):\n            dirs[:] = [dir for dir in dirs if match_dir(dir)]\n            for filename in filenames:\n                if match(filename):\n                    yield os.path.join(root, filename)\n    else:\n        yield name",
+                "for (root, dirs, filenames) in os.walk(name):\n    dirs[:] = [dir for dir in dirs if match_dir(dir)]\n    for filename in filenames:\n        if match(filename):\n            yield os.path.join(root, filename)",
+                "for filename in filenames:\n    if match(filename):\n        yield os.path.join(root, filename)"
+            ],
+            "loop": [ "for name in names:\n  ",
+                "for (root, dirs, filenames) in os.walk(name):\n    dirs[:] = [dir for dir in dirs ",
+                "for filename in filenames:\n    "],
+            "conditional_bodies": [
+                "for (root, dirs, filenames) in os.walk(name):\n    dirs[:] = [dir for dir in dirs if match_dir(dir)]\n    for filename in filenames:\n        if match(filename):\n            yield os.path.join(root, filename)",
+                "yield os.path.join(root, filename)"
+            ],
+            "arguments": [
+                "name",
+                "name",
+                "dir",
+                "filename",
+                "root",
+                "filename"
+            ],
+            "variable_names": [
+                "names",
+                "dir",
+                "dirs",
+                "root",
+                "filename",
+                "os",
+                "filenames",
+                "name"
+            ],
+            "method_calls": [
+                "os.path.isdir",
+                "os.walk",
+                "match_dir",
+                "match",
+                "os.path.join"
+            ],
+            "external_variables_methods": [
+            ],
+            "assignments": [
+                "dirs[:]"
+            ],
+            "literals": [],
+            "operators": [],
+            "index_operations": [
+                "dirs[:]"
+            ],
+            "difficulty": "hard"
+        },
+        {
+            "method_declaration": "update_csp",
+            "parameters": [],
+            "return_statements": [],
+            "return": 0,
+            "conditional_statements": [
+                "value.startswith('https://') and settings.DEBUG",
+                "value.startswith('http://') and (not settings.DEBUG)"
+            ],
+            "exception_handling": [],
+            "loop_body": [
+                "for key in ('CSP_SCRIPT_SRC',):\n    values = getattr(settings, key)\n    new = set()\n    for value in values:\n        if value.startswith('https://') and settings.DEBUG:\n            res = value.replace('https://', 'http://')\n            for v in (value, res):\n                new.add(v)\n            continue\n        elif value.startswith('http://') and (not settings.DEBUG):\n            continue\n        else:\n            new.add(value)\n    setattr(settings, key, tuple(new))",
+                "for value in values:\n    if value.startswith('https://') and settings.DEBUG:\n        res = value.replace('https://', 'http://')\n        for v in (value, res):\n            new.add(v)\n        continue\n    elif value.startswith('http://') and (not settings.DEBUG):\n        continue\n    else:\n        new.add(value)",
+                "for v in (value, res):\n    new.add(v)"
+            ],
+            "loop": ["for key in ('CSP_SCRIPT_SRC',):\n","for value in values:\n","for v in (value, res):\n"],
+            "conditional_bodies": [
+                "res = value.replace('https://', 'http://') for v in (value, res):\n    new.add(v)",
+                "continue",
+                "new.add(value)"
+            ],
+            "arguments": [
+                "settings",
+                "key",
+
+                "value",
+                "settings",
+                "key",
+                "new"
+            ],
+            "variable_names": [
+                "value",
+                "new",
+                "v",
+                "values",
+                "key",
+                "res"
+            ],
+            "method_calls": [
+                "getattr",
+                "set",
+                "value.startswith",
+                "value.replace",
+                "new.add",
+                "value.startswith",
+                "new.add",
+                "setattr",
+                "tuple"
+            ],
+            "external_variables_methods": [
+                "settings.DEBUG",
+                "settings.DEBUG"
+            ],
+            "assignments": [
+                "values",
+                "new",
+                "res"
+            ],
+            "literals": [
+                "CSP_SCRIPT_SRC",
+                "https://",
+                "https://",
+                "http://",
+                "http://"
+            ],
+            "operators": [],
+            "index_operations": [],
+            "difficulty": "hard"
+        }
+    ],
+    "category_counts": {
+        "method_declaration": 33,
+        "parameters": 118,
+        "return": 12,
+        "conditional_statements": 67,
+        "exception_handling": 8,
+        "loop_body": 34,
+        "conditional_bodies": 85,
+        "arguments": 158,
+        "variable_names": 147,
+        "method_calls": 129,
+        "external_variables_methods": 40,
+        "assignments": 34,
+        "literals": 101,
+        "operators": 12,
+        "indexing_operations": 0
+    }
+}
