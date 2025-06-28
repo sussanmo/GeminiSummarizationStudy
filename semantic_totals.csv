@@ -1,0 +1,17 @@
+Category,Total Token Count
+arguments,150
+variable_names,143
+method_calls,125
+literals,100
+conditional_bodies,83
+conditional_statements,74
+parameters,59
+index_operations,44
+external_variables_methods,43
+loop_body,34
+assignments,34
+method_declaration,33
+loop,19
+operators,13
+return_statements,12
+exception_handling,12
