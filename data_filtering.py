@@ -218,30 +218,227 @@ def add_descriptions_to_methods(methods_file, decldesc_file, output_file):
     for method in unmatched_methods:
         print(f"- {method}")
 
+
+def create_tasks(easy_methods, medium_methods, hard_methods, num_tasks=11):
+    tasks = []
+    
+    # Shuffle the methods lists to ensure random order
+    random.shuffle(easy_methods)
+    random.shuffle(medium_methods)
+    random.shuffle(hard_methods)
+    
+    for i in range(1, num_tasks + 1):
+        # Select one method from each category and pop to avoid repetition
+        easy_method = easy_methods.pop()
+        medium_method = medium_methods.pop()
+        hard_method = hard_methods.pop()
+
+        # Randomize the order of easy, medium, and hard methods
+        methods_in_task = [easy_method, medium_method, hard_method]
+        random.shuffle(methods_in_task)
+
+        # Create a task and add it to the list
+        task = {
+            f"Task {i}": methods_in_task
+        }
+        tasks.append(task)
+    
+    # Save the tasks to a new JSON file
+    with open('task_map.json', 'w') as f:
+        json.dump(tasks, f, indent=4)
+
+    print(f"Generated {num_tasks} tasks in 'task_map.json'.")
+
 if __name__ == '__main__':
-    directory = 'CodeSearchNet/python/python/final/jsonl/train'
+    # directory = 'CodeSearchNet/python/python/final/jsonl/train'
     # all_methods = jsonIteration(directory)
-    #sampled_methods = random_sample(all_methods, 0.05)
-    # sampled_methods = filter_methods(all_methods)
+    # print(len(all_methods))
+    # sampled_methods = random_sample(all_methods, 0.05)
+    # print (len(sampled_methods))
+    # # sampled_methods = filter_methods(all_methods)
 
-    # Save the sampled methods to a JSON file
-    # save_to_json(sampled_methods, 'filtered_dataset.jsonl.gz')
+    # # Save the sampled methods to a JSON file
+    # # save_to_json(sampled_methods, 'filtered_dataset.jsonl.gz')
 
-    filtered_file = '/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/filtered_dataset.jsonl.gz'
+    # filtered_file = '/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/filtered_dataset.jsonl.gz'
     final_methods_file = '/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/final_methods.json'
-    output_file = 'final_methods_with_summary.json'
+    # output_file = 'final_methods_with_summary.json'
 
-    # jsonIteration2(filtered_file, final_methods_file)
+    # # jsonIteration2(filtered_file, final_methods_file)
 
-    # Path to the gzipped file
-    # gzipped_file = '/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/code-docstring-corpus/parallel-corpus/data_ps.all.train.gz'
+    # # Path to the gzipped file
+    # # gzipped_file = '/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/code-docstring-corpus/parallel-corpus/data_ps.all.train.gz'
 
-    # Print the first two entries
-    # print_first_two_entries(gzipped_file)
+    # # Print the first two entries
+    # # print_first_two_entries(gzipped_file)
 
-    # gzipped_file = '/path/to/data_ps.all.train.gz'
-    # final_methods_file = '/path/to/final_methods.json'
-    decldesc_file = '/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/code-docstring-corpus/parallel-corpus/data_ps.decldesc.train'
-    output_file = 'final_methods_with_descriptions.json'
+    # # gzipped_file = '/path/to/data_ps.all.train.gz'
+    # # final_methods_file = '/path/to/final_methods.json'
+    # # decldesc_file = '/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/code-docstring-corpus/parallel-corpus/data_ps.decldesc.train'
+    # # output_file = 'final_methods_with_descriptions.json'
 
-    add_descriptions_to_methods(final_methods_file, decldesc_file, output_file)
+    # # add_descriptions_to_methods(final_methods_file, decldesc_file, output_file)
+
+    #     # Load the final_methods_with_descriptions.json file
+    # with open('/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/final_methods_with_descriptions.json', 'r') as f:
+    #     methods = json.load(f)
+
+    # # Organize methods by cyclomatic complexity
+    # easy_methods = [method for method in methods if method['cyclomatic_complexity'] == 3]
+    # medium_methods = [method for method in methods if method['cyclomatic_complexity'] == 5]
+    # hard_methods = [method for method in methods if method['cyclomatic_complexity'] in [7, 8]]
+    
+    # # Generate tasks
+    # # tasks = create_tasks(easy_methods, medium_methods, hard_methods)
+
+    
+    import json
+
+    def calculate_averages(json_data):
+        # Ensure json_data is a list of dictionaries
+        if isinstance(json_data, str):
+            json_data = json.loads(json_data)  # Parse JSON string into a Python object
+        
+        total_line_length = 0
+        total_method_length = 0
+        total_methods = len(json_data)
+
+        for method_data in json_data:
+            method_code = method_data["code"]  # Use 'code' instead of 'method'
+            lines = method_code.split('\n')
+            method_length = len(lines)
+            total_method_length += method_length
+            
+            for line in lines:
+                total_line_length += len(line.strip())
+        
+        average_line_length = total_line_length / total_methods
+        average_method_length = total_method_length / total_methods
+        
+        return average_line_length, average_method_length
+
+    # Ensure final_methods_file is properly formatted
+    # print(type(final_methods_file))  # Debugging output
+    # if isinstance(final_methods_file, str):
+    #     final_methods_file = json.loads(final_methods_file)  # Convert to list of dictionaries
+
+    print(final_methods_file)  # Check if indexing works correctly
+    # avg_line_length, avg_method_length = calculate_averages(final_methods_file)
+
+    # print(f"The final selected methods had an average line length of {avg_line_length:.2f} and an average method length of {avg_method_length:.2f}.")
+
+
+    # import json
+
+    # json_file_path = "/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/final_methods.json"
+    # # json_file_path = '/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/filtered_methods.json'
+    # try:
+    #     with open(json_file_path, "r", encoding="utf-8") as f:
+    #         data = json.load(f)  # Load JSON content into a Python object
+
+    #     # Ensure the data is a list
+    #     if not isinstance(data, list):
+    #         raise ValueError("JSON data is not a list of methods.")
+
+    #     total_line_count = 0
+    #     total_methods = len(data)
+    #     total_line_lengths = 0
+    #     total_lines = 0
+
+    #     for i, method_data in enumerate(data):
+    #         # Get line count
+    #         line_count = method_data.get("line_count", 0)  
+    #         total_line_count += line_count  
+
+    #         # Compute total characters per method
+    #         method_code = method_data.get("method", "").strip()  
+    #         lines = method_code.split("\n")  
+    #         total_chars = sum(len(line.strip()) for line in lines)  
+
+    #         total_line_lengths += total_chars  
+    #         total_lines += len(lines)  
+
+    #     # Compute averages
+    #     average_line_count = total_line_count / total_methods if total_methods > 0 else 0
+    #     average_line_length = total_line_lengths / total_lines if total_lines > 0 else 0
+
+    #     print(f"\nFinal Average Method Length: {average_line_count:.2f} lines")
+    #     print(f"Final Average Line Length: {average_line_length:.2f} characters per line")
+
+    # except FileNotFoundError:
+    #     print("Error: The file was not found.")
+    # except json.JSONDecodeError as e:
+    #     print(f"Error decoding JSON: {e}")
+    # except Exception as e:
+    #     print(f"Unexpected error: {e}")
+
+    #--------------
+    import json
+    import math
+
+    # json_file_path = "/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/final_methods.json"
+    json_file_path = "/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/filtered_methods.json"
+    try:
+        with open(json_file_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        print(len(data))
+
+        if not isinstance(data, list):
+            raise ValueError("JSON data is not a list of methods.")
+
+        line_counts = []
+        line_lengths = []
+        complexities = []
+
+        for method_data in data:
+            # Method lines
+            line_count = method_data.get("line_count", 0)
+            line_counts.append(line_count)
+
+            # Line length per line of code
+            method_code = method_data.get("method", "").strip()
+            lines = method_code.split("\n")
+            line_lengths.extend([len(line.strip()) for line in lines])
+
+            # Cyclomatic complexity (grab first value from dict)
+            cc = method_data.get("cyclomatic_complexity")
+            if isinstance(cc, int) or isinstance(cc, float):
+                complexities.append(cc)
+
+        def compute_stats(values):
+            if not values:
+                return (0, 0, 0, 0)
+            mean = sum(values) / len(values)
+            std = math.sqrt(sum((x - mean) ** 2 for x in values) / len(values))
+            return (mean, std, min(values), max(values))
+
+        avg_len, std_len, min_len, max_len = compute_stats(line_counts)
+        avg_line, std_line, min_line, max_line = compute_stats(line_lengths)
+        avg_cc, std_cc, min_cc, max_cc = compute_stats(complexities)
+
+        print("\n--- Method Length (in lines) ---")
+        print(f"Mean: {avg_len:.2f}, Std: {std_len:.2f}, Min: {min_len}, Max: {max_len}")
+
+        print("\n--- Line Length (in characters) ---")
+        print(f"Mean: {avg_line:.2f}, Std: {std_line:.2f}, Min: {min_line}, Max: {max_line}")
+
+        print("\n--- Cyclomatic Complexity ---")
+        print(f"Mean: {avg_cc:.2f}, Std: {std_cc:.2f}, Min: {min_cc}, Max: {max_cc}")
+
+    except FileNotFoundError:
+        print("Error: The file was not found.")
+    except json.JSONDecodeError as e:
+        print(f"Error decoding JSON: {e}")
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+
+    # total_line_count = 0
+    # total_methods = len(data)
+
+    # for i, method_data in enumerate(data):
+    #     line_count = method_data.get("line_count", 0)
+    #     print(f"Method {i + 1} Line Count: {line_count}")  # Debugging line
+    #     total_line_count += line_count  
+
+    # average_line_count = total_line_count / total_methods if total_methods > 0 else 0
+    # print(f"\nFinal Average Line Count: {average_line_count:.2f} lines")
