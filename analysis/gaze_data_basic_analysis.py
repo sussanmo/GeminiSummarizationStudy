@@ -358,21 +358,31 @@ def independ_test(pre_gem, post_gem, metric):
     print("Equal variance?", equal_var)
 
     print(f"Testing differences between : {metric}")
+    mean_pre = np.mean(pre_data)
+    mean_post = np.mean(post_data)
+    print(f"Mean Pre: {mean_pre:.4f}")
+    print(f"Mean Post: {mean_post:.4f}")
     # Choose test based on assumptions
+    # Use appropriate test based on assumptions
     if pre_normal and post_normal:
-        # Use t-test
         if equal_var:
             t_stat, p_val = ttest_ind(pre_data, post_data, equal_var=True)
             print(f"Student's t-test (equal var): t={t_stat:.3f}, p={p_val:.3f}")
         else:
             t_stat, p_val = ttest_ind(pre_data, post_data, equal_var=False)  # Welch's t-test
             print(f"Welch's t-test (unequal var): t={t_stat:.3f}, p={p_val:.3f}")
+
+        cohens_d_val = cohen_d(pre_data, post_data)
+        print(f"Cohen's d: {cohens_d_val:.3f}")
+
     else:
-        # Non-parametric Mann-Whitney U test
         u_stat, p_val = mannwhitneyu(pre_data, post_data, alternative='two-sided')
         print(f"Mann-Whitney U test (non-parametric): U={u_stat:.3f}, p={p_val:.3f}")
 
-#fixation duration 
+        n1 = len(pre_data)
+        n2 = len(post_data)
+        rbc = rank_biserial_correlation(u_stat, n1, n2)
+        print(f"Rank-biserial correlation (effect size): {rbc:.3f}")
 #fixation count
 # run test on experience v. code fixation count/duration group 
         
@@ -553,6 +563,7 @@ def merge_difficulty_info(pre_post_df, experience_df):
             print(f"Skipping participant {pid}: pre={len(pre_df)}, post={len(post_df)}")
 
     return pre_post_df.drop(columns=['participant_clean'])
+
 def merge_method_info(pre_post_df, experience_df):
     """
     Assigns method names to pre_post_df rows by matching participants and assigning
@@ -565,50 +576,54 @@ def merge_method_info(pre_post_df, experience_df):
     Returns:
         pre_post_df with a new 'method' column.
     """
-    method_map = {}
 
-    # Build a mapping: participant ID → list of 3 method names
-    for _, row in experience_df.iterrows():
-        pid = str(row['participant']).strip()
-        methods = str(row['Methods']).split(',')
-        methods = [m.strip() for m in methods]
-        method_map[pid] = methods
+    # Normalize participant IDs in experience_df as strings with digits only
+    experience_df = experience_df.copy()
+    experience_df['participant_clean'] = experience_df['participant'].astype(str).str.extract(r'(\d+)')[0]
 
+    # Normalize participant IDs in pre_post_df similarly
     pre_post_df = pre_post_df.copy()
-    pre_post_df['method'] = None
-
-    # Normalize participant IDs
     pre_post_df['participant_clean'] = pre_post_df['participant'].astype(str).str.extract(r'(\d+)')[0]
 
-    # Assign method names to each participant's rows
-    for pid, methods in method_map.items():
-        pid_clean = str(float(pid)).split('.')[0]
+    method_map = {}
+    for _, row in experience_df.iterrows():
+        pid = row['participant_clean']
+        if pd.isna(pid):
+            print(f"Skipping experience_df row with missing participant ID: {row['participant']}")
+            continue
 
-        participant_df = pre_post_df[pre_post_df['participant_clean'] == pid_clean]
+        methods = str(row['Methods']).split('def')
+       
+        methods = [m.strip() for m in methods if m.strip()]
+        # print(f"Participant {pid} METHODS ({len(methods)}):")
+        for m in methods:
+            print(f"  - {m}")
+        if len(methods) != 3:
+            print(f"Skipping participant {pid}: expected 3 methods, got {len(methods)}")
+            continue
+        method_map[pid] = methods
+
+    pre_post_df['method'] = None
+
+    for pid, methods in method_map.items():
+        participant_df = pre_post_df[pre_post_df['participant_clean'] == pid]
 
         if len(participant_df) != 6:
             print(f"Skipping participant {pid}: expected 6 rows, got {len(participant_df)}")
             continue
 
-        if len(methods) != 3:
-            print(f"Skipping participant {pid}: expected 3 methods, got {len(methods)}")
-            continue
-
-        # Sort participant rows to ensure 3 pre come before 3 post
-        participant_df = participant_df.sort_values(by='condition', key=lambda col: col.map({'pre': 0, 'post': 1}))
-
-        # Assign each method to both pre and post condition
-        pre_rows = participant_df[participant_df['condition'] == 'pre']
-        post_rows = participant_df[participant_df['condition'] == 'post']
+        pre_rows = participant_df[participant_df['condition'] == 'pre'].sort_index()
+        post_rows = participant_df[participant_df['condition'] == 'post'].sort_index()
 
         if len(pre_rows) != 3 or len(post_rows) != 3:
             print(f"Skipping participant {pid}: expected 3 pre and 3 post rows, got {len(pre_rows)} pre and {len(post_rows)} post")
             continue
 
-        # Match pre and post rows by index and assign the same method
         for method, pre_idx, post_idx in zip(methods, pre_rows.index, post_rows.index):
             pre_post_df.at[pre_idx, 'method'] = method
             pre_post_df.at[post_idx, 'method'] = method
+            
+            # print(f"Participant {pid}: Assigned method '{method}' to pre index {pre_idx} and post index {post_idx}")
 
     return pre_post_df.drop(columns=['participant_clean'])
 
@@ -677,6 +692,9 @@ def run_paired_test_by_difficulty(df, metric):
         post_vals = []
         dropped_due_to_nan = []
 
+         # 🔍 Add method-level debug prints
+        print(f"  • Pre rows: {len(pre)}")
+        print(f"  • Post rows: {len(post)}")
 
         for pid in matched:
             pre_val = pre[pre['participant'] == pid][metric].values
@@ -721,66 +739,64 @@ def run_paired_test_by_difficulty(df, metric):
             print(f"    W = {w_stat:.3f}, p = {p_val:.3f}")
 
 
+
 def run_paired_test_by_method(df, metric):
     """
     Run paired tests for the given metric comparing pre vs post across each method,
     checking assumptions and choosing test accordingly.
 
-    Args:
-        df (pd.DataFrame): Must have columns 'participant', 'condition', 'method', and metric.
-        metric (str): The metric to test (e.g., 'avg_fix_dur_code').
+    Assumes each participant has exactly one 'pre' and one 'post' row per method.
     """
     for method in df['method'].dropna().unique():
-        print(f"\n🟩 Method: {method.strip()}")
+        method_clean = method.strip()
+        print(f"\n🟩 Method: {method_clean}")
 
-        subset = df[df['method'].str.strip() == method.strip()]
+        subset = df[df['method'].str.strip() == method_clean]
+
         pre = subset[subset['condition'] == 'pre']
         post = subset[subset['condition'] == 'post']
 
-        matched = set(pre['participant']) & set(post['participant'])
-
+        participants = set(pre['participant']) & set(post['participant'])
         pre_vals = []
         post_vals = []
         dropped_due_to_nan = []
 
-        
-        for pid in matched:
-            pre_val = pre[pre['participant'] == pid][metric].values
-            post_val = post[post['participant'] == pid][metric].values
+        for pid in participants:
+            pre_rows = pre[pre['participant'] == pid]
+            post_rows = post[post['participant'] == pid]
 
-            if len(pre_val) == 1 and len(post_val) == 1:
-                if not np.isnan(pre_val[0]) and not np.isnan(post_val[0]):
-                    pre_vals.append(pre_val[0])
-                    post_vals.append(post_val[0])
-                else:
-                    dropped_due_to_nan.append(pid)
+            if len(pre_rows) != 1 or len(post_rows) != 1:
+                raise ValueError(f"Participant {pid} does not have exactly one pre and one post row for method '{method_clean}'. "
+                                 f"Found pre: {len(pre_rows)}, post: {len(post_rows)}")
 
-        unmatched_pre = set(pre['participant']) - matched
-        unmatched_post = set(post['participant']) - matched
+            pre_val = pre_rows[metric].values[0]
+            post_val = post_rows[metric].values[0]
 
-        print(f"  • Matched: {len(matched)} participants")
-        print(f"  • Used in test: {len(pre_vals)}")
-        print(f"  • Dropped due to NaN: {sorted(dropped_due_to_nan)}")
-        print(f"  • Unmatched (pre only): {sorted(unmatched_pre)}")
-        print(f"  • Unmatched (post only): {sorted(unmatched_post)}")
+            if np.isnan(pre_val) or np.isnan(post_val):
+                dropped_due_to_nan.append(pid)
+                continue
+
+            pre_vals.append(pre_val)
+            post_vals.append(post_val)
+
+        print(f"  • Participants with valid data: {(pre_vals)}")
+        if dropped_due_to_nan:
+            print(f"  • Participants dropped due to NaN in {metric}: {sorted(dropped_due_to_nan)}")
 
         if len(pre_vals) < 2:
             print("  ⚠️ Skipping test — not enough valid matched pairs.")
             continue
 
-        # Check normality of the difference scores
         diffs = np.array(pre_vals) - np.array(post_vals)
         shapiro_stat, shapiro_p = shapiro(diffs)
         print(f"  🔍 Shapiro-Wilk test on difference scores: W={shapiro_stat:.3f}, p={shapiro_p:.3f}")
 
         if shapiro_p > 0.05:
-            # Normal difference → paired t-test
             t_stat, p_val = ttest_rel(pre_vals, post_vals)
             print(f"  📊 Paired t-test on '{metric}':")
             print(f"    n={len(pre_vals)} | pre mean={np.mean(pre_vals):.2f}, post mean={np.mean(post_vals):.2f}")
             print(f"    t = {t_stat:.3f}, p = {p_val:.3f}")
         else:
-            # Non-normal difference → Wilcoxon signed-rank test
             w_stat, p_val = wilcoxon(pre_vals, post_vals)
             print(f"  📊 Wilcoxon signed-rank test on '{metric}':")
             print(f"    n={len(pre_vals)} | pre median={np.median(pre_vals):.2f}, post median={np.median(post_vals):.2f}")
@@ -807,23 +823,23 @@ if __name__ == '__main__':
     # df_post = extract_fixation_metrics_from_directory(post_gem_dir, "post")
     # df_post.to_csv('post_gemini_basic_fixations.csv', index=False)  # save without row index
     # # # print("Post Gemini Data:")
-    # print(df_post.head())
+    # # print(df_post.head())
 
-    # Combine
-    # df_all = pd.concat([df_pre, df_post], ignore_index=True)
-    # print("Combined Data:")
-    # print(df_all.head())
+    # # Combine
+    # # df_all = pd.concat([df_pre, df_post], ignore_index=True)
+    # # print("Combined Data:")
+    # # print(df_all.head())
 
-    # # Normalize fixation metrics (z-score)
-    # metrics_to_normalize = [col for col in df_all.columns if col.startswith("fix_")]
-    # df_z = df_all.copy()
-    # df_z[metrics_to_normalize] = df_all[metrics_to_normalize].apply(zscore)
-    # participant,task,condition,
-    #total_fix_count_code,total_fix_count_gemini,total_fix_count_summary,total_fix_count_tokens,
-    #avg_fix_count_tokens,
-    #avg_fix_dur_code,avg_fix_dur_gemini,avg_fix_dur_summary,avg_fix_dur_other
+    # # # Normalize fixation metrics (z-score)
+    # # metrics_to_normalize = [col for col in df_all.columns if col.startswith("fix_")]
+    # # df_z = df_all.copy()
+    # # df_z[metrics_to_normalize] = df_all[metrics_to_normalize].apply(zscore)
+    # # participant,task,condition,
+    # #total_fix_count_code,total_fix_count_gemini,total_fix_count_summary,total_fix_count_tokens,
+    # #avg_fix_count_tokens,
+    # #avg_fix_dur_code,avg_fix_dur_gemini,avg_fix_dur_summary,avg_fix_dur_other
 
-    # # avg pre gemini: code/summary - count and duration 
+    # # # avg pre gemini: code/summary - count and duration 
     # print("Fixation counts for pre-gemini")
     # get_avg_from_file('pre_gemini_basic_fixations.csv', 'total_fix_count_code')
     # get_avg_from_file('pre_gemini_basic_fixations.csv', 'total_fix_count_summary')
@@ -860,12 +876,12 @@ if __name__ == '__main__':
 
     # independ_test('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'avg_fix_dur_code')
 
-    # independ_test('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'avg_fix_dur_code')
+    # independ_test('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'total_fix_count_tokens')
     # independ_test('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'avg_fix_dur_summary')
 
     # independ_test('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'avg_fix_dur_other')
 
-    # descriptives('CleanedParticipantData.xlsx')
+    descriptives('CleanedParticipantData.xlsx')
 
     
     # df_merged = merge_experience_with_fixation(
@@ -899,7 +915,7 @@ if __name__ == '__main__':
     # print(df_all[['participant', 'participant_id', 'Q4', 'condition']].head())
 
     # print('--------------------------------------------------------------------------------')
-    # # Compare experience group impact on code fixations count in post-Gemini only
+    # Compare experience group impact on code fixations count in post-Gemini only
     # experience_group_test(df_all[df_all['condition'] == 'post'], 'total_fix_count_code')
 
     # # And for pre-Gemini
@@ -928,7 +944,7 @@ if __name__ == '__main__':
 
     # experience_group_test(df_all[df_all['condition'] == 'post'], 'avg_fix_dur_summary')
 
-    # And for pre-Gemini
+    # # And for pre-Gemini
     # experience_group_test(df_all[df_all['condition'] == 'pre'], 'avg_fix_dur_summary')
     experience_df = pd.read_excel('CleanedParticipantData.xlsx')
 
@@ -946,35 +962,40 @@ if __name__ == '__main__':
     # run_paired_test_by_difficulty(merged, metric='avg_fix_dur_summary')
 
     # by method: 
-    # merged_by_methods = merge_method_info(df_all, experience_df)
+    merged_by_methods = merge_method_info(df_all, experience_df)
 
-    # print("PAIRED T_TEST for avg_fix_dur_code")
+    print("PAIRED T_TEST for avg_fix_dur_code")
     # run_paired_test_by_method(merged_by_methods, metric='avg_fix_dur_code')
+    run_paired_test_by_method(merged_by_methods, metric='total_fix_count_code')
+    # run_paired_test_by_method(merged_by_methods, metric='total_fix_count_summary')
+    # run_paired_test_by_method(merged_by_methods, metric='avg_fix_dur_summary')
 
 
-    from statsmodels.stats.power import TTestPower, TTestIndPower
 
-    def compute_sample_size(effect_size, alpha, power, test_type='paired'):
-        if test_type == 'paired':
-            analysis = TTestPower()
-        elif test_type == 'independent':
-            analysis = TTestIndPower()
-        else:
-            raise ValueError("test_type must be 'paired' or 'independent'")
+    # code to get statistical power to report for methods section 
+    # from statsmodels.stats.power import TTestPower, TTestIndPower
 
-        sample_size = analysis.solve_power(effect_size=effect_size,
-                                        alpha=alpha,
-                                        power=power,
-                                        alternative='two-sided')
-        return sample_size
+    # def compute_sample_size(effect_size, alpha, power, test_type='paired'):
+    #     if test_type == 'paired':
+    #         analysis = TTestPower()
+    #     elif test_type == 'independent':
+    #         analysis = TTestIndPower()
+    #     else:
+    #         raise ValueError("test_type must be 'paired' or 'independent'")
 
-    # Example usage:
-    d = 0.57  # moderate effect size (from Karas et al or Sharif et al)
-    alpha = 0.05
-    power = 0.8
+    #     sample_size = analysis.solve_power(effect_size=effect_size,
+    #                                     alpha=alpha,
+    #                                     power=power,
+    #                                     alternative='two-sided')
+    #     return sample_size
 
-    paired_n = compute_sample_size(d, alpha, power, 'paired')
-    independent_n = compute_sample_size(d, alpha, power, 'independent')
+    # # Example usage:
+    # d = 0.57  # moderate effect size (from Karas et al or Sharif et al)
+    # alpha = 0.05
+    # power = 0.8
 
-    print(f"Required sample size (paired t-test): {paired_n:.1f}")
-    print(f"Required sample size (independent t-test): {independent_n:.1f}")
+    # paired_n = compute_sample_size(d, alpha, power, 'paired')
+    # independent_n = compute_sample_size(d, alpha, power, 'independent')
+
+    # print(f"Required sample size (paired t-test): {paired_n:.1f}")
+    # print(f"Required sample size (independent t-test): {independent_n:.1f}")
