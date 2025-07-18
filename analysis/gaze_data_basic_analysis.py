@@ -10,9 +10,9 @@ import os
 import pandas as pd
 from scipy.stats import zscore
 from scipy.stats import ttest_ind, ttest_rel, shapiro, levene,  mannwhitneyu, wilcoxon
-import matplotlib.transforms as mtransforms
+# import matplotlib.transforms as mtransforms
 
-from statsmodels.stats.power import TTestPower, TTestIndPower
+# from statsmodels.stats.power import TTestPower, TTestIndPower
 
 def compute_sample_size(effect_size, alpha=0.05, power=0.8, test_type='paired'):
     """
@@ -279,6 +279,14 @@ def get_avg_from_file(file_path, column):
    
     df = pd.read_csv(file_path)
 
+
+    # Exclude specific participants
+    excluded = ['participant320', 'participant210']
+    if 'participant' in df.columns:
+        df = df[~df['participant'].isin(excluded)]
+    elif 'pid' in df.columns:
+        df = df[~df['pid'].isin(excluded)]
+
     if column not in df.columns:
         raise ValueError(f"Column '{column}' not found in file.")
 
@@ -353,6 +361,9 @@ def paired_test(pre_gem, post_gem, metric):
 
     pre_data = df_pre[metric].dropna()
     post_data = df_post[metric].dropna()
+    print(len(pre_data))
+    print(f"Pre Data Length {len(pre_data)}")
+    print(f"Post Data Length {len(post_data)}")
 
     # Align by index (drop rows where either is NaN)
     paired_df = pd.DataFrame({'pre': pre_data, 'post': post_data}).dropna()
@@ -399,6 +410,69 @@ def paired_test(pre_gem, post_gem, metric):
         print(f"Z = {z_stat:.3f}")
         print(f"Effect size (r = Z/sqrt(N)): {r:.3f}")
 
+def paired_test_by_participant(pre_gem, post_gem, metric):
+    df_pre = pd.read_csv(pre_gem)
+    df_post = pd.read_csv(post_gem)
+
+    # print(df_pre['participant'].unique())
+    # print(df_post['participant'].unique())
+
+    pre_counts = df_pre['participant'].value_counts()
+    post_counts = df_post['participant'].value_counts()  
+    # Only include participants who did 3 tasks in BOTH
+    eligible_participants = set(pre_counts[pre_counts == 3].index) & set(post_counts[post_counts == 3].index)
+
+    # Filter both DataFrames
+    df_pre_filtered = df_pre[df_pre['participant'].isin(eligible_participants)]
+    df_post_filtered = df_post[df_post['participant'].isin(eligible_participants)]
+
+    print(f"✅ Number of participants included: {len(eligible_participants)}")
+
+    # Group by participant and average the metric
+    df_pre_grouped = df_pre_filtered.groupby('participant')[metric].mean()
+    df_post_grouped = df_post_filtered.groupby('participant')[metric].mean()
+
+    # Align participants
+    paired_df = pd.DataFrame({'pre': df_pre_grouped, 'post': df_post_grouped}).dropna()
+    pre_data = paired_df['pre']
+    post_data = paired_df['post']
+
+    print(f"Number of participants: {len(pre_data)}")
+
+    # Check normality
+    print(f"\n🔍 Testing metric: {metric}")
+    pre_normal = check_normality(pre_data)
+    post_normal = check_normality(post_data)
+
+    print(f"Pre normal? {pre_normal}")
+    print(f"Post normal? {post_normal}")
+
+    mean_pre = pre_data.mean()
+    mean_post = post_data.mean()
+    print(f"Mean Pre: {mean_pre:.4f}")
+    print(f"Mean Post: {mean_post:.4f}")
+
+    diffs = post_data - pre_data
+    diffs_normal = check_normality(diffs)
+
+    if diffs_normal:
+        t_stat, p_val = ttest_rel(pre_data, post_data)
+        print(f"✅ Paired t-test: t = {t_stat:.3f}, p = {p_val:.3f}")
+        cohens_d_val = cohen_d(pre_data, post_data, paired=True)
+        print(f"Effect size (Cohen's d): {cohens_d_val:.3f}")
+    else:
+        diffs_nonzero = diffs[diffs != 0]
+        n = len(diffs_nonzero)
+
+        w_stat, p_val = wilcoxon(pre_data, post_data)
+        mean_w = n * (n + 1) / 4
+        std_w = np.sqrt(n * (n + 1) * (2 * n + 1) / 24)
+        z_stat = (w_stat - mean_w) / std_w
+        r = z_stat / np.sqrt(n)
+
+        print(f"Wilcoxon signed-rank test: W = {w_stat:.3f}, p = {p_val:.3f}")
+        print(f"Z = {z_stat:.3f}")
+        print(f"Effect size (r = Z/sqrt(N)): {r:.3f}")
 
 def wilcoxon_effect_size(pre_data, post_data):
     diffs = post_data - pre_data
@@ -536,6 +610,75 @@ def grouped_violin_plot(pre_df, post_df, metrics, group_name='Fixation Counts', 
         plt.savefig(os.path.join(save_dir, f"{group_name.replace(' ', '_').lower()}_violin.png"))
     plt.show()
 
+def grouped_violin_plot_filtered(pre_df, post_df, metrics, group_name='Fixation Counts', save=False, save_dir="plots"):
+    """
+    Create a grouped violin plot for a set of related metrics (e.g., fixation counts or durations)
+    Only includes participants who completed 3 tasks in BOTH conditions.
+    """
+    # Step 1: Filter to only participants with 3 tasks in both
+    pre_counts = pre_df['participant'].value_counts()
+    post_counts = post_df['participant'].value_counts()
+    eligible_participants = set(pre_counts[pre_counts == 3].index) & set(post_counts[post_counts == 3].index)
+
+    pre_df = pre_df[pre_df['participant'].isin(eligible_participants)]
+    post_df = post_df[post_df['participant'].isin(eligible_participants)]
+
+    print(f"✅ Plotting data for {len(eligible_participants)} participants.")
+
+
+    # Step 2: Build melted data
+    plot_data = []
+    for metric in metrics:
+        paired_df = pd.DataFrame({
+        'Pre': pre_df.groupby('participant')[metric].mean(),
+        'Post': post_df.groupby('participant')[metric].mean()
+        }).dropna()
+
+        melted = paired_df.melt(var_name='Condition', value_name='Value')
+        melted['Metric'] = metric
+        plot_data.append(melted)
+
+    # Step 3: Combine and clean
+    plot_df = pd.concat(plot_data, ignore_index=True)
+
+    metric_rename = {
+        'total_fix_count_code': 'Code',
+        'total_fix_count_summary': 'Summary',
+        'avg_fix_dur_code': 'Code',
+        'total_fix_count_tokens': 'Method Tokens',
+        'avg_fix_dur_summary': 'Summary',
+        'avg_fix_dur_other': 'Method Tokens',
+    }
+    plot_df['Metric'] = plot_df['Metric'].map(metric_rename).fillna(plot_df['Metric'])
+
+    # Step 4: Plot
+    plt.figure(figsize=(12, 6))
+    ax = sns.violinplot(
+        x='Metric',
+        y='Value',
+        hue='Condition',
+        data=plot_df,
+        inner='quartile',
+        palette={"Pre": "#F5A623", "Post": "#4A90E2"},
+        dodge=True
+    )
+    plt.title(f'{group_name} No AI Assistance vs With AI Assistance')
+    plt.ylabel('Avg Duration (ms)' if 'Duration' in group_name else 'Avg Number of Fixations')
+    plt.xlabel('')
+    plt.xticks(rotation=30)
+
+    # Format legend
+    handles, labels = ax.get_legend_handles_labels()
+    new_labels = ['No AI Assistance' if label == 'Pre' else 'With AI Assistance' for label in labels]
+    ax.legend(handles, new_labels, title='Condition')
+
+    plt.tight_layout()
+
+    if save:
+        os.makedirs(save_dir, exist_ok=True)
+        plt.savefig(os.path.join(save_dir, f"{group_name.replace(' ', '_').lower()}_violin.png"))
+    plt.show()
+
 def paired_line_plot(pre_df, post_df, metric):
     paired_df = pd.DataFrame({
         'Pre': pre_df[metric],
@@ -619,6 +762,8 @@ def experience_group_test(df, metric, experience_col='Q4'):
     # Compute SEM for both groups
     sem_low = low_data.sem()
     sem_high = high_data.sem()
+    std_low = low_data.std()
+    std_high = high_data.std()
 
     print(f"\nTesting experience effect on: {metric}")
     print(f"Low experience (n={len(low_data)}), High experience (n={len(high_data)})")
@@ -654,6 +799,8 @@ def experience_group_test(df, metric, experience_col='Q4'):
         'metric': metric,
         'mean_low': low_data.mean(),
         'mean_high': high_data.mean(),
+        'std_low': std_low,
+        'std_high': std_high,
         'sem_low': sem_low,
         'sem_high': sem_high,
         'n_low': n_low,
@@ -771,7 +918,7 @@ def plot_metric_by_experience_and_condition(pre_dict, post_dict, fixation_type='
     plt.show()
 
 
-def grouped_bar_plot_pre_post_within(results_df, fixation_type='count'):
+def grouped_bar_plot_pre_post_within_(results_df, fixation_type='count'):
     import matplotlib.pyplot as plt
     import seaborn as sns
 
@@ -813,7 +960,7 @@ def grouped_bar_plot_pre_post_within(results_df, fixation_type='count'):
             x_order.append(f"{metric}\n({cond})")
 
     hue_order = ['Low', 'High']
-    palette = {'Low': '#d69cbc', 'High': '#769a6e'} 
+    palette = {'Low': '#d69cbc', 'High': '#e1621d'} 
 
     # Create figure and axis
     plt.figure(figsize=(14, 7))
@@ -870,9 +1017,9 @@ def grouped_bar_plot_pre_post_within(results_df, fixation_type='count'):
                 )
 
     ax.set_xticks(range(n_x))
-    ax.set_xticklabels(x_labels, rotation=25, ha='right')
+    ax.set_xticklabels(x_labels, rotation=25, ha='center')
     ax.set_ylabel(ylabel)
-    ax.set_title(f'{plot_title} by Condition and Experience Group')
+    # ax.set_title(f'{plot_title} by Condition and Experience Group')
 
     # Legend: combine color legend and hatch legend manually
     from matplotlib.patches import Patch
@@ -885,6 +1032,121 @@ def grouped_bar_plot_pre_post_within(results_df, fixation_type='count'):
 
     ax.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout(rect=[0, 0.1, 1, 1])
+    plt.show()
+
+def grouped_bar_plot_pre_post_within(results_df, fixation_type):
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    from matplotlib.patches import Patch
+
+    sns.set(style="whitegrid")
+    plt.rcParams.update({'axes.titlesize': 16, 'axes.labelsize': 14, 'legend.fontsize': 12})
+
+    # Metric setup
+    count_metrics = ['total_fix_count_code', 'total_fix_count_summary']
+    duration_metrics = ['avg_fix_dur_code', 'avg_fix_dur_summary']
+
+    if fixation_type == 'count':
+        selected_metrics = count_metrics
+        ylabel = 'Mean Number of Fixations'
+        plot_title = 'Fixation Count'
+    elif fixation_type == 'duration':
+        selected_metrics = duration_metrics
+        ylabel = 'Mean Fixation Duration (ms)'
+        plot_title = 'Fixation Duration'
+    else:
+        raise ValueError("fixation_type must be 'count' or 'duration'")
+
+    # Rename metrics for labels
+    metric_rename = {
+    'total_fix_count_code': 'Code',
+    'total_fix_count_summary': 'Summary',
+    'total_fix_count_tokens': 'Tokens', 
+    'avg_fix_dur_code': 'Code',
+    'avg_fix_dur_summary': 'Summary',
+        
+
+    }
+
+    # Preprocessing
+    df = results_df.copy()
+    df = df[df['metric'].isin(selected_metrics)]
+    df['condition'] = df['condition'].map({'pre': 'No AI Assistance', 'post': 'AI Assistance'})
+    df['Metric_Label'] = df['metric'].map(metric_rename)
+    df['X_Label'] = df['Metric_Label'] 
+
+    # X-axis ordering
+    x_order = [metric_rename[m] for m in selected_metrics]
+
+    # for metric in [metric_rename[m] for m in selected_metrics]:
+    #     for cond in ['No AI Assistance', 'AI Assistance']:
+    #         x_order.append(f"{metric}\n({cond})")
+
+    hue_order = ['Low', 'High']
+    palette = {'Low': '#a73c5a', 'High': '#93ac7b'}
+    hatch_map = {'No AI Assistance': '', 'AI Assistance': '//'}
+
+    # Create figure
+    plt.figure(figsize=(14, 7))
+    ax = plt.gca()
+
+    n_x = len(x_order)
+    n_hues = len(hue_order)
+    bar_groups = len(hatch_map) * len(hue_order)  # 2 conditions × 2 experience groups = 4 bars per x-axis tick  
+    bar_width = 0.8 / bar_groups
+
+    for i, x_label in enumerate(x_order):
+        group_idx = 0
+        for condition in hatch_map.keys():
+            for hue in hue_order:
+                row = df[
+                    (df['X_Label'] == x_label) &
+                    (df['condition'] == condition) &
+                    (df['experience_group'] == hue)
+                ]
+                if not row.empty:
+                    mean = row['mean'].values[0]
+                    sem = row['sem'].values[0]
+                    x_pos = i - 0.4 + group_idx * bar_width + bar_width / 2
+
+                    # Draw bar
+                    ax.bar(
+                        x=x_pos,
+                        height=mean,
+                        width=bar_width,
+                        color=palette[hue],
+                        hatch=hatch_map[condition],
+                        edgecolor='black'
+                    )
+
+                    # Error bar
+                    ax.errorbar(
+                        x=x_pos,
+                        y=mean,
+                        yerr=sem,
+                        fmt='none',
+                        c='black',
+                        capsize=5,
+                        lw=1
+                    )
+                group_idx += 1
+
+    # Axis labels
+    ax.set_xticks(range(n_x))
+    ax.set_xticklabels(x_order, ha='center')
+    ax.set_ylabel(ylabel)
+    # ax.set_title(f'{plot_title} by Condition and Experience Group')
+    ax.grid(axis='y', linestyle='--', alpha=0.7)
+
+    # Legends
+    color_patches = [Patch(facecolor=palette[h], edgecolor='black', label=h) for h in hue_order]
+    hatch_patches = [Patch(facecolor='white', edgecolor='black', hatch=hatch_map[c], label=c) for c in hatch_map]
+
+    legend1 = ax.legend(handles=color_patches, title='Experience Group', loc='upper center', bbox_to_anchor=(0.3, -0.1), ncol=2, frameon=False)
+    ax.add_artist(legend1)
+    ax.legend(handles=hatch_patches, title='Condition', loc='upper center', bbox_to_anchor=(0.7, -0.1), ncol=2, frameon=False)
+
+    plt.tight_layout(rect=[0, 0.15, 1, 1])
     plt.show()
 
 import matplotlib.pyplot as plt
@@ -1229,11 +1491,15 @@ def condition_effect_test(df, metric, experience_group, experience_col='Q4'):
         '4+ years': 'High'
     }
     
+    df = df[~df['participant'].isin(['participant210', 'participant320'])]
     df = df.dropna(subset=['participant', metric])
     df['experience_group'] = df[experience_col].map(experience_mapping)
     
     # Filter for experience group
     df_exp = df[df['experience_group'] == experience_group]
+
+    print("Total participants in Low group:", df[df['experience_group'] == 'Low']['participant'].nunique())
+    print("Total participants in High group:", df[df['experience_group'] == 'High']['participant'].nunique())
     
     # Aggregate metric per participant per condition
     agg = df_exp.groupby(['participant', 'condition'])[metric].mean().unstack()
@@ -1243,6 +1509,9 @@ def condition_effect_test(df, metric, experience_group, experience_col='Q4'):
     
     pre_vals = agg['pre']
     post_vals = agg['post']
+    # Calculate means
+    pre_mean = pre_vals.mean()
+    post_mean = post_vals.mean()
     
     diffs = post_vals - pre_vals
     
@@ -1251,8 +1520,9 @@ def condition_effect_test(df, metric, experience_group, experience_col='Q4'):
     normal = p_norm > 0.05
     
     print(f"{experience_group} experience - {metric} change from Pre to Post:")
-    print(f"Normality of differences p-value: {p_norm:.3f} -> {'Normal' if normal else 'Non-normal'}")
-    
+    print(f"Mean Pre: {pre_mean:.3f}")
+    print(f"Mean Post: {post_mean:.3f}")
+
     if normal:
         # Paired t-test + Cohen's d
         t_stat, p_val = ttest_rel(post_vals, pre_vals)
@@ -1290,6 +1560,8 @@ def condition_effect_test(df, metric, experience_group, experience_col='Q4'):
         'normality_p': p_norm
     }
 
+
+
 def build_within_subjects_plot_df(df_all, metrics, experience_col='Q4'):
     from scipy.stats import sem
     import pandas as pd
@@ -1303,6 +1575,7 @@ def build_within_subjects_plot_df(df_all, metrics, experience_col='Q4'):
 
     results = []
 
+    df_all = df_all[~df_all['participant'].isin(['participant210', 'participant320'])]
     for exp_group in ['Low', 'High']:
         df_exp = df_all[df_all[experience_col].map(experience_mapping) == exp_group]
 
@@ -1463,7 +1736,7 @@ if __name__ == '__main__':
     # #avg_fix_count_tokens,
     # #avg_fix_dur_code,avg_fix_dur_gemini,avg_fix_dur_summary,avg_fix_dur_other
 
-    # # # avg pre gemini: code/summary - count and duration 
+    # # avg pre gemini: code/summary - count and duration 
     # print("Fixation counts for pre-gemini")
     # get_avg_from_file('pre_gemini_basic_fixations.csv', 'total_fix_count_code')
     # get_avg_from_file('pre_gemini_basic_fixations.csv', 'total_fix_count_summary')
@@ -1497,17 +1770,28 @@ if __name__ == '__main__':
 
     # paired_test('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'total_fix_count_code')
     # paired_test('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'total_fix_count_summary')
+    # paired_test('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'total_fix_count_tokens')
 
     # paired_test('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'avg_fix_dur_code')
-
-    # paired_test('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'total_fix_count_tokens')
     # paired_test('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'avg_fix_dur_summary')
+    # paired_test('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'avg_fix_dur_other')
+
+    # Aggregating by participant dropping participant 210 & 320 -> didn't use gemini for 2/3 tasks 
+    # paired_test_by_participant('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'total_fix_count_code')
+    # paired_test_by_participant('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'total_fix_count_summary')
+    # paired_test_by_participant('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'total_fix_count_tokens')
+
+    # paired_test_by_participant('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'avg_fix_dur_code')
+    # paired_test_by_participant('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'avg_fix_dur_summary')
+    # paired_test_by_participant('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'avg_fix_dur_other')
+    
+    
 
 
     # ===============================
     # Violin plot with individual data points
-    pre_df = pd.read_csv('pre_gemini_basic_fixations.csv')
-    post_df = pd.read_csv('post_gemini_basic_fixations.csv')
+    # pre_df = pd.read_csv('pre_gemini_basic_fixations.csv')
+    # post_df = pd.read_csv('post_gemini_basic_fixations.csv')
 
     # metric = 'total_fix_count_code'
     # # List of metrics to visualize
@@ -1522,6 +1806,8 @@ if __name__ == '__main__':
     # # Run the plots for all metrics
     # violin_paired_plot_metrics(pre_df, post_df, metrics, save=True) 
 
+    
+
     # count_metrics = ['total_fix_count_code', 'total_fix_count_summary', 'total_fix_count_tokens']
     # duration_metrics = ['avg_fix_dur_code', 'avg_fix_dur_summary', 'avg_fix_dur_other']
 
@@ -1529,6 +1815,12 @@ if __name__ == '__main__':
     # grouped_violin_plot(pre_df, post_df, count_metrics, group_name='Fixation Counts', save=True)
     # grouped_violin_plot(pre_df, post_df, duration_metrics, group_name='Fixation Durations', save=True)
 
+    
+    # Plot of fixation differences across participants (after aggregating & droppin participants who didn't complete 3 tasks with Gemini)
+    # grouped_violin_plot_filtered(pre_df, post_df, count_metrics, group_name='Fixation Counts', save=True)
+    # grouped_violin_plot_filtered(pre_df, post_df, duration_metrics, group_name='Fixation Durations', save=True)
+
+    
     # violin_paired_plot(pre_df, post_df, metric)
     # violin_paired_plot('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'total_fix_count_summary')
 
@@ -1538,17 +1830,9 @@ if __name__ == '__main__':
     # violin_paired_plot('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'avg_fix_dur_summary')
 
     # =========
-    # paired_line_plot(pre_df, post_df,metric )
-    # paired_line_plot('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'total_fix_count_summary')
-
-    # paired_line_plot('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'avg_fix_dur_code')
-
-    # paired_line_plot('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'total_fix_count_tokens')
-    # paired_line_plot('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'avg_fix_dur_summary')
-
-    # independ_test('pre_gemini_basic_fixations.csv', 'post_gemini_basic_fixations.csv', 'avg_fix_dur_other')
-
-    # descriptives('CleanedParticipantData.xlsx')
+   
+  
+    descriptives('analysis/CleanedParticipantData.xlsx')
 
     
     # df_merged = merge_experience_with_fixation(
@@ -1563,20 +1847,20 @@ if __name__ == '__main__':
     # experience_group_test(df_merged, 'total_fix_count_code')
 
     # Merge pre and post separately
-    df_pre = merge_experience_with_fixation(
-        fixation_file='pre_gemini_basic_fixations.csv',
-        experience_file='CleanedParticipantData.xlsx',
-        condition_label='pre'
-    )
+    # df_pre = merge_experience_with_fixation(
+    #     fixation_file='pre_gemini_basic_fixations.csv',
+    #     experience_file='CleanedParticipantData.xlsx',
+    #     condition_label='pre'
+    # )
 
-    df_post = merge_experience_with_fixation(
-        fixation_file='post_gemini_basic_fixations.csv',
-        experience_file='CleanedParticipantData.xlsx',
-        condition_label='post'
-    )
+    # df_post = merge_experience_with_fixation(
+    #     fixation_file='post_gemini_basic_fixations.csv',
+    #     experience_file='CleanedParticipantData.xlsx',
+    #     condition_label='post'
+    # )
 
-    # Combine them
-    df_all = pd.concat([df_pre, df_post], ignore_index=True)
+    # # # Combine them
+    # df_all = pd.concat([df_pre, df_post], ignore_index=True)
 
     # # Optional: confirm merging worked
     # print(df_all[['participant', 'participant_id', 'Q4', 'condition']].head())
@@ -1616,35 +1900,87 @@ if __name__ == '__main__':
 
 
     
-    # ====== Visualization for experienc e
-    metrics = [
-    'total_fix_count_code', 
-    'avg_fix_dur_code', 
-    'total_fix_count_summary', 
-    'avg_fix_dur_summary'
-    ]
+    # # ====== Visualization for experienc: both between & within analysis 
+    df_pre = merge_experience_with_fixation(
+        fixation_file='pre_gemini_basic_fixations.csv',
+        experience_file='CleanedParticipantData.xlsx',
+        condition_label='pre'
+    )
 
-    results = []
+    df_post = merge_experience_with_fixation(
+        fixation_file='post_gemini_basic_fixations.csv',
+        experience_file='CleanedParticipantData.xlsx',
+        condition_label='post'
+    )
 
-    # print("=== Between-Group Experience Tests (Low vs High) ===")
-    # for condition in ['pre', 'post']:
-    #     print(f"\nCondition: {condition.upper()}")
-    #     df_cond = df_all[df_all['condition'] == condition]
+    # # # Combine them
+    df_all = pd.concat([df_pre, df_post], ignore_index=True)
+    # metrics = ['total_fix_count_code', 
+    #            'total_fix_count_summary', 
+    #            'total_fix_count_tokens', 
+    #            'avg_fix_dur_code', 
+    #            'avg_fix_dur_summary', 
+    #            'avg_fix_dur_other']
+    metrics = ['total_fix_count_code', 
+               'total_fix_count_summary', 
+             
+               'avg_fix_dur_code', 
+               'avg_fix_dur_summary', 
+               ]
 
-    #     for metric in metrics:
-    #         res = experience_group_test(df_cond, metric)
-    #         res['condition'] = condition
-    #         results.append(res)
-    #         # Print summary for each test
-    #         print(f"Metric: {metric}")
-    #         print(f"  Groups: Low (n={res['n_low']}), High (n={res['n_high']})")
-    #         print(f"  Means: Low={res['mean_low']:.3f}, High={res['mean_high']:.3f}")
-    #         print(f"  Test used: {res['test_used']}, stat={res['stat']:.3f}, p={res['p_val']:.3f}")
-    #         print(f"  Effect size: {res['effect_size']:.3f}")
-    #         print("-" * 40)
+    # results = []
+
+    # # print("=== Between-Group Experience Tests (Low vs High) ===")
+
+    # print("=== Between-Group Experience Tests: Use of Gemini ===")
+
+    # metrics = ['avg_fix_dur_gemini', 'total_fix_count_gemini']
+    # results = []
+    # excluded_ids = ['participant210', 'participant320']
+    # df_filtered = df_all[~df_all['participant'].isin(excluded_ids)]
+
+    # # Focus only on the AI-assisted (post) condition
+    # df_post = df_filtered[df_filtered['condition'] == 'post']
+    # # Assume Gemini is only present in the post-AI condition
+    # # df_post = df_all[df_all['condition'] == 'post']
+
+    
+    # for metric in metrics:
+    #     res = experience_group_test(df_post, metric)
+    #     res['condition'] = 'post'
+    #     results.append(res)
+
+        
+
+    #     print(f"\nMetric: {metric}")
+    #     print(f"  Groups: Low (n={res['n_low']}), High (n={res['n_high']})")
+    #     print(f"  Means: Low={res['mean_low']:.3f}, High={res['mean_high']:.3f}")
+    #     print(f"  STD: Low={res['std_low']:.3f}, High={res['std_high']:.3f}")
+        
+    #     print(f"  Test used: {res['test_used']}, stat={res['stat']:.3f}, p={res['p_val']:.3f}")
+    #     print(f"  Effect size: {res['effect_size']:.3f}")
+    #     print("-" * 40)
+
+    # # for condition in ['pre', 'post']:
+    # #     print(f"\nCondition: {condition.upper()}")
+    # #     df_cond = df_all[df_all['condition'] == condition]
+
+    # #     for metric in metrics:
+    # #         res = experience_group_test(df_cond, metric)
+    # #         res['condition'] = condition
+    # #         results.append(res)
+    # #         # Print summary for each test
+    # #         print(f"Metric: {metric}")
+    # #         print(f"  Groups: Low (n={res['n_low']}), High (n={res['n_high']})")
+    # #         print(f"  Means: Low={res['mean_low']:.3f}, High={res['mean_high']:.3f}")
+    # #         print(f"  Test used: {res['test_used']}, stat={res['stat']:.3f}, p={res['p_val']:.3f}")
+    # #         print(f"  Effect size: {res['effect_size']:.3f}")
+    # #         print("-" * 40)
 
     # print("\n=== Within-Subject Pre-vs-Post Tests by Experience Group ===")
     # for exp_group in ['Low', 'High']:
+    #     print(f'{len(exp_group['Low'])}')
+    #     print(f'{len(exp_group['High'])}')
     #     print(f"\nExperience Group: {exp_group}")
     #     for metric in metrics:
     #         res = condition_effect_test(df_all, metric, exp_group)
@@ -1655,82 +1991,130 @@ if __name__ == '__main__':
     #         print("-" * 40)
 
 
-    # for condition in ['pre', 'post']:
-    #     df_cond = df_all[df_all['condition'] == condition]
-    #     for metric in metrics:
-    #         res = experience_group_test(df_cond, metric)
-    #     # Save or print res
+    # #correcting for multiple comapriosn: Benjamini-Hochberg FDR correction
+    # # from statsmodels.stats.multitest import multipletests
+    # # all_counts = {}
 
-    # Run within-group pre-vs-post tests
-    # for exp_group in ['Low', 'High']:
-    #     for metric in metrics:
-    #         res = condition_effect_test(df_all, metric, exp_group)
+    # # for exp_group in ['Low', 'High']:
+    # #     print(f"\n=== Experience Group: {exp_group} ===")
+    # #     for metric in metrics:
+    # #         res = condition_effect_test(df_all, metric, exp_group)
 
-    # results = []
+    # #         # Get count of participants with paired data
+    # #         df_temp = df_all.dropna(subset=['participant', metric]).copy()
+    # #         experience_mapping = {
+    # #             'Less than 1 year': 'Low',
+    # #             '1-2 years': 'Low',
+    # #             '2-4 years': 'High',
+    # #             '4+ years': 'High'
+    # #         }
+    # #         df_temp['experience_group'] = df_temp['Q4'].map(experience_mapping)
+    # #         df_temp = df_temp[~df_temp['participant'].isin(['participant210', 'participant320'])]
 
-    # for condition in ['pre', 'post']:
-    #     print(f"--- Analyzing condition: {condition} ---")
-    #     df_cond = df_all[df_all['condition'] == condition]
+    # #         df_exp = df_temp[df_temp['experience_group'] == exp_group]
+    # #         agg = df_exp.groupby(['participant', 'condition'])[metric].mean().unstack()
+    # #         paired_participants = agg.dropna(subset=['pre', 'post'])
 
-    #     for metric in metrics:
-    #         res = experience_group_test(df_cond, metric)
-    #         res['condition'] = condition  # keep track of pre/post
-    #         results.append(res)
+    # #         print(f"✅ Participants in {exp_group} group (paired): {len(paired_participants)}")
 
-    # After collecting all results and making DataFrame
-    # results_df = pd.DataFrame(results)
-    # plot_df = build_within_subjects_plot_df(df_all, metrics)
-    # grouped_bar_plot_pre_post_within(plot_df)
-    # grouped_bar_plot_pre_post_within(plot_df)
+    # #         # Save count for optional use
+    # #         all_counts[(exp_group, metric)] = len(paired_participants)
 
-    # # Pre- gemini v. Post-gemini
-    results_pre = experience_group_test(df_all[df_all['condition'] == 'pre'], 'avg_fix_dur_summary')
-    # plot_between_subject_metric(results_pre)
+    # #         results.append(res)
+    # #         print(f"Metric: {metric}")
+    # #         print(f"  Test used: {res['test_used']}, stat={res['stat']:.3f}, p = {res['p_val']:.3f}")
+    # #         print("-" * 40)
 
-    results_post = experience_group_test(df_all[df_all['condition'] == 'post'], 'avg_fix_dur_summary')
+    # # # === 🔍 Multiple Comparison Correction ===
+    # # p_vals = [r['p_val'] for r in results]
+    # # rej, pvals_corrected, _, _ = multipletests(p_vals, alpha=0.05, method='fdr_bh')
 
-    df_pre = pd.DataFrame([results_pre])
-    df_post = pd.DataFrame([results_post])
-    # plot_between_subject_metric(results_post)
+    # # # Update and print results
+    # # print("\n=== FDR-Corrected Results ===")
+    # # for r, p_corr, sig in zip(results, pvals_corrected, rej):
+    # #     r['p_val_corrected'] = p_corr
+    # #     r['significant_fdr'] = sig
+    # #     print(f"  Original p = {r['p_val']:.3f}, Corrected p = {p_corr:.3f} → {'✅ Significant' if sig else '❌ Not Significant'}")
+    # #     print("-" * 30)
 
-    plot_metric_by_experience_and_condition(
-    results_pre, 
-    results_post, 
-    fixation_type='duration',
-    metric_label='Fixation Duration (Summary)'
-    )
+
+
+    # # for condition in ['pre', 'post']:
+    # #     df_cond = df_all[df_all['condition'] == condition]
+    # #     for metric in metrics:
+    # #         res = experience_group_test(df_cond, metric)
+    # #     # Save or print res
+
+    # # Run within-group pre-vs-post tests
+    # # for exp_group in ['Low', 'High']:
+    # #     for metric in metrics:
+    # #         res = condition_effect_test(df_all, metric, exp_group)
+
+    results = []
+
+    for condition in ['pre', 'post']:
+        print(f"--- Analyzing condition: {condition} ---")
+        df_cond = df_all[df_all['condition'] == condition]
+
+        for metric in metrics:
+            res = experience_group_test(df_cond, metric)
+            res['condition'] = condition  # keep track of pre/post
+            results.append(res)
+
+    # # After collecting all results and making DataFrame
+    results_df = pd.DataFrame(results)
+    plot_df = build_within_subjects_plot_df(df_all, metrics)
+    grouped_bar_plot_pre_post_within(plot_df, 'count')
+    grouped_bar_plot_pre_post_within(plot_df, 'duration')
+
+    # # # Pre- gemini v. Post-gemini
+    # # results_pre = experience_group_test(df_all[df_all['condition'] == 'pre'], 'avg_fix_dur_summary')
+    # # # plot_between_subject_metric(results_pre)
+
+    # # results_post = experience_group_test(df_all[df_all['condition'] == 'post'], 'avg_fix_dur_summary')
+
+    # # df_pre = pd.DataFrame([results_pre])
+    # # df_post = pd.DataFrame([results_post])
+    # # # plot_between_subject_metric(results_post)
+
+    # # plot_metric_by_experience_and_condition(
+    # # results_pre, 
+    # # results_post, 
+    # # fixation_type='duration',
+    # # metric_label='Fixation Duration (Summary)'
+    # # )
 
     
 
-    # ============== Paired T-test for difficulty ================================
-    # experience_df = pd.read_excel('CleanedParticipantData.xlsx')
+    # # ============== Paired T-test for difficulty ================================
+    # # experience_df = pd.read_excel('CleanedParticipantData.xlsx')
 
 
-    # merged = merge_difficulty_info(df_all, experience_df)
+    # # merged = merge_difficulty_info(df_all, experience_df)
 
-    # print("PAIRED T_TEST for avg_fix_dur_code")
-    # run_paired_test_by_difficulty(merged, metric='avg_fix_dur_code')
+    # # print("PAIRED T_TEST for avg_fix_dur_code")
+    # # run_paired_test_by_difficulty(merged, metric='avg_fix_dur_code')
 
-    # print("PAIRED T_TEST for total_fix_count_code")
-    # run_paired_test_by_difficulty(merged, metric='total_fix_count_code')
+    # # print("PAIRED T_TEST for total_fix_count_code")
+    # # run_paired_test_by_difficulty(merged, metric='total_fix_count_code')
 
-    # print("PAIRED T_TEST for total_fix_count_summary")
-    # run_paired_test_by_difficulty(merged, metric='total_fix_count_summary')
+    # # print("PAIRED T_TEST for total_fix_count_summary")
+    # # run_paired_test_by_difficulty(merged, metric='total_fix_count_summary')
 
-    # run_paired_test_by_difficulty(merged, metric='avg_fix_dur_summary')
+    # # run_paired_test_by_difficulty(merged, metric='avg_fix_dur_summary')
 
-    # by method: 
-    # merged_by_methods = merge_method_info(df_all, experience_df)
+    # # by method: 
+    # # merged_by_methods = merge_method_info(df_all, experience_df)
 
-    # print("PAIRED T_TEST for avg_fix_dur_code")
-    # run_paired_test_by_method(merged_by_methods, metric='avg_fix_dur_code')
-    # run_paired_test_by_method(merged_by_methods, metric='total_fix_count_code')
-    # run_paired_test_by_method(merged_by_methods, metric='total_fix_count_summary')
-    # run_paired_test_by_method(merged_by_methods, metric='avg_fix_dur_summary')
+    # # print("PAIRED T_TEST for avg_fix_dur_code")
+    # # run_paired_test_by_method(merged_by_methods, metric='avg_fix_dur_code')
+    # # run_paired_test_by_method(merged_by_methods, metric='total_fix_count_code')
+    # # run_paired_test_by_method(merged_by_methods, metric='total_fix_count_summary')
+    # # run_paired_test_by_method(merged_by_methods, metric='avg_fix_dur_summary')
 
 
 
-    # code to get statistical power to report for methods section 
+    # # code to get statistical power to report for methods section 
     # from statsmodels.stats.power import TTestPower, TTestIndPower
 
     # def compute_sample_size(effect_size, alpha, power, test_type='paired'):
@@ -1759,3 +2143,99 @@ if __name__ == '__main__':
     # print(f"Required sample size (independent t-test): {independent_n:.1f}")
 
     
+
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib
+
+# Use serif font for publication-style aesthetics
+matplotlib.rcParams.update({
+    'font.family': 'serif',
+    'font.size': 11,
+    'axes.labelsize': 12,
+    'xtick.labelsize': 10,
+    'ytick.labelsize': 10,
+    'legend.fontsize': 11
+})
+
+# Data setup
+data = {
+    'SemanticCategory': [
+        'Argument', 'Assignment', 'ConditionalBody', 'ConditionalStatement', 'ExceptionHandling',
+        'ExternalVarOrMethod', 'IndexOperation', 'Literal', 'LoopBody', 'LoopStatement',
+        'MethodCall', 'MethodDeclaration', 'Operator', 'Parameter', 'Return', 'VariableName'
+    ],
+    'FixationDuration_Pre': [
+        882.36, 710.67, 540.03, 848.62, 507.01,
+        752.39, 660.03, 759.31, 438.13, 512.26,
+        1371.74, 325.46, 179.71, 324.61, 375.42, 2244.10
+    ],
+    'FixationDuration_Post': [
+        403.86, 457.11, 415.53, 530.26, 396.96,
+        241.35, 169.10, 231.26, 368.44, 340.65,
+        536.92, 208.56, 179.71, 78.40, 326.73, 651.77
+    ],
+    'p_value': [
+        8.83e-06,    # Argument
+        0.00171,     # Assignment
+        0.01027,     # ConditionalBody
+        0.00205,     # ConditionalStatement
+        0.1845,      # ExceptionHandling
+        0.00288,     # ExternalVarOrMethod
+        0.000115,    # IndexOperation
+        0.00108,     # Literal
+        0.000923,    # LoopBody
+        0.00202,     # LoopStatement
+        5.56e-07,    # MethodCall
+        0.00395,     # MethodDeclaration
+        0.5641,      # Operator
+        0.00250,     # Parameter
+        0.3546,      # Return
+        8.81e-07     # VariableName
+    ]
+}
+
+# DataFrame and raw difference
+df = pd.DataFrame(data)
+df['AbsoluteChange'] = df['FixationDuration_Pre'] - df['FixationDuration_Post']
+
+# Mark significant entries (p < .05)
+def get_significance_stars(p):
+    if p <= 0.001:
+        return '***'
+    elif p <= 0.01:
+        return '**'
+    elif p <= 0.05:
+        return '*'
+    else:
+        return ''
+
+df['Stars'] = df['p_value'].apply(get_significance_stars)
+
+# Sort by magnitude of change
+df = df.sort_values('AbsoluteChange', ascending=True)
+
+# Plot
+fig, ax = plt.subplots(figsize=(6, 6))
+bars = ax.barh(df['SemanticCategory'], df['AbsoluteChange'], color='#9878b7', edgecolor='black')
+
+# Add significance stars
+for bar, star in zip(bars, df['Stars']):
+    if star:
+        ax.text(bar.get_width() + 10, bar.get_y() + bar.get_height() / 2,
+                star, va='center', ha='left', fontsize=11, fontweight='bold')
+
+# Add reference line
+ax.axvline(0, color='gray', linestyle='--', linewidth=0.8)
+
+# Labels
+ax.set_xlabel('Change in Fixation Duration (ms)', labelpad=8)
+ax.set_ylabel('')
+
+# Format
+plt.tight_layout()
+plt.gca().invert_yaxis()
+plt.show()

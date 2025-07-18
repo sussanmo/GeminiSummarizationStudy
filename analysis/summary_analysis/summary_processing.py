@@ -115,19 +115,21 @@ def extract_task_number(task_str):
     if match:
         return f"Task {match.group(1)}"
     return None
+
+
 # Example usage
 if __name__ == '__main__':
     # Load the JSON
     # with open('task_map.json', 'r') as f:
     #     task_list = json.load(f)  # This is a list of dicts
 
-    # Flatten into one dict
+    # # Flatten into one dict
     # task_map = {}
     # for entry in task_list:
     #     task_map.update(entry)
 
     
-    # Example to check if it works
+    # # Example to check if it works
     # pre_example = {'Gemini_Task': '3.30'}
     # post_example = {'Task': '6-1'}
 
@@ -146,26 +148,14 @@ if __name__ == '__main__':
                 flat.update(entry)
             task_map = flat
 
-    # Load pre and post summary files
-    post_df = pd.read_excel('analysis/summary_analysis/post-gemini_summaries.xlsx', dtype={'Task': str})
-    pre_df = pd.read_excel('analysis/summary_analysis/Pre-Gemini Summary Annotations.xlsx', dtype={'Gemini Task': str})
+    # # Load pre and post summary files
+    # # post_df = pd.read_excel('analysis/summary_analysis/post-gemini_summaries.xlsx', dtype={'Task': str})
+    # pre_df = pd.read_excel('analysis/summary_analysis/Pre-Gemini Summary Annotations.xlsx', dtype={'Gemini Task': str})
 
-    print(pre_df.columns)
-    print(post_df.columns)
+    # # print(pre_df.columns)
+    # # print(post_df.columns)
     
-    # Standardize summary column name if needed
-    pre_df.rename(columns={'Summaries': 'Summary'}, inplace=True)
-
-    # Add GroundTruth to pre
-    # pre_df['GroundTruth'] = pre_df.apply(
-    #     lambda row: get_description_from_row(row, task_map, 'Gemini Task'), axis=1
-    # )
-
-    # # Add GroundTruth to post
-    # post_df['GroundTruth'] = post_df.apply(
-    #     lambda row: get_description_from_row_post(row, task_map, 'Task'), axis=1
-    # )
-
+    
     # # Then in your main processing loop or apply function:
     # participant_df = pd.read_excel('analysis/CleanedParticipantData.xlsx')  # or .xlsx if needed
 
@@ -174,28 +164,41 @@ if __name__ == '__main__':
 
     # # Save interim results
     # pre_df.to_excel('analysis/summary_analysis/pre_gemini_with_groundtruth.xlsx', index=False)
-    # post_df.to_excel('analysis/summary_analysis/post_gemini_with_groundtruth.xlsx', index=False)
+    # # post_df.to_excel('analysis/summary_analysis/post_gemini_with_groundtruth.xlsx', index=False)
 
     # print("✅ Added ground-truth descriptions to both files.")
 
     # # Load all files
-    # pre_df = pd.read_excel('analysis/summary_analysis/pre_gemini_with_groundtruth.xlsx')
+    pre_df = pd.read_excel('analysis/summary_analysis/pre_gemini_with_groundtruth.xlsx')
     # post_df = pd.read_excel('analysis/summary_analysis/post_gemini_with_groundtruth_sum.xlsx')
     participant_df = pd.read_excel('analysis/CleanedParticipantData.xlsx')  # or .xlsx if needed
 
-    # # Convert to string and split on '.', take the first part, then convert back to int or str
-    # pre_df['TaskNumber'] = pre_df['Gemini Task'].astype(str).str.split('.').str[0]
-    # participant_df['Gemini_str'] = participant_df['Gemini'].astype(str).str.split('.').str[0]
 
-    # # Now map using these simplified keys
-    # pre_task_to_participant = dict(zip(participant_df['Gemini_str'], participant_df['participant']))
-    # pre_df['Participant'] = pre_df['TaskNumber'].map(pre_task_to_participant)
+    # ===== Mapping participant to summary 
+    # Convert to string and split on '.', take the first part, then convert back to int or str
+    pre_df['TaskSuffix'] = pre_df['Gemini Task'].astype(str).str.split('.').str[1]
 
-    # # Clean up helper columns if needed
-    # pre_df.drop(columns=['TaskNumber'], inplace=True)
-    # participant_df.drop(columns=['Gemini_str'], inplace=True)
+    # Get Gemini number (the number before the dot)
+    pre_df['GeminiNum'] = pre_df['Gemini Task'].astype(str).str.split('.').str[0]
+    participant_df['GeminiNum'] = participant_df['Gemini'].astype(str).str.split('.').str[0]
+
+    # Map GeminiNum to TaskID
+    gemini_to_taskid = dict(zip(participant_df['GeminiNum'], participant_df['Tasks']))
+    # pre_df['TaskID'] = pre_df['GeminiNum'].map(gemini_to_taskid)
+
+    pre_df['TaskID'] = pre_df['GeminiNum'].map(gemini_to_taskid).astype(str).str.replace('Task', '')
+    print(pre_df['TaskID'].astype(str))
+    # Combine to final Task column like "7.3"
+    pre_df['Task'] = pre_df['TaskID'].astype(str) + '.' + pre_df['TaskSuffix'].astype(str)
+   
+    print(pre_df['Task'])
+
+    # Clean up
+    pre_df.drop(columns=['TaskSuffix', 'GeminiNum', 'TaskID'], inplace=True)
+
 
     # print(pre_df[['Gemini Task', 'Participant']].head())
+    
 
     # print("Unique Gemini_Task values in pre_df:")
     # print(pre_df['Gemini Task'].unique())
@@ -203,19 +206,20 @@ if __name__ == '__main__':
     # print("Unique Gemini values in participant_df:")
     # print(participant_df['Gemini'].unique())
 
-    # # print("Unique Task values in post_df:")
-    # # print(post_df['Task'].unique())
+    # print("Unique Task values in post_df:")
+    # print(post_df['Task'].unique())
 
     # print("Unique Tasks values in participant_df:")
     # print(participant_df['Tasks'].unique())
 
     
-    # # Save again
+    # Save again
     # pre_df.to_excel('analysis/summary_analysis/pre_gemini_with_groundtruth.xlsx', index=False)
-    # # post_df.to_excel('analysis/summary_analysis/post_gemini_with_groundtruth.xlsx', index=False)
+    # post_df.to_excel('analysis/summary_analysis/post_gemini_with_groundtruth.xlsx', index=False)
     
     # print(pre_df['Participant'])
+    # print(pre_df[['Gemini Task', 'Participant', 'Task']].head())
 
-    pre_df = pd.read_excel('analysis/summary_analysis/pre_gemini_with_groundtruth.xlsx')
-    print(pre_df['Participant'])
-    print("✅ Participant IDs added to both pre and post summary files.")
+    # pre_df = pd.read_excel('analysis/summary_analysis/pre_gemini_with_groundtruth.xlsx')
+    # print(pre_df['Participant'])
+    # print("✅ Participant IDs added to both pre and post summary files.")

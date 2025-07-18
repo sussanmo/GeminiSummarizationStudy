@@ -116,7 +116,7 @@ def create_directories(dir_input, dir_pre, dir_post, dir_total):
                 if row_strs.str.startswith("pre").any() or row_strs.str.startswith("post").any():
                     marker_indices.append(idx)
 
-            print(f"    ➤ Found markers at rows: {marker_indices}")
+            # print(f"    ➤ Found markers at rows: {marker_indices}")
 
             if not marker_indices:
                 print(f"    ⚠️ No 'pre' or 'post' markers found.")
@@ -128,7 +128,7 @@ def create_directories(dir_input, dir_pre, dir_post, dir_total):
             # Step 2: Define slices
             total_end = marker_indices[0]
             df_total = data.iloc[:total_end]
-            print(f"    ✅ Total section: rows 0 to {total_end - 1}")
+            # print(f"    ✅ Total section: rows 0 to {total_end - 1}")
 
             # Initialize
             df_pre = pd.DataFrame()
@@ -149,7 +149,7 @@ def create_directories(dir_input, dir_pre, dir_post, dir_total):
                 end_idx = marker_indices[i + 1] if i + 1 < len(marker_indices) else len(data)
                 segment = data.iloc[start_idx:end_idx]
 
-                print(f"    ➤ Detected '{label}' segment: rows {start_idx} to {end_idx - 1} ({end_idx - start_idx} rows)")
+                # print(f"    ➤ Detected '{label}' segment: rows {start_idx} to {end_idx - 1} ({end_idx - start_idx} rows)")
 
                 if label == "pre":
                     df_pre = segment
@@ -162,7 +162,7 @@ def create_directories(dir_input, dir_pre, dir_post, dir_total):
             df_post.to_excel(os.path.join(dir_post, participant_id, f"{sheet_name}.xlsx"), index=False, header=False)
 
             # Validation prints
-            print(f"    ✅ Saved total ({len(df_total)} rows), pre ({len(df_pre)} rows), post ({len(df_post)} rows)")
+            # print(f"    ✅ Saved total ({len(df_total)} rows), pre ({len(df_pre)} rows), post ({len(df_post)} rows)")
 
     print("\n🎉 All files processed.")
 

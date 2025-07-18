@@ -207,16 +207,19 @@ def plot_dominant_category_by_experience(contingency_table):
     sns.set(style="whitegrid", font_scale=1.2)
     # Alternative: soft, distinct colors, great for print and presentations
     pastel_colors = [
-    "#AEC6CF",  # pastel blue
-    "#FAA0A0",  # pastel orange
-    "#B5EAD7",  # pastel teal
-    "#77DD77",  # pastel green
-    "#F49AC2",  # pastel pink
-    "#CBAACB",  # pastel purple
-    "#FFD1DC",  # pastel coral
-
- 
+  
+    "#E6F0FA",  # very very light blue
+    
+    "#A9C7E3",  # soft light blue
+    "#7BA8D3",  # medium light blue
+    "#4C89C4",  # medium blue
+    "#355EB8",  # moderate dark blue
+    "#2A4A8A",  # deeper blue
+    "#1E6AB4",  # dark blue
+    "#154780",  # darker blue
+    "#1E3660"   # dark slate blue
 ]
+
     # Limit to number of categories if needed
     pastel_colors = pastel_colors[:contingency_table.shape[0]]
 
