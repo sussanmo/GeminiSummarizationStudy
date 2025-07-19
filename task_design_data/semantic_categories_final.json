@@ -1,0 +1,182 @@
+{
+    "is_error": [
+      {
+        "category": "method declaration",
+        "function_name": "is_error",
+        "parameters": [
+          {
+            "category": "parameter",
+            "token": "node"
+          }
+        ],
+        "body": [
+          {
+            "category": "loop body",
+            "token": "for child_node in node.get_children():\n    if isinstance(child_node, astroid.Raise):\n        return True\n    return False"
+          },
+          {
+            "category": "conditional statement",
+            "token": "isinstance(child_node, astroid.Raise)"
+          },
+          {
+            "category": "conditional body",
+            "token": "if isinstance(child_node, astroid.Raise):\n    return True"
+          },
+          {
+            "category": "method call",
+            "token": "isinstance(child_node, astroid.Raise)"
+          },
+          {
+            "category": "variable name",
+            "token": "isinstance"
+          },
+          {
+            "category": "variable name",
+            "token": "child_node"
+          },
+          {
+            "category": "variable name",
+            "token": "astroid"
+          },
+          {
+            "category": "external variable/method",
+            "token": "astroid.Raise"
+          },
+          {
+            "category": "variable name",
+            "token": "astroid"
+          },
+          {
+            "category": "return",
+            "token": "return False"
+          }
+        ]
+      }
+    ],
+    "_filter_apis": [
+        {
+            "category": "method declaration",
+            "function_name": "_filter_apis",
+            "parameters": [
+              {
+                "category": "parameter",
+                "token": "name"
+              },
+              {
+                "category": "parameter",
+                "token": "apis"
+              }
+            ],
+            "body": [
+              {
+                "category": "return",
+                "token": "return [api for api in apis if api['name'] == name]"
+              },
+              {
+                "category": "loop body",
+                "token": " for api in apis if api['name'] == name"
+              },
+              {
+                "category": "variable name",
+                "token": "api"
+              },
+              {
+                "category": "variable name",
+                "token": "apis"
+              },
+              {
+                "category": "conditional statement",
+                "token": "api['name'] == name"
+              },
+              {
+                "category": "conditional statement",
+                "token": "api['name'] == name"
+              },
+              {
+                "category": "variable name",
+                "token": "name"
+              },
+              {
+                "category": "variable name",
+                "token": "api"
+              },
+              {
+                "category": "variable name",
+                "token": "api"
+              }
+            ]
+        }
+    ], 
+    "overwriteDictionary": [
+        {
+            "category": "method declaration",
+            "function_name": "overwriteDictionary",
+            "parameters": [
+              {
+                "category": "parameter",
+                "token": "fromDictionary"
+              },
+              {
+                "category": "parameter",
+                "token": "keys"
+              },
+              {
+                "category": "parameter",
+                "token": "toDictionary"
+              }
+            ],
+            "body": [
+              {
+                "category": "loop body",
+                "token": "for key in keys:\n    if key in fromDictionary:\n        toDictionary[key] = fromDictionary[key]"
+              },
+              {
+                "category": "variable name",
+                "token": "keys"
+              },
+              {
+                "category": "conditional statement",
+                "token": "key in fromDictionary"
+              },
+              {
+                "category": "conditional body",
+                "token": "if key in fromDictionary:\n    toDictionary[key] = fromDictionary[key]"
+              },
+              {
+                "category": "variable name",
+                "token": "key"
+              },
+              {
+                "category": "variable name",
+                "token": "fromDictionary"
+              },
+              {
+                "category": "index operation",
+                "token": "toDictionary[key]"
+              },
+              {
+                "category": "variable name",
+                "token": "toDictionary"
+              },
+              {
+                "category": "variable name",
+                "token": "key"
+              },
+              {
+                "category": "index operation",
+                "token": "fromDictionary[key]"
+              },
+              {
+                "category": "variable name",
+                "token": "fromDictionary"
+              },
+              {
+                "category": "variable name",
+                "token": "key"
+              }
+            ]
+          }
+        ]
+        
+}
+    

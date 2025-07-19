@@ -1,4 +1,4 @@
-#!/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/venv/bin/python3.12
+#!/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/venv/bin/python3.13
 # -*- coding: utf-8 -*-
 import re
 import sys
