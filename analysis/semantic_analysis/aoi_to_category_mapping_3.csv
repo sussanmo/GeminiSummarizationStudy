@@ -1,0 +1,513 @@
+AOI_Label,SemanticCategory
+Code,Code
+Conditional,ConditionalStatement
+Declaration,MethodDeclaration
+Excepttion,ExceptionHandling
+External call,ExternalVarOrMethod
+External call 1,ExternalVarOrMethod
+Gemini,Gemini
+Loopbod,LoopBody
+Method decleration,MethodDeclaration
+Parameters,Parameter
+Summary,Summary
+a4rg4,Argument
+aqrg2,Argument
+arg,Argument
+arg 1,Argument
+arg 2,Argument
+arg 3,Argument
+arg 4,Argument
+arg 5,Argument
+arg 6,Argument
+arg 7,Argument
+arg 8,Argument
+arg 9,Argument
+arg1,Argument
+arg10,Argument
+arg11,Argument
+arg12,Argument
+arg13,Argument
+arg15,Argument
+arg2,Argument
+arg2.1,Argument
+arg3,Argument
+arg4,Argument
+arg5,Argument
+arg6,Argument
+arg7,Argument
+arg8,Argument
+arg9,Argument
+args,Argument
+args 1,Argument
+args2,Argument
+args3,Argument
+args4,Argument
+args7,Argument
+argument,Argument
+argument2,Argument
+argument3,Argument
+argument4,Argument
+argument5,Argument
+argument6,Argument
+arrg1,Argument
+artg,Argument
+asgn1,Assignment
+asgn10,Assignment
+asgn2,Assignment
+asgn3,Assignment
+asgn5,Assignment
+asgn6,Assignment
+asgn7,Assignment
+asgn8,Assignment
+asgn9,Assignment
+asign,Assignment
+asign2,Assignment
+assgn,Assignment
+assign,Assignment
+assign1,Assignment
+assign2,Assignment
+assign3,Assignment
+assign4,Assignment
+assign5,Assignment
+assign6,Assignment
+assign7,Assignment
+assign8,Assignment
+assign9,Assignment
+assign],Assignment
+assignment,Assignment
+assignments,Assignment
+assignments2,Assignment
+assing 1,Assignment
+assing 2,Assignment
+assing 3,Assignment
+asssign,Assignment
+asssign1,Assignment
+asssignment,Assignment
+code,Code
+code variable,VariableName
+code variable 1,VariableName
+codnbody,ConditionalBody
+codnstate,ConditionalStatement
+conbody,ConditionalBody
+conbody2,ConditionalBody
+cond,ConditionalStatement
+cond bodies 1,ConditionalBody
+cond body 1,ConditionalBody
+cond body 2,ConditionalBody
+cond body 3,ConditionalBody
+cond statement,ConditionalStatement
+cond statement 1,ConditionalStatement
+cond statement 2,ConditionalStatement
+cond statement 3,ConditionalStatement
+cond1,ConditionalStatement
+cond2,ConditionalStatement
+cond3,ConditionalStatement
+cond4,ConditionalStatement
+cond5,ConditionalStatement
+condBody1,ConditionalBody
+condBody2,ConditionalBody
+cond_body,ConditionalBody
+cond_body2,ConditionalBody
+cond_body3,ConditionalBody
+cond_state,ConditionalStatement
+cond_state2,ConditionalStatement
+cond_state3,ConditionalStatement
+cond_statement1,ConditionalStatement
+cond_statement2,ConditionalStatement
+condboddy,ConditionalBody
+condbody,ConditionalBody
+condbody1,ConditionalBody
+condbody2,ConditionalBody
+condbody3,ConditionalBody
+condboy,ConditionalStatement
+condibody1,ConditionalBody
+condiioanlsttae3,ConditionalStatement
+conditbody2,ConditionalBody
+conditioanlbody3,ConditionalBody
+conditioanlbody4,ConditionalBody
+conditioanlstate2,ConditionalStatement
+conditional body,ConditionalBody
+conditional body2,ConditionalBody
+conditional satement,ConditionalStatement
+conditional state,ConditionalStatement
+conditional statement,ConditionalStatement
+conditional statement2,ConditionalStatement
+conditional_body,ConditionalBody
+conditional_statement,ConditionalStatement
+conditionalbdoy2,ConditionalStatement
+conditionalbody,ConditionalBody
+conditionalbody1,ConditionalBody
+conditionalst3,ConditionalStatement
+conditionalsta4,ConditionalStatement
+conditionalsta5,ConditionalStatement
+conditionalstat1,ConditionalStatement
+conditionalstat3,ConditionalStatement
+conditionalstat4,ConditionalStatement
+conditionalstate,ConditionalStatement
+conditionalstate1,ConditionalStatement
+conditionalstatem2,ConditionalStatement
+conditionalstatement,ConditionalStatement
+conditionalstatemnet2,ConditionalStatement
+conditionalstatment,ConditionalStatement
+conditionalstatment1,ConditionalStatement
+conditionstate,ConditionalStatement
+conditionstate1,ConditionalStatement
+conditionstatem2,ConditionalStatement
+conditioonal body,ConditionalBody
+conditonalbody2,ConditionalBody
+conditstat2,ConditionalStatement
+conditstatem1,ConditionalStatement
+condsbody,ConditionalBody
+condstae,ConditionalStatement
+condstae2,ConditionalStatement
+condstarte,Argument
+condstat,ConditionalStatement
+condstat1,ConditionalStatement
+condstat2,ConditionalStatement
+condstat3,ConditionalStatement
+condstat4,ConditionalStatement
+condstat5,ConditionalStatement
+condstate,ConditionalStatement
+condstate1,ConditionalStatement
+condstate2,ConditionalStatement
+condstate3,ConditionalStatement
+condstate4,ConditionalStatement
+condstatte,ConditionalStatement
+condstte,ConditionalStatement
+condstte2,ConditionalStatement
+condstte5,ConditionalStatement
+condtionalbody,ConditionalBody
+condtionalbody5,ConditionalBody
+condtionbody3,ConditionalBody
+conmdstat2,ConditionalStatement
+constate2,ConditionalStatement
+coondstate2,ConditionalStatement
+declaration,MethodDeclaration
+except,ExceptionHandling
+except2,ExceptionHandling
+except3,ExceptionHandling
+except4,ExceptionHandling
+excepthand,ExceptionHandling
+excepthand2,ExceptionHandling
+exception,ExceptionHandling
+exception handling,ExceptionHandling
+exception2,ExceptionHandling
+exceptionHandling,ExceptionHandling
+exceptionhand1,ExceptionHandling
+exceptionhandl,ExceptionHandling
+exceptionhandl1,ExceptionHandling
+exceptionhandl2,ExceptionHandling
+excpet2,ExceptionHandling
+exept,ExceptionHandling
+extenrval2,ExternalVarOrMethod
+exteral,ExternalVarOrMethod
+exteran;3,ExternalVarOrMethod
+exteranal2,ExternalVarOrMethod
+exteranl,ExternalVarOrMethod
+exteranl2,ExternalVarOrMethod
+exteranl4,ExternalVarOrMethod
+exteranl6,ExternalVarOrMethod
+exterbal5,ExternalVarOrMethod
+externa;,ExternalVarOrMethod
+external,ExternalVarOrMethod
+external call 2,ExternalVarOrMethod
+external method,MethodCall
+external var 1,VariableName
+external var method,MethodCall
+external1,ExternalVarOrMethod
+external2,ExternalVarOrMethod
+external3,ExternalVarOrMethod
+external4,ExternalVarOrMethod
+external5,ExternalVarOrMethod
+external6,ExternalVarOrMethod
+externalmetho3,MethodCall
+externalmethod,MethodCall
+externalvar,VariableName
+externalvar1,VariableName
+externalvar2,VariableName
+externalvar3,VariableName
+externalvar4,VariableName
+externalvar5,VariableName
+externalvar6,VariableName
+externalvar7,VariableName
+externavarmethods,MethodCall
+externl2,ExternalVarOrMethod
+extneral4,ExternalVarOrMethod
+extranl,ExternalVarOrMethod
+extranl2,ExternalVarOrMethod
+extrenal3,ExternalVarOrMethod
+extrnal,ExternalVarOrMethod
+extrnal1,ExternalVarOrMethod
+extrnal2,ExternalVarOrMethod
+gemini,Gemini
+index,IndexOperation
+index1,IndexOperation
+index2,IndexOperation
+index3,IndexOperation
+index4,IndexOperation
+index5,IndexOperation
+index6,IndexOperation
+index7,IndexOperation
+index8,IndexOperation
+indexop1,IndexOperation
+inex,IndexOperation
+literal,Literal
+literal 1,Literal
+literal 2,Literal
+literal 3,Literal
+literal 4,Literal
+literal 5,Literal
+literal1,Literal
+literal10,Literal
+literal2,Literal
+literal3,Literal
+literal4,Literal
+literal5,Literal
+literal6,Literal
+literal7,Literal
+literal8,Literal
+literal9,Literal
+literals,Literal
+literals1,Literal
+literl,Literal
+litral,Literal
+litral2,Literal
+litral3,Literal
+litral4,Literal
+litreal,Literal
+litreal2,Literal
+litreal3,Literal
+looopbody,LoopBody
+loop,LoopStatement
+loop body,LoopBody
+loop body 1,LoopBody
+loop body 3,LoopBody
+loop body2,LoopBody
+loop body3,LoopBody
+loop stat,LoopStatement
+loop stat2,LoopStatement
+loop state,LoopStatement
+loop statement,LoopStatement
+loop statement 1,LoopStatement
+loop statement 2,LoopStatement
+loop statement2,LoopStatement
+loop statement3,LoopStatement
+loop1,LoopStatement
+loop2,LoopStatement
+loop3,LoopStatement
+loop_body,LoopBody
+loop_body2,LoopBody
+loop_body3,LoopBody
+loopbdoy2,LoopBody
+loopbody,LoopBody
+loopbody2,LoopBody
+loopbody3,LoopBody
+loopbodyt,LoopBody
+loopsbody,LoopBody
+loopstae,LoopStatement
+loopstae3,LoopStatement
+loopstat,LoopStatement
+loopstat1,LoopStatement
+loopstat2,LoopStatement
+loopstat3,LoopStatement
+loopstat5,LoopStatement
+loopstate,LoopStatement
+loopstate',LoopStatement
+loopstate2,LoopStatement
+loopstate3,LoopStatement
+mathod2,MethodCall
+medthoddec,MethodCall
+mehodcall,MethodCall
+methcoall,MethodCall
+methddec,MethodDeclaration
+methdocall,MethodCall
+methdocall1,MethodCall
+methdocall2,MethodCall
+methdocall3,MethodCall
+methdocall4,MethodCall
+methdocall5,MethodCall
+methdocall6,MethodCall
+methdocall8,MethodCall
+methdoclal5,MethodCall
+methdodec,MethodDeclaration
+methdoec,MethodDeclaration
+methocall,MethodCall
+methocall10,MethodCall
+methocall12,MethodCall
+methocall3,MethodCall
+methocall4,MethodCall
+methocall6,MethodCall
+methocall8,MethodCall
+methoccall6,MethodCall
+method,MethodCall
+method call,MethodCall
+method call 1,MethodCall
+method call 2,MethodCall
+method call 3,MethodCall
+method call 4,MethodCall
+method call 5,MethodCall
+method call 6,MethodCall
+method call 7,MethodCall
+method call 8,MethodCall
+method call 9,MethodCall
+method calls,MethodCall
+method dec,MethodDeclaration
+method declar,MethodDeclaration
+method declaration,MethodDeclaration
+method decleration,MethodDeclaration
+method1,MethodCall
+method2,MethodCall
+method3,MethodCall
+method4,MethodCall
+method5,MethodCall
+method6,MethodCall
+method7,MethodCall
+method8,MethodCall
+method9,MethodCall
+method_dec,MethodDeclaration
+method_declaration,MethodDeclaration
+methodall2,MethodCall
+methodall7,MethodCall
+methodca11,MethodCall
+methodca;ll7,MethodCall
+methodcal,MethodCall
+methodcal1,MethodCall
+methodcal2,MethodCall
+methodcal3,MethodCall
+methodcal4,MethodCall
+methodcal5,MethodCall
+methodcall,MethodCall
+methodcall1,MethodCall
+methodcall10,MethodCall
+methodcall13,MethodCall
+methodcall2,MethodCall
+methodcall3,MethodCall
+methodcall4,MethodCall
+methodcall5,MethodCall
+methodcall6,MethodCall
+methodcall7,MethodCall
+methodcall8,MethodCall
+methodcall9,MethodCall
+methodcalls,MethodCall
+methoddacll2,MethodCall
+methodddec,MethodDeclaration
+methoddec,MethodDeclaration
+methodec,MethodDeclaration
+methodecl,MethodDeclaration
+operator,Operator
+oporator,Operator
+param,Parameter
+param1,Parameter
+param2,Parameter
+param3,Parameter
+param4,Parameter
+paramet,Parameter
+parameter,Parameter
+parameter 1,Parameter
+parameter 2,Parameter
+parameter2,Parameter
+parameters,Parameter
+params,Parameter
+paramter2,Parameter
+retrun statement,Return
+retrun2,Return
+return,Return
+return statement,Return
+return2,Return
+return3,Return
+returnstate2,Return
+rreturn,Return
+sum,Summary
+summar,Summary
+summary,Summary
+ummary,Summary
+vaar4,VariableName
+vairabl13,VariableName
+vairabl7,VariableName
+vairabl9,VariableName
+vairable1,VariableName
+vairable5,VariableName
+vairavle1,VariableName
+vairbale2,VariableName
+vairbals2,VariableName
+vairbla3,VariableName
+var,VariableName
+var 1,VariableName
+var 2,VariableName
+var name,VariableName
+var name 1,VariableName
+var name 2,VariableName
+var name 3,VariableName
+var name 4,VariableName
+var name 5,VariableName
+var name 6,VariableName
+var name 7,VariableName
+var name1,VariableName
+var02,VariableName
+var1,VariableName
+var10,VariableName
+var11,VariableName
+var12,VariableName
+var120,VariableName
+var13,VariableName
+var14,VariableName
+var15,VariableName
+var16,VariableName
+var17,VariableName
+var18,VariableName
+var19,VariableName
+var2,VariableName
+var20,VariableName
+var21,VariableName
+var22,VariableName
+var23,VariableName
+var3,VariableName
+var4,VariableName
+var5,VariableName
+var6,VariableName
+var7,VariableName
+var8,VariableName
+var9,VariableName
+varaibl1,VariableName
+varaibl2,VariableName
+varaibl3,VariableName
+varaible7,VariableName
+variab2,VariableName
+variabl1,VariableName
+variabl10,VariableName
+variabl11,VariableName
+variabl12,VariableName
+variabl13,VariableName
+variabl14,VariableName
+variabl15,VariableName
+variabl2,VariableName
+variabl3,VariableName
+variabl4,VariableName
+variabl5,VariableName
+variabl6,VariableName
+variabl7,VariableName
+variabl8,VariableName
+variable,VariableName
+variable1,VariableName
+variable10,VariableName
+variable11,VariableName
+variable12,VariableName
+variable13,VariableName
+variable2,VariableName
+variable3,VariableName
+variable4,VariableName
+variable5,VariableName
+variable6,VariableName
+variable7,VariableName
+variable8,VariableName
+variable9,VariableName
+variavl6,VariableName
+varibl3,VariableName
+varibl7,VariableName
+vars,VariableName
+vars2,VariableName
+vars3,VariableName
+vars5,VariableName
+varuable5,VariableName
+varvar,VariableName
+xternal,ExternalVarOrMethod
