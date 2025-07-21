@@ -1701,16 +1701,16 @@ def grouped_bar_plot_combined_all_metrics(results_df):
 
 if __name__ == '__main__':
     # directory = 'GeminiSummarizationStudy/analysis/participant_extractedmetrics'
-    # directory = '/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/analysis/participant_extractedmetrics'
+    # directory = '/Users/-hm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/analysis/participant_extractedmetrics'
     # create_directories(directory, 'pre_gemini_data', 'post_gemini_data')
 
     # testing one file 
-    # pre_gem_dir = "/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/analysis/pre_gemini_data"
+    # pre_gem_dir = "/Users/-hm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/analysis/pre_gemini_data"
 
     # extract_fixation_metrics_from_directory(pre_gem_dir)
 
-    # pre_gem_dir = "/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/analysis/pre_gemini_data"
-    # post_gem_dir = "/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/analysis/post_gemini_data"
+    # pre_gem_dir = "/Users/-hm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/analysis/pre_gemini_data"
+    # post_gem_dir = "/Users/-hm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/analysis/post_gemini_data"
 
     # df_pre = extract_fixation_metrics_from_directory(pre_gem_dir, "pre")
     # df_pre.to_csv('pre_gemini_basic_fixations.csv', index=False)  # save without row index

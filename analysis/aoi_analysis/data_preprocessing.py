@@ -170,11 +170,11 @@ def create_directories(dir_input, dir_pre, dir_post, dir_total):
 
 if __name__ == '__main__':
     # directory = 'GeminiSummarizationStudy/analysis/participant_extractedmetrics'
-    directory = '/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/analysis/participant_extractedmetrics'
+    directory = '/Users/-hm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/analysis/participant_extractedmetrics'
     create_directories(directory, 'pre_gemini_data', 'post_gemini_data', 'total_AOI_data')
 
     # total_dir = 'GeminiSummarizationStudy/analysis/participant_extractedmetrics/Participant100.xlsx'
     # pre_dir = 'pre_gemini_data/Participant100'
     # post_dir = 'post_gemini_data/Participant100'
     # # handle_outlier_participant(total_dir,pre_dir,post_dir)
-    #/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/post_gemini_data/Participant100
+    #/Users/-hm/Desktop/Research/LLM_Summarization/Gemini_Summarization/post_gemini_data/Participant100

@@ -260,27 +260,27 @@ if __name__ == '__main__':
     # # Save the sampled methods to a JSON file
     # # save_to_json(sampled_methods, 'filtered_dataset.jsonl.gz')
 
-    # filtered_file = '/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/filtered_dataset.jsonl.gz'
-    final_methods_file = '/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/final_methods.json'
+    # filtered_file = '/Users/-hm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/filtered_dataset.jsonl.gz'
+    final_methods_file = '/Users/-hm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/final_methods.json'
     # output_file = 'final_methods_with_summary.json'
 
     # # jsonIteration2(filtered_file, final_methods_file)
 
     # # Path to the gzipped file
-    # # gzipped_file = '/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/code-docstring-corpus/parallel-corpus/data_ps.all.train.gz'
+    # # gzipped_file = '/Users/-hm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/code-docstring-corpus/parallel-corpus/data_ps.all.train.gz'
 
     # # Print the first two entries
     # # print_first_two_entries(gzipped_file)
 
     # # gzipped_file = '/path/to/data_ps.all.train.gz'
     # # final_methods_file = '/path/to/final_methods.json'
-    # # decldesc_file = '/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/code-docstring-corpus/parallel-corpus/data_ps.decldesc.train'
+    # # decldesc_file = '/Users/-hm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/code-docstring-corpus/parallel-corpus/data_ps.decldesc.train'
     # # output_file = 'final_methods_with_descriptions.json'
 
     # # add_descriptions_to_methods(final_methods_file, decldesc_file, output_file)
 
     #     # Load the final_methods_with_descriptions.json file
-    # with open('/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/final_methods_with_descriptions.json', 'r') as f:
+    # with open('/Users/-hm/Desktop/Research/LLM_Summarization/Gemini_Summarization/final_methods_with_descriptions.json', 'r') as f:
     #     methods = json.load(f)
 
     # # Organize methods by cyclomatic complexity
@@ -330,8 +330,8 @@ if __name__ == '__main__':
 
     # import json
 
-    # json_file_path = "/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/final_methods.json"
-    # # json_file_path = '/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/filtered_methods.json'
+    # json_file_path = "/Users/-hm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/final_methods.json"
+    # # json_file_path = '/Users/-hm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/filtered_methods.json'
     # try:
     #     with open(json_file_path, "r", encoding="utf-8") as f:
     #         data = json.load(f)  # Load JSON content into a Python object
@@ -376,8 +376,8 @@ if __name__ == '__main__':
     import json
     import math
 
-    # json_file_path = "/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/final_methods.json"
-    json_file_path = "/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/filtered_methods.json"
+    # json_file_path = "/Users/-hm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/final_methods.json"
+    json_file_path = "/Users/-hm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/filtered_methods.json"
     try:
         with open(json_file_path, "r", encoding="utf-8") as f:
             data = json.load(f)

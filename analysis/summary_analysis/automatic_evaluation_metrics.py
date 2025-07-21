@@ -1,9 +1,9 @@
 
 
 import nltk
-# nltk.data.path.append('/Users/suadhm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/venv/nltk_data')
+# nltk.data.path.append('/Users/-hm/Desktop/Research/LLM_Summarization/Gemini_Summarization/GeminiSummarizationStudy/venv/nltk_data')
 
-# nltk.download('punkt', download_dir='/Users/suadhm/nltk_data')
+# nltk.download('punkt', download_dir='/Users/-hm/nltk_data')
 
 import nltk
 # nltk.download('punkt_tab')
